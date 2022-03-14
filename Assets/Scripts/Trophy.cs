@@ -15,10 +15,8 @@ public class Trophy : MonoBehaviour, IGraspable
     // Update is called once per frame
     void Update()
     {
+    gameObject.transform.Rotate(Vector3.up, 1f);
     
-    if (Input.GetKey(KeyCode.LeftArrow)) {
-    	gameObject.transform.Rotate(Vector3.up, 1f);
-    }
         
     }
     
