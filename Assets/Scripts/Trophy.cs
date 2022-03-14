@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ubiq.XR;
 
+
 public class Trophy : MonoBehaviour, IGraspable
 {
     // Start is called before the first frame update
@@ -14,6 +15,10 @@ public class Trophy : MonoBehaviour, IGraspable
     // Update is called once per frame
     void Update()
     {
+    
+    if (Input.GetKey(KeyCode.LeftArrow)) {
+    	gameObject.transform.Rotate(Vector3.up, 1f);
+    }
         
     }
     
