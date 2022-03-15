@@ -18,7 +18,9 @@ namespace Ubiq.XR
         public Transform cameraContainer;
         public AnimationCurve cameraRubberBand;
 
-        private Rigidbody body;
+
+        private float startTime;
+        private float journeyLength;
 
         [Tooltip("Joystick and Keyboard Speed in m/s")]
         public float movementSpeed = 2f;
@@ -143,10 +145,6 @@ namespace Ubiq.XR
             userLocalPosition.y = 0;
         }
 
-        private void Awake()
-        {
-            body = GetComponent<Rigidbody>();
-        }
 
         private void Update()
         {
@@ -157,18 +155,22 @@ namespace Ubiq.XR
                 transform.localEulerAngles = Vector3.zero;
                 cameraContainer.localEulerAngles = Vector3.zero;
             }
-            Vector3 movement = new Vector3(0f, 0f, 0f);
+
+            // if (Input.GetKeyDown(KeyCode.Space))
+            // {   
+            //     Vector3 movement = new Vector3(0f, 0.8f, 0f);
+            //     movement = movement.normalized * (movementSpeed) * 0.4f;
+            //     transform.position += movement;
+            // }
             if (Input.GetKeyDown(KeyCode.Space))
-            {   
-                // movement += new Vector3(0f, 5f, 0f);
-                body.AddForce(new Vector3(0f, 1f, 0f), ForceMode.Impulse);
-            }
-            // float step = 0.1f;
-            // transform.position += movement;
-            // transform.position = Vector3.MoveTowards(transform.position, transform.position+movement, step);
+                {
+                    transform.Translate(new Vector3(0, 3f, 0) * 0.5f);
+                }
+                
             OnMouse();
             OnKeys();
             OnGround();
+
         }
 
     }

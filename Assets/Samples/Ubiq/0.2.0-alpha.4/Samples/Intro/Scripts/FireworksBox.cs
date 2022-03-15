@@ -67,11 +67,7 @@ namespace Ubiq.Samples
             {
                 body.isKinematic = false;
             }
-            if (Input.GetKeyDown(KeyCode.Space))
-            {   
-                // movement += new Vector3(0f, 5f, 0f);
-                body.AddForce(new Vector3(0f, 5f, 0f), ForceMode.Impulse);
-            }
+
         }
     }
 }
