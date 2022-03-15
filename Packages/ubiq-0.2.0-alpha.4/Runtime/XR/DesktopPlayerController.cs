@@ -32,6 +32,7 @@ namespace Ubiq.XR
         [Range(0,-80.0f)]
         public float minHeadPitch = -40.0f;
 
+
         private void OnMouse()
         {
             var deltaTime = Time.deltaTime;
@@ -120,7 +121,7 @@ namespace Ubiq.XR
                 }
             }
             else
-            {
+            {   
                 velocity = Vector3.zero; // if there is no 'ground' in the scene, then do nothing
             }
 
@@ -149,10 +150,10 @@ namespace Ubiq.XR
                 transform.localEulerAngles = Vector3.zero;
                 cameraContainer.localEulerAngles = Vector3.zero;
             }
-
+            
             OnMouse();
             OnKeys();
-            //OnGround(); //todo: finish implementation
+            OnGround();
         }
 
     }
