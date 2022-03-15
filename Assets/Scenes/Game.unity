@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 71010693}
   - component: {fileID: 71010692}
   m_Layer: 0
-  m_Name: Sphere (1)
+  m_Name: Egg 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -402,7 +402,7 @@ GameObject:
   - component: {fileID: 1523459680}
   - component: {fileID: 1523459679}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Egg 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -495,7 +495,7 @@ GameObject:
   - component: {fileID: 1975750579}
   - component: {fileID: 1975750578}
   m_Layer: 0
-  m_Name: Sphere (2)
+  m_Name: Egg 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -651,6 +651,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 818781852527493437, guid: 13f6f385db90c9d38b36e8a45aa8effc,
+        type: 3}
+      propertyPath: m_Name
+      value: Right foot
+      objectReference: {fileID: 0}
     - target: {fileID: 964060454171140647, guid: 13f6f385db90c9d38b36e8a45aa8effc,
         type: 3}
       propertyPath: m_RootOrder
@@ -706,10 +711,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2325252320785746490, guid: 13f6f385db90c9d38b36e8a45aa8effc,
+        type: 3}
+      propertyPath: m_Name
+      value: Left leg
+      objectReference: {fileID: 0}
+    - target: {fileID: 3744612858207330503, guid: 13f6f385db90c9d38b36e8a45aa8effc,
+        type: 3}
+      propertyPath: m_Name
+      value: Body
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645647642449316193, guid: 13f6f385db90c9d38b36e8a45aa8effc,
+        type: 3}
+      propertyPath: m_Name
+      value: Beak
+      objectReference: {fileID: 0}
+    - target: {fileID: 4815043211134492836, guid: 13f6f385db90c9d38b36e8a45aa8effc,
+        type: 3}
+      propertyPath: m_Name
+      value: Head
+      objectReference: {fileID: 0}
+    - target: {fileID: 7089321440719098745, guid: 13f6f385db90c9d38b36e8a45aa8effc,
+        type: 3}
+      propertyPath: m_Name
+      value: Right leg
+      objectReference: {fileID: 0}
     - target: {fileID: 7282489868148906511, guid: 13f6f385db90c9d38b36e8a45aa8effc,
         type: 3}
       propertyPath: m_Name
-      value: WeirdTrophy
+      value: Duck
+      objectReference: {fileID: 0}
+    - target: {fileID: 7844852062405911066, guid: 13f6f385db90c9d38b36e8a45aa8effc,
+        type: 3}
+      propertyPath: m_Name
+      value: Left foot
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13f6f385db90c9d38b36e8a45aa8effc, type: 3}
