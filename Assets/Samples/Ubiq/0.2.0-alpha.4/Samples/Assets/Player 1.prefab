@@ -396,6 +396,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  rb: {fileID: 0}
   movementSpeed: 2.5
   rotationSpeed: 360
   maxHeadPitch: 45
@@ -470,12 +471,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f9c2caa06b15748b1250ff1f91152c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 0
-  gravity: -9.81
-  groundDistance: 0.4
-  groundCheck: {fileID: 0}
 --- !u!1 &4682523157485585271
 GameObject:
   m_ObjectHideFlags: 0

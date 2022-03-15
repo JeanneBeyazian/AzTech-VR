@@ -18,6 +18,8 @@ namespace Ubiq.XR
         public Transform cameraContainer;
         public AnimationCurve cameraRubberBand;
 
+        private Rigidbody body;
+
         [Tooltip("Joystick and Keyboard Speed in m/s")]
         public float movementSpeed = 2f;
 
@@ -104,7 +106,7 @@ namespace Ubiq.XR
             var height = Mathf.Clamp(transform.InverseTransformPoint(headCamera.transform.position).y, 0.1f, float.PositiveInfinity);
             var origin = transform.position + userLocalPosition + Vector3.up * height;
             var direction = Vector3.down;
-
+            
             RaycastHit hitInfo;
             if(Physics.Raycast(new Ray(origin, direction), out hitInfo))
             {
@@ -112,7 +114,7 @@ namespace Ubiq.XR
 
                 if (transform.position.y < virtualFloorHeight)
                 {
-                    transform.position += Vector3.up * (virtualFloorHeight - transform.position.y) * Time.deltaTime * 3f;
+                    transform.position += Vector3.up * (virtualFloorHeight - transform.position.y) * Time.deltaTime * 1f;
                     velocity = Vector3.zero;
                 }
                 else
@@ -122,8 +124,9 @@ namespace Ubiq.XR
             }
             else
             {   
-                velocity = Vector3.zero; // if there is no 'ground' in the scene, then do nothing
+                velocity += Physics.gravity * Time.deltaTime; // if there is no 'ground' in the scene, then do nothing
             }
+
 
             transform.position += velocity * Time.deltaTime;
         }
@@ -133,12 +136,16 @@ namespace Ubiq.XR
             // Update the foot position. This is done by pulling the feet using a rubber band.
             // Decoupling the feet in this way allows the user to do things like lean over edges, when the ground check is enabled.
             // This can be effectively disabled by setting the animation curve to a constant high value.
-
             var headProjectionXZ = transform.InverseTransformPoint(headCamera.transform.position);
             headProjectionXZ.y = 0;
             userLocalPosition.x += (headProjectionXZ.x - userLocalPosition.x) * Time.deltaTime * cameraRubberBand.Evaluate(Mathf.Abs(headProjectionXZ.x - userLocalPosition.x));
             userLocalPosition.z += (headProjectionXZ.z - userLocalPosition.z) * Time.deltaTime * cameraRubberBand.Evaluate(Mathf.Abs(headProjectionXZ.z - userLocalPosition.z));
             userLocalPosition.y = 0;
+        }
+
+        private void Awake()
+        {
+            body = GetComponent<Rigidbody>();
         }
 
         private void Update()
@@ -150,7 +157,15 @@ namespace Ubiq.XR
                 transform.localEulerAngles = Vector3.zero;
                 cameraContainer.localEulerAngles = Vector3.zero;
             }
-            
+            Vector3 movement = new Vector3(0f, 0f, 0f);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {   
+                // movement += new Vector3(0f, 5f, 0f);
+                body.AddForce(new Vector3(0f, 1f, 0f), ForceMode.Impulse);
+            }
+            // float step = 0.1f;
+            // transform.position += movement;
+            // transform.position = Vector3.MoveTowards(transform.position, transform.position+movement, step);
             OnMouse();
             OnKeys();
             OnGround();

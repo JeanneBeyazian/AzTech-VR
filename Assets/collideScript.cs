@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class collideScript : MonoBehaviour
 {   
-
+    private Rigidbody body;
     Vector3 velocity;
-    void Update()
-    {   
-
+    private void Awake()
+    {
+       body = GetComponent<Rigidbody>();
     }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag =="Object"){
@@ -28,4 +29,15 @@ public class collideScript : MonoBehaviour
             print("EXIT");
         }
     }
+    
+        private void Update()
+        {   
+            
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {   
+                // movement += new Vector3(0f, 5f, 0f);
+                body.AddForce(new Vector3(0f, 5f, 0f), ForceMode.Impulse);
+            }
+        }
 }

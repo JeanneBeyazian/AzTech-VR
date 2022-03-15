@@ -54,16 +54,23 @@ namespace Ubiq.Samples
         }
 
         private void Update()
-        {
+        {   
+            
             if (follow != null)
             {
                 transform.position = follow.transform.position;
                 transform.rotation = follow.transform.rotation;
                 body.isKinematic = true;
+                
             }
             else
             {
                 body.isKinematic = false;
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {   
+                // movement += new Vector3(0f, 5f, 0f);
+                body.AddForce(new Vector3(0f, 5f, 0f), ForceMode.Impulse);
             }
         }
     }
