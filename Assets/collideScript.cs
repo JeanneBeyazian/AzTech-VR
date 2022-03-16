@@ -13,12 +13,24 @@ public class collideScript : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.tag == "Platform")
+        {
+
+            print("HMM");
+        }
         if (other.gameObject.tag =="Object"){
             print("ENTER");
         }
     }
     void OnTriggerStay(Collider other)
     {
+
+        if (other.gameObject.tag == "Platform")
+        {
+            
+            print("STAY");
+        }
+
         if (other.gameObject.tag =="Object"){
             print("STAY");
         }
