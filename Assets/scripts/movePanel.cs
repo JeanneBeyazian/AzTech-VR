@@ -97,6 +97,7 @@ public class movePanel : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            
             other.transform.parent = transform;
 
         }
