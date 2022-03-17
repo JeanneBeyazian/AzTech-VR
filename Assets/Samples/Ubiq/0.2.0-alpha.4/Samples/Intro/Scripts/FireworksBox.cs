@@ -45,7 +45,7 @@ namespace Ubiq.Samples
         }
 
         public void Use(Hand controller)
-        {
+        {   
             var firework = NetworkSpawner.SpawnPersistent(this, FireworkPrefab).GetComponents<MonoBehaviour>().Where(mb => mb is IFirework).FirstOrDefault() as IFirework;
             if (firework != null)
             {
