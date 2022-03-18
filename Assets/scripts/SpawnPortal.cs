@@ -21,18 +21,18 @@ public class SpawnPortal : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(SPAWNKEY.ToString())) {
-            if (Time.time > lastPortalSpawn + COOLDOWN) {
+        // if (Input.GetKeyDown(SPAWNKEY.ToString())) {
+        //     if (Time.time > lastPortalSpawn + COOLDOWN) {
 
-                GameObject portalProjectileClone  = Instantiate(movingPortal,  this.gameObject.transform.GetChild(1).transform.position,
-                                                                this.gameObject.transform.GetChild(0).transform.rotation);
-                // movingPortal = Instantiate(movingPortal,  this.gameObject.transform.GetChild(1).transform.position,  this.gameObject.transform.rotation);
-                //movingPortal.rigidbody.velocity = this.gameObject.transform.forward.normalized * SPEED;
-                portalProjectileClone.GetComponent<Rigidbody>().velocity = this.gameObject.transform.GetChild(0).transform.forward.normalized *SPEED;
-                lastPortalSpawn = Time.time;
-                Destroy(portalProjectileClone, LIFETIME);
-            }
+        //         GameObject portalProjectileClone  = Instantiate(movingPortal,  this.gameObject.transform.GetChild(1).transform.position,
+        //                                                         this.gameObject.transform.GetChild(0).transform.rotation);
+        //         // movingPortal = Instantiate(movingPortal,  this.gameObject.transform.GetChild(1).transform.position,  this.gameObject.transform.rotation);
+        //         //movingPortal.rigidbody.velocity = this.gameObject.transform.forward.normalized * SPEED;
+        //         portalProjectileClone.GetComponent<Rigidbody>().velocity = this.gameObject.transform.GetChild(0).transform.forward.normalized *SPEED;
+        //         lastPortalSpawn = Time.time;
+        //         Destroy(portalProjectileClone, LIFETIME);
+        //     }
 
-        }
+        // }
     }
 }
