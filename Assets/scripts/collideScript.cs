@@ -25,15 +25,7 @@ public class collideScript : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
 
-        if (other.gameObject.tag == "Platform")
-        {
-            
-            print("STAY");
-        }
 
-        if (other.gameObject.tag =="Object"){
-            print("STAY");
-        }
     }
     void OnTriggerExit(Collider other)
     {

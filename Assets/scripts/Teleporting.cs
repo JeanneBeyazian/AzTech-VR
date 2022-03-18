@@ -43,7 +43,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
     {   
         Vector3 targetPos = teleportTarget.transform.position;
         targetPos.x -=1f;
-        targetPos.z +=1.3f;
+        targetPos.z +=1.5f;
         player.transform.position = targetPos;
     }
     private void Update()
