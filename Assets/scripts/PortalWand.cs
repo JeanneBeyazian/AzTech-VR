@@ -38,11 +38,13 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
 
     static public bool one = true;
     static public bool can_teleport = true;
+    public bool owner;
     // Start is called before the first frame update
     
     void Awake()
     {
         body = GetComponent<Rigidbody>();
+        owner = false;
     }
 
     private void Start()
@@ -56,7 +58,9 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
 
     public void Grasp(Hand controller)
     {
+        
         grasped = controller;
+        owner = true;
     }
 
     public void Release(Hand controller)
@@ -97,11 +101,6 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
         {
             transform.localPosition = grasped.transform.position;
             transform.localRotation = grasped.transform.rotation;
-            
-            // Message message;
-            // message.position = transform.localPosition;
-            // message.rotation = transform.localRotation;
-            // context.SendJson(message);
 
             body.isKinematic = true;
 
@@ -111,12 +110,11 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
             transform.localPosition = this.gameObject.transform.position;
             transform.localRotation = this.gameObject.transform.rotation;
 
-            // Message message;
-            // message.position = transform.localPosition;
-            // message.rotation = transform.localRotation;
-            // context.SendJson(message);
-
             body.isKinematic = false;
+        }
+
+        if(owner){
+            context.SendJson(new Message(transform));
         }
     }
     // Network Unit
@@ -130,10 +128,14 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
        
     }
     public struct Message
-    {
-       public Vector3 position;
-       public Quaternion rotation;
-    }
+        {
+            public TransformMessage transform;
+
+            public Message(Transform transform)
+            {
+                this.transform = new TransformMessage(transform);
+            }
+        }
     public void OnSpawned(bool local)
     {
     }
