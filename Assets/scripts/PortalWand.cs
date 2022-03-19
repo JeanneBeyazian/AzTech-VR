@@ -7,7 +7,10 @@ using Ubiq.Messaging;
 using UnityEngine;
 
 
-
+public interface IPortalProjectile
+{
+    void Attach(Hand hand);
+}
 [RequireComponent(typeof(Rigidbody))]
 public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, INetworkComponent
 {   
@@ -21,12 +24,8 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     public GameObject entryProjectile;
     static public GameObject portal_gun;
 
-    public static char SPAWN_ENTRY_KEY = 'p';
+    // public static char SPAWN_ENTRY_KEY = 'p';
     public static float COOLDOWN = 2f; 
-
-    public static float LIFETIME = 45f;
-
-    public static float SPEED = 3f;
     private float lastPortalSpawn;
 
     // moniter item num
@@ -72,50 +71,42 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
 
     public void Use(Hand controller)
     {
- 
+        // if (Input.GetKeyDown(SPAWN_ENTRY_KEY.ToString())) {
+            if (Time.time > lastPortalSpawn + COOLDOWN) {
+               
+                Vector3 pos = grasped.transform.position;
+                pos.y += 0.75f;
+                // GameObject portalProjectileClone  = Instantiate(entryProjectile,  pos, grasped.transform.rotation);
+                var portalProjectileClone = NetworkSpawner.SpawnPersistent(this, entryProjectile).GetComponents<MonoBehaviour>().Where(mb => mb is IPortalProjectile).FirstOrDefault() as IPortalProjectile;
+                if (portalProjectileClone != null)
+                {
+                    portalProjectileClone.Attach(grasped);
+                }
+                // portalProjectileClone.GetComponent<Rigidbody>().velocity = grasped.transform.forward.normalized *SPEED;
+                lastPortalSpawn = Time.time;
+                
+            }
+
+        // }
+       
     }
 
     private void Update()
     {   
-        if (grasped != null)
-        {
-            transform.localPosition = grasped.transform.position;
-            transform.localRotation = grasped.transform.rotation;
-            
-            Message message;
-            message.position = transform.localPosition;
-            message.rotation = transform.localRotation;
-            context.SendJson(message);
-
-            body.isKinematic = true;
-
-            if (Input.GetKeyDown(SPAWN_ENTRY_KEY.ToString())) {
-                if (Time.time > lastPortalSpawn + COOLDOWN) {
-                    Vector3 pos = grasped.transform.position;
-                    pos.y += 0.75f;
-                    GameObject portalProjectileClone  = Instantiate(entryProjectile,  pos,
-                                                                    grasped.transform.rotation);
-
-                    portalProjectileClone.GetComponent<Rigidbody>().velocity = grasped.transform.forward.normalized *SPEED;
-
-                    lastPortalSpawn = Time.time;
-                    Destroy(portalProjectileClone, LIFETIME);
-                }
-
-            }
-        }
-        else
-        {
-            transform.localPosition = this.gameObject.transform.position;
-            transform.localRotation = this.gameObject.transform.rotation;
-
-            Message message;
-            message.position = transform.localPosition;
-            message.rotation = transform.localRotation;
-            context.SendJson(message);
-
+        if (grasped != null){
             body.isKinematic = true;
         }
+        else{
+            body.isKinematic = false;
+        }
+
+        transform.localPosition = grasped.transform.position;
+        transform.localRotation = grasped.transform.rotation;
+        
+        Message message;
+        message.position = transform.localPosition;
+        message.rotation = transform.localRotation;
+        context.SendJson(message);
     }
     // Network Unit
     public NetworkId Id { get; set; }

@@ -5,24 +5,42 @@ using Ubiq.XR;
 using Ubiq.Samples;
 using UnityEngine;
 
-public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
+public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent, IPortalProjectile, ISpawnable
 {
     // public SphereCollider collider;
-    // public Rigidbody body;
-
+    private Rigidbody body;
+    private Hand grasped;
     public GameObject portal;
-
     private NetworkContext context;
+
+    public static float LIFETIME = 45f;
+    public static float SPEED = 3f;
     // Start is called before the first frame update
     void Start()
     {
         context = NetworkScene.Register(this);
+    }
 
-    }
     void Update(){
-  
+        if(grasped){
+            transform.position = grasped.transform.position;
+            transform.rotation = grasped.transform.rotation;
+            body.isKinematic = false;
+            body.velocity = grasped.transform.forward.normalized * SPEED;
+            grasped = null;
+        }   
     }
-    
+
+    private void Awake()
+    {
+        body = GetComponent<Rigidbody>();
+    }
+
+    public void Attach(Hand hand)
+    {
+        grasped = hand;
+    }
+
     void OnTriggerEnter(Collider other) {
 
           if (other.gameObject.tag == "Wall"){
@@ -38,7 +56,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
             PortalWand.portals.Add(portalObject);
             PortalWand.portal_count+=1;
             
-            
+            Destroy(this.gameObject, LIFETIME);
         }
     }
     // Network Unit
@@ -56,5 +74,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
        public Vector3 position;
        public Quaternion rotation;
     }
-
+    public void OnSpawned(bool local)
+    {
+    }
 }
