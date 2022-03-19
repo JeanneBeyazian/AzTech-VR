@@ -12,7 +12,7 @@ public interface IPortalProjectile
     void Attach(Hand hand);
 }
 [RequireComponent(typeof(Rigidbody))]
-public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, INetworkComponent
+public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, INetworkComponent, ISpawnable
 {   
     
     private Rigidbody body;
@@ -98,10 +98,10 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
             transform.localPosition = grasped.transform.position;
             transform.localRotation = grasped.transform.rotation;
             
-            Message message;
-            message.position = transform.localPosition;
-            message.rotation = transform.localRotation;
-            context.SendJson(message);
+            // Message message;
+            // message.position = transform.localPosition;
+            // message.rotation = transform.localRotation;
+            // context.SendJson(message);
 
             body.isKinematic = true;
 
@@ -111,16 +111,16 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
             transform.localPosition = this.gameObject.transform.position;
             transform.localRotation = this.gameObject.transform.rotation;
 
-            Message message;
-            message.position = transform.localPosition;
-            message.rotation = transform.localRotation;
-            context.SendJson(message);
+            // Message message;
+            // message.position = transform.localPosition;
+            // message.rotation = transform.localRotation;
+            // context.SendJson(message);
 
             body.isKinematic = false;
         }
     }
     // Network Unit
-    public NetworkId Id { get; set; }
+    public NetworkId Id { get; set; }= NetworkId.Unique();
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();
@@ -133,6 +133,9 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     {
        public Vector3 position;
        public Quaternion rotation;
+    }
+    public void OnSpawned(bool local)
+    {
     }
 
 }
