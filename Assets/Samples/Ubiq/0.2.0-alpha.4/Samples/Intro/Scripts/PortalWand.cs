@@ -85,7 +85,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
         var msg = message.FromJson<Message>();
       
         transform.localPosition = msg.position; // The Message constructor will take the *local* properties of the passed transform.
-        // transform.localRotation = msg.transform.rotation;
+        transform.localRotation = msg.rotation;
        
     }
 
@@ -94,9 +94,11 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
         if (grasped != null)
         {
             transform.localPosition = grasped.transform.position;
+            transform.localRotation = grasped.transform.rotation;
             
             Message message;
             message.position = transform.localPosition;
+            message.rotation = transform.localRotation;
             context.SendJson(message);
 
             body.isKinematic = true;
@@ -119,9 +121,11 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
         else
         {
             transform.localPosition = this.gameObject.transform.position;
-            
+            transform.localRotation = this.gameObject.transform.rotation;
+
             Message message;
             message.position = transform.localPosition;
+            message.rotation = transform.localRotation;
             context.SendJson(message);
 
             body.isKinematic = false;
@@ -131,6 +135,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     public struct Message
     {
        public Vector3 position;
+       public Quaternion rotation;
     }
 
 }
