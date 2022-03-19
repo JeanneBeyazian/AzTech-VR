@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!135 &5823842775471730197
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3376925332165530711}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.1652161
+  m_Center: {x: 0.04460891, y: 0.05776127, z: 0}
 --- !u!33 &8156672838429881268
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -20,21 +33,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f79762e4dd7b741af7ab3318fec5fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  teleportTarget: {fileID: 0}
---- !u!135 &5823842775471730197
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3376925332165530711}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.1652161
-  m_Center: {x: 0.04460891, y: 0.05776127, z: 0}
 --- !u!1001 &2457934481126041862
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50,17 +48,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 59e0fdd6be02a4d42b43d18943d95b0b,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 59e0fdd6be02a4d42b43d18943d95b0b,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 59e0fdd6be02a4d42b43d18943d95b0b,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 59e0fdd6be02a4d42b43d18943d95b0b,
         type: 3}

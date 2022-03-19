@@ -33,11 +33,6 @@ public class PortalProjectile : MonoBehaviour
                 PortalWand.one = true;
             }
             PortalWand.portals.Add(portalObject);
-
-            // string tag = this.tag;
-            // manager.addPortal(portalObject, tag); 
-
-            // portalObject.transform.parent = PortalWand.portals_static.transform;
             PortalWand.portal_count+=1;
             
             

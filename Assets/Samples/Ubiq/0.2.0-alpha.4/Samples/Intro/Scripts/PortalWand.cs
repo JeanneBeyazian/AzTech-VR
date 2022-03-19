@@ -39,9 +39,10 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
 
     public GameObject portal;
     static public GameObject portal_static;
-    static public List<GameObject> portals = new List<GameObject>();
+    static public List<GameObject> portals;
 
     static public bool one = true;
+    static public bool can_teleport = true;
     // Start is called before the first frame update
     public NetworkId Id { get; set; }
     void Awake()
@@ -55,6 +56,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
         lastPortalSpawn = Time.time - COOLDOWN;
         portal_gun = gameObject;
         portal_static = portal;
+        portals = new List<GameObject>();
     }
 
     public void Grasp(Hand controller)

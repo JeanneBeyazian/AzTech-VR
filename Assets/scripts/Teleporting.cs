@@ -11,7 +11,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
     // public Transform teleportTarget;
     private NetworkContext context;
     private Rigidbody body;
-
+    private static int COOLDOWN = 1;  
     // NetworkId INetworkObject.id => new NetworkId(1001);
 
     public struct Message
@@ -29,57 +29,48 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
     private void Start()
     {
         // context = NetworkScene.Register(this);
-        // Material[] materials = {inactive, inactive};
-        // this.gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().materials = materials;
-        // this.gameObject.GetComponent<MeshRenderer>().materials[0] = inactive;
-        // this.gameObject.GetComponent<MeshRenderer>().materials[1] = inactive;     
+       
 
     }
 
     void OnTriggerEnter(Collider other)
     {   
        
-        // if (teleportTarget) {
-            
-        //     Vector3 targetPos = teleportTarget.transform.position;
-        //     targetPos.x -=1f;
-        //     targetPos.z +=1.5f;
-        //     GameObject righthand = other.gameObject.transform.parent.gameObject;
-        //     GameObject righthandParent = righthand.transform.parent.gameObject;
-        //     GameObject player = righthandParent.transform.parent.gameObject;
-        //     player.transform.position = targetPos;
-        // }
-        GameObject otherPortal = null;
-        for(int i=0; i< PortalWand.portals.Count; i++)
-        {
-            if (tag == "1" && PortalWand.portals[i].tag == "2"){
-
-                otherPortal = PortalWand.portals[i].gameObject;
-
-            }else if (tag == "2" && PortalWand.portals[i].tag == "1"){
+       
+        if(other.name == "Manipulator" && PortalWand.can_teleport){
+            GameObject otherPortal = null;
+            for(int i=0; i< PortalWand.portals.Count; i++)
+            {
                 
-                otherPortal = PortalWand.portals[i].gameObject;
-            
-            }    
-        }
-        if(otherPortal){
-            Vector3 targetPos = otherPortal.transform.position;
-            targetPos.x -=1f;
-            targetPos.z +=1.5f;
-            GameObject righthand = other.gameObject.transform.parent.gameObject;
-            GameObject righthandParent = righthand.transform.parent.gameObject;
-            GameObject player = righthandParent.transform.parent.gameObject;
-            // player.transform.position = targetPos;
+                if (tag == "1" && PortalWand.portals[i].tag == "2"){
+                    
+                    otherPortal = PortalWand.portals[i].gameObject;
 
+                }else if (tag == "2" && PortalWand.portals[i].tag == "1"){
+                    
+                    otherPortal = PortalWand.portals[i].gameObject;
+                
+                }    
+            }
+            if(otherPortal){
+                Vector3 targetPos = otherPortal.transform.position;
+                targetPos.y -=1f;
+                // targetPos.z +=1.5f;
+                GameObject righthand = other.gameObject.transform.parent.gameObject;
+                GameObject righthandParent = righthand.transform.parent.gameObject;
+                GameObject player = righthandParent.transform.parent.gameObject;
+                player.transform.position = targetPos;
+                PortalWand.can_teleport = false;
+                StartCoroutine(tp_time());
+            }
         }
+       
     }
     private void Update()
     {   
-        print(PortalWand.portal_count);
-
-
         if(PortalWand.portal_count > 2){
             Destroy(this.gameObject);
+            PortalWand.portals.RemoveAt(0);
             PortalWand.portal_count-= 1;
         }
     }
@@ -91,6 +82,11 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         transform.localPosition = msg.position; // The Message constructor will take the *local* properties of the passed transform.
         // transform.localRotation = msg.transform.rotation;
        
+    }
+
+    IEnumerator tp_time(){
+        yield return new WaitForSeconds(COOLDOWN);
+        PortalWand.can_teleport = true;
     }
 
 

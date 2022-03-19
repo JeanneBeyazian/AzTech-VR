@@ -110,6 +110,7 @@ namespace Ubiq.XR
             var direction = Vector3.down;
             
             RaycastHit hitInfo;
+
             if(Physics.Raycast(new Ray(origin, direction), out hitInfo))
             {
                 var virtualFloorHeight = hitInfo.point.y;
@@ -156,12 +157,7 @@ namespace Ubiq.XR
                 cameraContainer.localEulerAngles = Vector3.zero;
             }
 
-            // if (Input.GetKeyDown(KeyCode.Space))
-            // {   
-            //     Vector3 movement = new Vector3(0f, 0.8f, 0f);
-            //     movement = movement.normalized * (movementSpeed) * 0.4f;
-            //     transform.position += movement;
-            // }
+
             if (Input.GetKeyDown(KeyCode.Space))
                 {
                     transform.Translate(new Vector3(0, 3f, 0) * 0.5f);
