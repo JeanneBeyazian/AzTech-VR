@@ -9,28 +9,39 @@ public class PortalProjectile : MonoBehaviour
 
     public GameObject portal;
 
-
+    // public GameManager manager;
     // Start is called before the first frame update
     void Start()
     {
+        // manager = PortalManager.Instance;
 
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-
+    void Update(){
+  
     }
-
+    
     void OnTriggerEnter(Collider other) {
-        print(2);
-        if (other.gameObject.tag == "Wall"){
-            print(1);
-            Destroy(this.gameObject);
 
-            GameObject portalObject = Instantiate(portal, this.gameObject.transform.position, Quaternion.Euler(0, 0, 0));
-            //Quaternion.Euler(90, 90, 90) * other.transform.rotation
+          if (other.gameObject.tag == "Wall"){
+            GameObject portalObject = Instantiate(PortalWand.portal_static, this.gameObject.transform.position, Quaternion.Euler(0, 0, 0));
+            Destroy(this.gameObject);
+            if(PortalWand.one){
+                portalObject.tag = "1";
+                PortalWand.one = false;
+            }else{
+                portalObject.tag = "2";
+                PortalWand.one = true;
+            }
+            PortalWand.portals.Add(portalObject);
+
+            // string tag = this.tag;
+            // manager.addPortal(portalObject, tag); 
+
+            // portalObject.transform.parent = PortalWand.portals_static.transform;
+            PortalWand.portal_count+=1;
+            
+            
         }
     }
+
 }

@@ -11,21 +11,37 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, INetworkComponent
 {   
-    // public GameObject thePortal;
+    
     private Rigidbody body;
     private Hand grasped;
     
     private NetworkContext context;
     // NetworkId INetworkObject.id => new NetworkId(1002);
-
+    
     // shooting portal 
-    public GameObject shootingBall;
-    public static char SPAWNKEY = 'p';
+
+    public GameObject entryProjectile;
+    static public GameObject portal_gun;
+
+    public static char SPAWN_ENTRY_KEY = 'p';
     public static float COOLDOWN = 2f; 
+    public static char SPAWN_EXIT_KEY = 'l';
+
     public static float LIFETIME = 45f;
+
     public static float SPEED = 3f;
     private float lastPortalSpawn;
 
+
+    // moniter item num
+    static public bool tp = true;
+    static public int portal_count = 0;
+
+    public GameObject portal;
+    static public GameObject portal_static;
+    static public List<GameObject> portals = new List<GameObject>();
+
+    static public bool one = true;
     // Start is called before the first frame update
     public NetworkId Id { get; set; }
     void Awake()
@@ -37,13 +53,14 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     {
         context = NetworkScene.Register(this);
         lastPortalSpawn = Time.time - COOLDOWN;
+        portal_gun = gameObject;
+        portal_static = portal;
     }
 
     public void Grasp(Hand controller)
     {
         grasped = controller;
     }
-
 
     public void Release(Hand controller)
     {
@@ -57,13 +74,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
 
     public void Use(Hand controller)
     {
-        // var p = NetworkSpawner.SpawnPersistent(this, thePortal).GetComponents<MonoBehaviour>().Where(mb => mb is IPortal).FirstOrDefault() as IPortal;
-        // print(0);
-        // if (p != null)
-        // {
-        //     print(1);
-        //     p.Attach(controller);
-        // }
+ 
     }
 
     
@@ -88,14 +99,15 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
 
             body.isKinematic = true;
 
-            if (Input.GetKeyDown(SPAWNKEY.ToString())) {
+            if (Input.GetKeyDown(SPAWN_ENTRY_KEY.ToString())) {
                 if (Time.time > lastPortalSpawn + COOLDOWN) {
                     Vector3 pos = grasped.transform.position;
-                    pos.y += 1f;
-                    GameObject portalProjectileClone  = Instantiate(shootingBall,  pos,
+                    pos.y += 0.75f;
+                    GameObject portalProjectileClone  = Instantiate(entryProjectile,  pos,
                                                                     grasped.transform.rotation);
 
                     portalProjectileClone.GetComponent<Rigidbody>().velocity = grasped.transform.forward.normalized *SPEED;
+
                     lastPortalSpawn = Time.time;
                     Destroy(portalProjectileClone, LIFETIME);
                 }

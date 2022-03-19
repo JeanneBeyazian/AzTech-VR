@@ -8,6 +8,10 @@ TagManager:
   - Object
   - Platform
   - Wall
+  - EntryProjectile
+  - ExitProjectile
+  - 1
+  - 2
   layers:
   - Default
   - TransparentFX
