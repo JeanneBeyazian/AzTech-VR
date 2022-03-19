@@ -1,19 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Ubiq.Messaging;
+using Ubiq.XR;
+using Ubiq.Samples;
 using UnityEngine;
 
-public class PortalProjectile : MonoBehaviour
+public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
 {
     // public SphereCollider collider;
     // public Rigidbody body;
 
     public GameObject portal;
 
-    // public GameManager manager;
+    private NetworkContext context;
     // Start is called before the first frame update
     void Start()
     {
-        // manager = PortalManager.Instance;
+        context = NetworkScene.Register(this);
 
     }
     void Update(){
@@ -37,6 +40,21 @@ public class PortalProjectile : MonoBehaviour
             
             
         }
+    }
+    // Network Unit
+    public NetworkId Id { get; set; }
+    public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
+    {
+        var msg = message.FromJson<Message>();
+      
+        transform.localPosition = msg.position; // The Message constructor will take the *local* properties of the passed transform.
+        transform.localRotation = msg.rotation;
+       
+    }
+    public struct Message
+    {
+       public Vector3 position;
+       public Quaternion rotation;
     }
 
 }
