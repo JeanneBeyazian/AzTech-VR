@@ -18,12 +18,12 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     // Start is called before the first frame update
     void Start()
     {
-        
+        context = NetworkScene.Register(this);
     }
 
     void Update(){
         if(grasped){
-            context = NetworkScene.Register(this);
+            
             transform.position = grasped.transform.position;
             transform.rotation = grasped.transform.rotation;
             body.isKinematic = false;

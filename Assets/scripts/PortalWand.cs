@@ -93,20 +93,31 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
 
     private void Update()
     {   
-        if (grasped != null){
+        if (grasped != null)
+        {
+            transform.localPosition = grasped.transform.position;
+            transform.localRotation = grasped.transform.rotation;
+            
+            Message message;
+            message.position = transform.localPosition;
+            message.rotation = transform.localRotation;
+            context.SendJson(message);
+
             body.isKinematic = true;
+
         }
-        else{
+        else
+        {
+            transform.localPosition = this.gameObject.transform.position;
+            transform.localRotation = this.gameObject.transform.rotation;
+
+            Message message;
+            message.position = transform.localPosition;
+            message.rotation = transform.localRotation;
+            context.SendJson(message);
+
             body.isKinematic = false;
         }
-
-        transform.localPosition = grasped.transform.position;
-        transform.localRotation = grasped.transform.rotation;
-        
-        Message message;
-        message.position = transform.localPosition;
-        message.rotation = transform.localRotation;
-        context.SendJson(message);
     }
     // Network Unit
     public NetworkId Id { get; set; }
