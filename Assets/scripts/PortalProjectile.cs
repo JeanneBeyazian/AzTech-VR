@@ -29,7 +29,15 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
             body.isKinematic = false;
             body.velocity = grasped.transform.forward.normalized * SPEED;
             grasped = null;
+
         }   
+        transform.localPosition = this.gameObject.transform.position;
+        transform.localRotation = this.gameObject.transform.rotation;
+
+        Message message;
+        message.position = transform.localPosition;
+        message.rotation = transform.localRotation;
+        context.SendJson(message);
     }
 
     private void Awake()
