@@ -104,7 +104,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
             transform.rotation = grasped.transform.rotation;
 
             body.isKinematic = true;
-            context.SendJson(new Message(transform));
+
         }
         else
         {
@@ -112,17 +112,15 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
             transform.rotation = this.gameObject.transform.rotation;
 
             body.isKinematic = false;
-            context.SendJson(new Message(transform));
-            
         }
         print(owner);
         if(owner){
-            // context.SendJson(new Message(transform));
+            context.SendJson(new Message(transform));
         }
     }
     // Network Unit
-    public NetworkId Id { get; set; };
-
+    public NetworkId Id { get; set; }
+    
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();

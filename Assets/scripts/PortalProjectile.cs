@@ -69,7 +69,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
         }
     }
     // Network Unit
-    public NetworkId Id { get; set; };
+    public NetworkId Id { get; set; }
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();

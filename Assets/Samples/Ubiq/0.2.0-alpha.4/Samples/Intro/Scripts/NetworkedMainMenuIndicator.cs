@@ -16,7 +16,7 @@ namespace Ubiq.Samples
         private bool visible;
         private bool notify;
 
-        public NetworkId Id { get; set; };
+        public NetworkId Id { get; set; }
 
         [Serializable]
         private struct State

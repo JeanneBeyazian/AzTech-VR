@@ -24,7 +24,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
 
     }
 
-    public NetworkId Id { get; set; };
+    public NetworkId Id { get; set; }
 
     private void Start()
     {
