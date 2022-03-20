@@ -34,10 +34,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
         transform.localPosition = this.gameObject.transform.position;
         transform.localRotation = this.gameObject.transform.rotation;
 
-        Message message;
-        message.position = transform.localPosition;
-        message.rotation = transform.localRotation;
-        context.SendJson(message);
+        context.SendJson(new Message(transform));
     }
 
     private void Awake()
@@ -73,16 +70,21 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();
-      
-        transform.localPosition = msg.position; // The Message constructor will take the *local* properties of the passed transform.
-        transform.localRotation = msg.rotation;
+  
+        transform.localPosition = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
+        transform.localRotation = msg.transform.rotation;
        
     }
     public struct Message
-    {
-       public Vector3 position;
-       public Quaternion rotation;
-    }
+        {
+            public TransformMessage transform;
+
+            public Message(Transform transform)
+            {
+                this.transform = new TransformMessage(transform);
+    
+            }
+        }
     public void OnSpawned(bool local)
     {
     }

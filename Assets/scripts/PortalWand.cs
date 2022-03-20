@@ -87,7 +87,6 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
                 {
                     portalProjectileClone.Attach(grasped);
                 }
-                // portalProjectileClone.GetComponent<Rigidbody>().velocity = grasped.transform.forward.normalized *SPEED;
                 lastPortalSpawn = Time.time;
                 
             }
@@ -99,7 +98,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
 
     private void Update()
     {   
-        if (grasped != null)
+        if (grasped)
         {
             transform.position = grasped.transform.position;
             transform.rotation = grasped.transform.rotation;
@@ -107,13 +106,13 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
             body.isKinematic = true;
 
         }
-        else
-        {
-            transform.position = this.gameObject.transform.position;
-            transform.rotation = this.gameObject.transform.rotation;
+        // else
+        // {
+        //     transform.position = this.gameObject.transform.position;
+        //     transform.rotation = this.gameObject.transform.rotation;
 
-            body.isKinematic = false;
-        }
+        //     body.isKinematic = false;
+        // }
         
         if(owner){
             context.SendJson(new Message(transform));
