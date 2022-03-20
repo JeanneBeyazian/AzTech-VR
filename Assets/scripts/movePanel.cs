@@ -1,7 +1,9 @@
+
 ﻿using UnityEngine;
 using System.Collections;
 
 public class movePanel : Triggerable
+
 {
     // Transforms to act as start and end markers for the journey.
     public Transform startPoint;

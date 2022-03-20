@@ -8,11 +8,9 @@ using UnityEngine;
 public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
 {   
 
-    // public Transform teleportTarget;
     private NetworkContext context;
     private Rigidbody body;
     private static int COOLDOWN = 1;  
-    // NetworkId INetworkObject.id => new NetworkId(1001);
 
     public struct Message
     {
@@ -24,7 +22,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
 
     }
 
-    public NetworkId Id { get; set; }
+    
 
     private void Start()
     {
@@ -75,6 +73,8 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         }
     }
 
+    public NetworkId Id { get; set; }
+    
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();

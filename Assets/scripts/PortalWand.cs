@@ -95,20 +95,21 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
 
     private void Update()
     {   
+        
         if (grasped)
         {
-            transform.position = grasped.transform.position;
-            transform.rotation = grasped.transform.rotation;
+                transform.position = grasped.transform.position;
+                transform.rotation = grasped.transform.rotation;
 
-            body.isKinematic = true;
+                body.isKinematic = true;
 
         }
         else
         {
-            body.isKinematic = false;
+            body.isKinematic = true;
         }
-        
         if(owner){
+        
             context.SendJson(new Message(transform));
         }
     }
