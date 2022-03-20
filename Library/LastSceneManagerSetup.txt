@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Samples/Ubiq/0.2.0-alpha.4/Samples/Intro/Hello World.unity
+- path: Assets/Levels/Level1.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
