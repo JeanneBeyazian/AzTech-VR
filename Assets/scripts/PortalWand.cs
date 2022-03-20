@@ -23,8 +23,6 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     // shooting portal 
     public GameObject entryProjectile;
     static public GameObject portal_gun;
-
-    // public static char SPAWN_ENTRY_KEY = 'p';
     public static float COOLDOWN = 2f; 
     private float lastPortalSpawn;
 
@@ -76,22 +74,21 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
 
     public void Use(Hand controller)
     {
-        // if (Input.GetKeyDown(SPAWN_ENTRY_KEY.ToString())) {
-            if (Time.time > lastPortalSpawn + COOLDOWN) {
-               
-                Vector3 pos = grasped.transform.position;
-                pos.y += 0.75f;
-                // GameObject portalProjectileClone  = Instantiate(entryProjectile,  pos, grasped.transform.rotation);
-                var portalProjectileClone = NetworkSpawner.SpawnPersistent(this, entryProjectile).GetComponents<MonoBehaviour>().Where(mb => mb is IPortalProjectile).FirstOrDefault() as IPortalProjectile;
-                if (portalProjectileClone != null)
-                {
-                    portalProjectileClone.Attach(grasped);
-                }
-                lastPortalSpawn = Time.time;
-                
-            }
 
-        // }
+        if (Time.time > lastPortalSpawn + COOLDOWN) {
+            
+            Vector3 pos = grasped.transform.position;
+            pos.y += 0.75f;
+            // GameObject portalProjectileClone  = Instantiate(entryProjectile,  pos, grasped.transform.rotation);
+            var portalProjectileClone = NetworkSpawner.SpawnPersistent(this, entryProjectile).GetComponents<MonoBehaviour>().Where(mb => mb is IPortalProjectile).FirstOrDefault() as IPortalProjectile;
+            if (portalProjectileClone != null)
+            {
+                portalProjectileClone.Attach(grasped);
+            }
+            lastPortalSpawn = Time.time;
+            
+        }
+
        
 
     }
@@ -106,13 +103,10 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
             body.isKinematic = true;
 
         }
-        // else
-        // {
-        //     transform.position = this.gameObject.transform.position;
-        //     transform.rotation = this.gameObject.transform.rotation;
-
-        //     body.isKinematic = false;
-        // }
+        else
+        {
+            body.isKinematic = false;
+        }
         
         if(owner){
             context.SendJson(new Message(transform));

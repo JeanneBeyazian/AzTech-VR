@@ -14,7 +14,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     private NetworkContext context;
 
     public static float LIFETIME = 45f;
-    public static float SPEED = 3f;
+    public static float SPEED = 8f;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,16 +24,15 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     void Update(){
         if(grasped){
             
-            transform.position = grasped.transform.position;
+            Vector3 pos = grasped.transform.position;
+            pos.y += 1f;
+            transform.position = pos;
             transform.rotation = grasped.transform.rotation;
             body.isKinematic = false;
             body.velocity = grasped.transform.forward.normalized * SPEED;
             grasped = null;
 
         }   
-        // transform.localPosition = this.gameObject.transform.position;
-        // transform.localRotation = this.gameObject.transform.rotation;
-
         context.SendJson(new Message(transform));
     }
 
