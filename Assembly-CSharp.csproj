@@ -36,6 +36,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\LeverAnimation.cs" />
      <Compile Include="Assets\Samples\Ubiq\0.2.0-alpha.4\Samples\Applications\Boids\BoidState.cs" />
      <Compile Include="Assets\Samples\Ubiq\0.2.0-alpha.4\Samples\Applications\Boids\Boids.cs" />
      <Compile Include="Assets\Samples\Ubiq\0.2.0-alpha.4\Samples\Applications\Boids\BoidsManager.cs" />
@@ -101,12 +102,12 @@
      <Compile Include="Assets\Samples\Ubiq\0.2.0-alpha.4\Samples\Intro\Single\Spawning\PrefabsMenu.cs" />
      <Compile Include="Assets\Samples\Ubiq\0.2.0-alpha.4\Samples\Intro\Single\Spawning\SpawnPrefabControl.cs" />
      <Compile Include="Assets\Samples\Ubiq\0.2.0-alpha.4\Samples\Readme.cs" />
-     <Compile Include="Assets\scripts\PortalProjectile.cs" />
-     <Compile Include="Assets\scripts\PortalWand.cs" />
-     <Compile Include="Assets\scripts\Teleporting.cs" />
-     <Compile Include="Assets\scripts\collideScript.cs" />
-     <Compile Include="Assets\scripts\movePanel.cs" />
-     <Compile Include="Assets\scripts\movePanelControlled.cs" />
+     <Compile Include="Assets\Scripts\PortalProjectile.cs" />
+     <Compile Include="Assets\Scripts\PortalWand.cs" />
+     <Compile Include="Assets\Scripts\Teleporting.cs" />
+     <Compile Include="Assets\Scripts\collideScript.cs" />
+     <Compile Include="Assets\Scripts\movePanel.cs" />
+     <Compile Include="Assets\Scripts\movePanelControlled.cs" />
      <None Include="Assets\Samples\Ubiq\0.2.0-alpha.4\Samples\Assets\Audio\License.txt" />
      <None Include="Assets\Samples\Ubiq\0.2.0-alpha.4\Samples\Intro\Materials\FadeLeft.shader" />
      <None Include="Assets\Samples\Ubiq\0.2.0-alpha.4\Samples\Assets\Environments\Apartment\Sources.txt" />
