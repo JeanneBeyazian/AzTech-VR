@@ -30,7 +30,6 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
         {
             if (grasped)
             {
-
                 Vector3 pos = grasped.transform.position;
                 pos.y += 1f;
                 transform.position = pos;

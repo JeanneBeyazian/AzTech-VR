@@ -20,7 +20,6 @@ public class movePanel : MonoBehaviour, INetworkObject, INetworkComponent, ISpaw
     float changeDirectionDelay;
 
     //added
-    
     private NetworkContext context;
     private Transform destinationTarget, departTarget;
     private float startTime;
