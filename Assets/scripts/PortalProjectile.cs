@@ -20,22 +20,25 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     void Start()
     {
         context = NetworkScene.Register(this);
+        
     }
 
-    void Update(){
-        if(grasped){
-            
-            Vector3 pos = grasped.transform.position;
-            pos.y += 1f;
-            transform.position = pos;
-            transform.rotation = grasped.transform.rotation;
-            body.isKinematic = false;
-            body.velocity = grasped.transform.forward.normalized * SPEED;
-            grasped = null;
-
-        }
+    void Update()
+    {
+        
         if (owner)
         {
+            if (grasped)
+            {
+
+                Vector3 pos = grasped.transform.position;
+                pos.y += 1f;
+                transform.position = pos;
+                transform.rotation = grasped.transform.rotation;
+                body.isKinematic = false;
+                body.velocity = grasped.transform.forward.normalized * SPEED;
+                grasped = null;
+            }
             context.SendJson(new Message(transform));
         }
     }
@@ -47,25 +50,30 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
 
     public void Attach(Hand hand)
     {
-        grasped = hand;
         owner = true;
+        grasped = hand;
     }
 
-    void OnTriggerEnter(Collider other) {
+    void OnTriggerEnter(Collider other)
+    {
 
-          if (other.gameObject.tag == "Wall"){
+        if (other.gameObject.tag == "Wall")
+        {
             GameObject portalObject = Instantiate(PortalWand.portal_static, this.gameObject.transform.position, Quaternion.Euler(0, 0, 0));
             Destroy(this.gameObject);
-            if(PortalWand.one){
+            if (PortalWand.one)
+            {
                 portalObject.tag = "1";
                 PortalWand.one = false;
-            }else{
+            }
+            else
+            {
                 portalObject.tag = "2";
                 PortalWand.one = true;
             }
             PortalWand.portals.Add(portalObject);
-            PortalWand.portal_count+=1;
-            
+            PortalWand.portal_count += 1;
+
             Destroy(this.gameObject, LIFETIME);
         }
     }
@@ -77,18 +85,17 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
 
         transform.position = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
         transform.rotation = msg.transform.rotation;
+        //body.isKinematic = msg.body.isKinematic;
 
     }
     public struct Message
+    {
+        public TransformMessage transform;
+        public Message(Transform transform)
         {
-            public TransformMessage transform;
-
-            public Message(Transform transform)
-            {
-                this.transform = new TransformMessage(transform);
-    
-            }
+            this.transform = new TransformMessage(transform);
         }
+    }
     public void OnSpawned(bool local)
     {
     }

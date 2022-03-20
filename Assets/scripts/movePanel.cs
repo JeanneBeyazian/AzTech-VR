@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Ubiq.Messaging;
+using Ubiq.XR;
+using Ubiq.Samples;
 using UnityEngine;
 
-public class movePanel : MonoBehaviour
+public class movePanel : MonoBehaviour, INetworkObject, INetworkComponent
 {
     //amended from https://www.youtube.com/watch?v=Ig4Gsm1QwoU
 
@@ -16,6 +19,9 @@ public class movePanel : MonoBehaviour
     [SerializeField]
     float changeDirectionDelay;
 
+    //added
+    NetworkId INetworkObject.Id => new NetworkId(1008);
+    private NetworkContext context;
 
     private Transform destinationTarget, departTarget;
 
@@ -25,10 +31,16 @@ public class movePanel : MonoBehaviour
 
     bool isWaiting;
 
-
+    //added
+    public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
+    {
+        var msg = message.FromJson<Message>();
+        transform.localPosition = msg.position;
+    }
 
     void Start()
     {
+        context = NetworkScene.Register(this);
         departTarget = startPoint;
         destinationTarget = endPoint;
 
@@ -61,6 +73,10 @@ public class movePanel : MonoBehaviour
                 isWaiting = true;
                 StartCoroutine(changeDelay());
             }
+            //added
+            Message message;
+            message.position = transform.localPosition;
+            context.SendJson(message);
         }
 
 
@@ -109,6 +125,18 @@ public class movePanel : MonoBehaviour
         {
             other.transform.parent = null;
         }
+    }
+
+    public struct Message
+    {
+        //public TransformMessage transform;
+        public Vector3 position;
+        //public Message(Transform transform)
+        //{
+            //this.transform = new TransformMessage(transform);
+            
+
+        //}
     }
 
 }
