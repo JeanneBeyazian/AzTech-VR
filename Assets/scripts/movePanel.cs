@@ -1,96 +1,76 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// A longer example of Vector3.Lerp usage.
+// Drop this script under an object in your scene, and specify 2 other objects in the "startMarker"/"endMarker" variables in the script inspector window.
+// At play time, the script will move the object along a path between the position of those two markers.
+
 using UnityEngine;
+using System.Collections;
 
-public class movePanel : MonoBehaviour
+public class movePanel : Triggerable
 {
-    //amended from https://www.youtube.com/watch?v=Ig4Gsm1QwoU
+    // Transforms to act as start and end markers for the journey.
+    public Transform startPoint;
+    public Transform endPoint;
 
 
-    [SerializeField]
-    float speed;
+    // Variables start and destination to move back and forth
+    private Transform movingFrom;
+    private Transform movingTo;
 
-    [SerializeField]
-    Transform startPoint, endPoint;
-
-    [SerializeField]
-    float changeDirectionDelay;
+    private float progress;
 
 
-    private Transform destinationTarget, departTarget;
+    // Movement speed in units per second.
+    public float percentPerFrame = 2F;
 
+    // Time when the movement started.
     private float startTime;
 
+    // Total distance between the markers.
     private float journeyLength;
-
-    bool isWaiting;
-
-
 
     void Start()
     {
-        departTarget = startPoint;
-        destinationTarget = endPoint;
-
+        
+        gameObject.transform.position = startPoint.position;
+    
+        // Keep a note of the time the movement started.
         startTime = Time.time;
-        journeyLength = Vector3.Distance(departTarget.position, destinationTarget.position);
+
+        // Calculate the journey length.
+        journeyLength = Vector3.Distance(startPoint.position, endPoint.position);
+
+        movingFrom = startPoint;
+        movingTo = endPoint;
     }
 
+    // Move to the target end position.
+    private void Move() {
 
-    void FixedUpdate()
-    {
-        Move();
+        float distCovered = Vector3.Distance(gameObject.transform.position, startPoint.position);
+        progress = distCovered / journeyLength;
+        transform.position = Vector3.Lerp(startPoint.position, endPoint.position, progress+(percentPerFrame/100));
     }
 
-    private void Move()
+    private void MoveBack() {
+
+        float distCovered = Vector3.Distance(gameObject.transform.position, endPoint.position);
+        progress = distCovered / journeyLength;
+        transform.position = Vector3.Lerp(endPoint.position, startPoint.position, progress+(percentPerFrame/100));
+
+    }
+
+    void Update()
     {
 
-
-        if (!isWaiting)
-        {
-            if (Vector3.Distance(transform.position, destinationTarget.position) > 0.01f)
-            {
-                float distCovered = (Time.time - startTime) * speed;
-
-                float fractionOfJourney = distCovered / journeyLength;
-
-                transform.position = Vector3.Lerp(departTarget.position, destinationTarget.position, fractionOfJourney);
-            }
-            else
-            {
-                isWaiting = true;
-                StartCoroutine(changeDelay());
-            }
+        if (isTriggered) {
+            Move();
         }
-
-
-    }
-
-    void ChangeDestination()
-    {
-
-        if (departTarget == endPoint && destinationTarget == startPoint)
-        {
-            departTarget = startPoint;
-            destinationTarget = endPoint;
+        else {
+            MoveBack();
         }
-        else
-        {
-            departTarget = endPoint;
-            destinationTarget = startPoint;
-        }
+        
 
     }
-    IEnumerator changeDelay()
-    {
-        yield return new WaitForSeconds(changeDirectionDelay);
-        ChangeDestination();
-        startTime = Time.time;
-        journeyLength = Vector3.Distance(departTarget.position, destinationTarget.position);
-        isWaiting = false;
-    }
-
-
 
 
     void OnTriggerEnter(Collider other)

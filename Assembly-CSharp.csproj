@@ -105,6 +105,7 @@
      <Compile Include="Assets\Scripts\PortalProjectile.cs" />
      <Compile Include="Assets\Scripts\PortalWand.cs" />
      <Compile Include="Assets\Scripts\Teleporting.cs" />
+     <Compile Include="Assets\Scripts\Triggerable.cs" />
      <Compile Include="Assets\Scripts\collideScript.cs" />
      <Compile Include="Assets\Scripts\movePanel.cs" />
      <Compile Include="Assets\Scripts\movePanelControlled.cs" />

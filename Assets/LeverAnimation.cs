@@ -7,40 +7,59 @@ public class LeverAnimation : MonoBehaviour
 {
 
     public Animator anim;
+
+    public float cooldown;
+    public Triggerable trigger;
+    private float lastTriggered;
     public bool isOn;
+
+    public bool isActivated;
+
     // Start is called before the first frame update
     void Start()
     {
+
         anim = GetComponent<Animator>();
-        isOn = false;
-        
+        isOn = false; 
+
+        if (cooldown == 0) {
+
+            AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
+
+            foreach(AnimationClip clip in clips){ 
+                if (clip.length > cooldown) { 
+                    cooldown = clip.length; 
+                }
+            }
+        }
+
+        lastTriggered = Time.time - cooldown;       
     }
 
      void OnTriggerStay(Collider other){
 
-         if (other.tag == "Player" && Input.GetKeyDown("f")) {
-            
-            Debug.Log("collision");
+         if (other.tag == "Player" && Input.GetKeyDown("f") && ( (lastTriggered+cooldown) < Time.time) ) {
 
-            if (isOn) {
+            isOn = !isOn; 
+            
+            trigger.isTriggered = !(trigger.isTriggered);
+
+            if (!isOn) {
                 anim.Play("Off Lever"); 
-                isOn = false;
             }
             else {
                 anim.Play("On Lever");
-                isOn = true;
             }
+
+            lastTriggered = Time.time;
         
         }
 
      
-     //your code
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-              
+
+    public bool getIsOn(){
+        return isOn;
     }
 }
