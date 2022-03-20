@@ -23,8 +23,6 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     // shooting portal 
     public GameObject entryProjectile;
     static public GameObject portal_gun;
-
-    // public static char SPAWN_ENTRY_KEY = 'p';
     public static float COOLDOWN = 2f; 
     private float lastPortalSpawn;
 
@@ -39,6 +37,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     static public bool one = true;
     static public bool can_teleport = true;
     public bool owner;
+
     // Start is called before the first frame update
     
     void Awake()
@@ -75,30 +74,28 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
 
     public void Use(Hand controller)
     {
-        // if (Input.GetKeyDown(SPAWN_ENTRY_KEY.ToString())) {
-            if (Time.time > lastPortalSpawn + COOLDOWN) {
-               
-                Vector3 pos = grasped.transform.position;
-                pos.y += 0.75f;
-                // GameObject portalProjectileClone  = Instantiate(entryProjectile,  pos, grasped.transform.rotation);
-                var portalProjectileClone = NetworkSpawner.SpawnPersistent(this, entryProjectile).GetComponents<MonoBehaviour>().Where(mb => mb is IPortalProjectile).FirstOrDefault() as IPortalProjectile;
-                if (portalProjectileClone != null)
-                {
-                    portalProjectileClone.Attach(grasped);
-                }
-                // portalProjectileClone.GetComponent<Rigidbody>().velocity = grasped.transform.forward.normalized *SPEED;
-                lastPortalSpawn = Time.time;
-                
-            }
 
-        // }
+        if (Time.time > lastPortalSpawn + COOLDOWN) {
+            
+            Vector3 pos = grasped.transform.position;
+            pos.y += 0.75f;
+            // GameObject portalProjectileClone  = Instantiate(entryProjectile,  pos, grasped.transform.rotation);
+            var portalProjectileClone = NetworkSpawner.SpawnPersistent(this, entryProjectile).GetComponents<MonoBehaviour>().Where(mb => mb is IPortalProjectile).FirstOrDefault() as IPortalProjectile;
+            if (portalProjectileClone != null)
+            {
+                portalProjectileClone.Attach(grasped);
+            }
+            lastPortalSpawn = Time.time;
+            
+        }
+
        
 
     }
 
     private void Update()
     {   
-        if (grasped != null)
+        if (grasped)
         {
             transform.position = grasped.transform.position;
             transform.rotation = grasped.transform.rotation;
@@ -108,12 +105,9 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
         }
         else
         {
-            transform.position = this.gameObject.transform.position;
-            transform.rotation = this.gameObject.transform.rotation;
-
             body.isKinematic = false;
         }
-        print(owner);
+        
         if(owner){
             context.SendJson(new Message(transform));
         }
@@ -124,7 +118,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();
-        print("Process");
+  
         transform.localPosition = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
         transform.localRotation = msg.transform.rotation;
        
@@ -136,6 +130,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
             public Message(Transform transform)
             {
                 this.transform = new TransformMessage(transform);
+    
             }
         }
     public void OnSpawned(bool local)

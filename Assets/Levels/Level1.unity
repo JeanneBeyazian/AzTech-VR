@@ -2402,6 +2402,7 @@ MonoBehaviour:
   entryProjectile: {fileID: 250782869342765297, guid: 6a305055f5af10147915d7406221f250,
     type: 3}
   portal: {fileID: 3376925332165530711, guid: 098a7f8e93cd6fb449a87895ec19e1b6, type: 3}
+  owner: 0
 --- !u!1 &1202947566
 GameObject:
   m_ObjectHideFlags: 0

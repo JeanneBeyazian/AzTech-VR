@@ -14,7 +14,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     private NetworkContext context;
 
     public static float LIFETIME = 45f;
-    public static float SPEED = 3f;
+    public static float SPEED = 8f;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,20 +24,16 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     void Update(){
         if(grasped){
             
-            transform.position = grasped.transform.position;
+            Vector3 pos = grasped.transform.position;
+            pos.y += 1f;
+            transform.position = pos;
             transform.rotation = grasped.transform.rotation;
             body.isKinematic = false;
             body.velocity = grasped.transform.forward.normalized * SPEED;
             grasped = null;
 
         }   
-        transform.localPosition = this.gameObject.transform.position;
-        transform.localRotation = this.gameObject.transform.rotation;
-
-        Message message;
-        message.position = transform.localPosition;
-        message.rotation = transform.localRotation;
-        context.SendJson(message);
+        context.SendJson(new Message(transform));
     }
 
     private void Awake()
@@ -73,16 +69,21 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();
-      
-        transform.localPosition = msg.position; // The Message constructor will take the *local* properties of the passed transform.
-        transform.localRotation = msg.rotation;
+  
+        transform.localPosition = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
+        transform.localRotation = msg.transform.rotation;
        
     }
     public struct Message
-    {
-       public Vector3 position;
-       public Quaternion rotation;
-    }
+        {
+            public TransformMessage transform;
+
+            public Message(Transform transform)
+            {
+                this.transform = new TransformMessage(transform);
+    
+            }
+        }
     public void OnSpawned(bool local)
     {
     }
