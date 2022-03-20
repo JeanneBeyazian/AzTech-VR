@@ -31,8 +31,8 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
             grasped = null;
 
         }   
-        transform.localPosition = this.gameObject.transform.position;
-        transform.localRotation = this.gameObject.transform.rotation;
+        // transform.localPosition = this.gameObject.transform.position;
+        // transform.localRotation = this.gameObject.transform.rotation;
 
         context.SendJson(new Message(transform));
     }
