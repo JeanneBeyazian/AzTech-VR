@@ -5,7 +5,7 @@ using Ubiq.XR;
 using Ubiq.Samples;
 using UnityEngine;
 
-public class movePanel : MonoBehaviour, INetworkObject, INetworkComponent
+public class movePanel : MonoBehaviour, INetworkObject, INetworkComponent, ISpawnable
 {
     //amended from https://www.youtube.com/watch?v=Ig4Gsm1QwoU
 
@@ -20,23 +20,14 @@ public class movePanel : MonoBehaviour, INetworkObject, INetworkComponent
     float changeDirectionDelay;
 
     //added
-    NetworkId INetworkObject.Id => new NetworkId(1008);
+    
     private NetworkContext context;
-
     private Transform destinationTarget, departTarget;
-
     private float startTime;
-
     private float journeyLength;
-
     bool isWaiting;
 
-    //added
-    public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
-    {
-        var msg = message.FromJson<Message>();
-        transform.localPosition = msg.position;
-    }
+    
 
     void Start()
     {
@@ -73,10 +64,7 @@ public class movePanel : MonoBehaviour, INetworkObject, INetworkComponent
                 isWaiting = true;
                 StartCoroutine(changeDelay());
             }
-            //added
-            Message message;
-            message.position = transform.localPosition;
-            context.SendJson(message);
+            context.SendJson(new Message(transform));
         }
 
 
@@ -127,16 +115,24 @@ public class movePanel : MonoBehaviour, INetworkObject, INetworkComponent
         }
     }
 
+    //added
+    public NetworkId Id { get; set; }
+    public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
+    {
+        var msg = message.FromJson<Message>();
+        transform.position = msg.transform.position;
+    }
+
     public struct Message
     {
-        //public TransformMessage transform;
-        public Vector3 position;
-        //public Message(Transform transform)
-        //{
-            //this.transform = new TransformMessage(transform);
-            
-
-        //}
+        public TransformMessage transform;
+        public Message(Transform transform)
+        {
+            this.transform = new TransformMessage(transform);
+        }
+    }
+    public void OnSpawned(bool local)
+    {
     }
 
 }

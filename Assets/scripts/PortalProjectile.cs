@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent, IPortalProjectile, ISpawnable
 {
-    // public SphereCollider collider;
+
     private Rigidbody body;
     private Hand grasped;
     public GameObject portal;
@@ -85,7 +85,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
 
         transform.position = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
         transform.rotation = msg.transform.rotation;
-        //body.isKinematic = msg.body.isKinematic;
+
 
     }
     public struct Message
