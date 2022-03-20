@@ -16,10 +16,11 @@ public class LeverAnimation : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown("f")) {
+     void OnTriggerStay(Collider other){
+
+         if (other.tag == "Player" && Input.GetKeyDown("f")) {
+            
+            Debug.Log("collision");
 
             if (isOn) {
                 anim.Play("Off Lever"); 
@@ -31,6 +32,15 @@ public class LeverAnimation : MonoBehaviour
             }
         
         }
+
+     
+     //your code
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
               
     }
 }
