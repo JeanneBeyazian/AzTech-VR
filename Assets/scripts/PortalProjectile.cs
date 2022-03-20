@@ -15,6 +15,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
 
     public static float LIFETIME = 45f;
     public static float SPEED = 8f;
+    public bool owner;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,8 +33,11 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
             body.velocity = grasped.transform.forward.normalized * SPEED;
             grasped = null;
 
-        }   
-        context.SendJson(new Message(transform));
+        }
+        if (owner)
+        {
+            context.SendJson(new Message(transform));
+        }
     }
 
     private void Awake()
@@ -44,6 +48,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     public void Attach(Hand hand)
     {
         grasped = hand;
+        owner = true;
     }
 
     void OnTriggerEnter(Collider other) {
@@ -69,10 +74,10 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();
-  
-        transform.localPosition = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
-        transform.localRotation = msg.transform.rotation;
-       
+
+        transform.position = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
+        transform.rotation = msg.transform.rotation;
+
     }
     public struct Message
         {
