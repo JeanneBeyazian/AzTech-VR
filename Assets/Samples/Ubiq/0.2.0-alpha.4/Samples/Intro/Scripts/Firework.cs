@@ -95,6 +95,9 @@ namespace Ubiq.Samples
         {
             var msg = message.FromJson<Message>();
             print("Firework");
+            print("Firework");
+            print("Firework");
+            print("Firework");
             transform.localPosition = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
             transform.localRotation = msg.transform.rotation;
             fired = msg.fired;
