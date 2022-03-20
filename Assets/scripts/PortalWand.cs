@@ -93,37 +93,38 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
 
         // }
        
-       
+
     }
 
     private void Update()
     {   
         if (grasped != null)
         {
-            transform.localPosition = grasped.transform.position;
-            transform.localRotation = grasped.transform.rotation;
+            transform.position = grasped.transform.position;
+            transform.rotation = grasped.transform.rotation;
 
             body.isKinematic = true;
 
         }
         else
         {
-            transform.localPosition = this.gameObject.transform.position;
-            transform.localRotation = this.gameObject.transform.rotation;
+            transform.position = this.gameObject.transform.position;
+            transform.rotation = this.gameObject.transform.rotation;
 
             body.isKinematic = false;
         }
-
+        print(owner);
         if(owner){
             context.SendJson(new Message(transform));
         }
     }
     // Network Unit
     public NetworkId Id { get; set; }= NetworkId.Unique();
+    
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();
-      
+        print("Process");
         transform.localPosition = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
         transform.localRotation = msg.transform.rotation;
        
