@@ -42,8 +42,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46aff0c3cf0fcee4580fb1380e8daf17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entryProjectile: {fileID: 0}
-  portal: {fileID: 0}
+  entryProjectile: {fileID: 250782869342765297, guid: 6a305055f5af10147915d7406221f250,
+    type: 3}
+  portal: {fileID: 3376925332165530711, guid: 098a7f8e93cd6fb449a87895ec19e1b6, type: 3}
+  owner: 0
 --- !u!1001 &2906400400330887077
 PrefabInstance:
   m_ObjectHideFlags: 0

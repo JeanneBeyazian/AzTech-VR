@@ -39,6 +39,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     static public bool one = true;
     static public bool can_teleport = true;
     public bool owner;
+
     // Start is called before the first frame update
     
     void Awake()
@@ -113,7 +114,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
 
             body.isKinematic = false;
         }
-        print(owner);
+        
         if(owner){
             context.SendJson(new Message(transform));
         }
@@ -124,7 +125,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();
-        print("Process");
+  
         transform.localPosition = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
         transform.localRotation = msg.transform.rotation;
        
@@ -136,6 +137,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
             public Message(Transform transform)
             {
                 this.transform = new TransformMessage(transform);
+    
             }
         }
     public void OnSpawned(bool local)
