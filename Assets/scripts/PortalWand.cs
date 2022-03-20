@@ -93,6 +93,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
 
         // }
        
+       
     }
 
     private void Update()
@@ -123,8 +124,8 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     {
         var msg = message.FromJson<Message>();
       
-        transform.localPosition = msg.position; // The Message constructor will take the *local* properties of the passed transform.
-        transform.localRotation = msg.rotation;
+        transform.localPosition = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
+        transform.localRotation = msg.transform.rotation;
        
     }
     public struct Message
