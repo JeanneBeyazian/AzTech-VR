@@ -34,7 +34,7 @@ public class LeverAnimation : MonoBehaviour
         }
 
         lastTriggered = Time.time - cooldown;
-
+        anim.Play("Off Lever");
     }
     void Update(){
 
