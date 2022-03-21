@@ -16,16 +16,13 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     public Triggerable trigger2;
 
     private NetworkContext context;
+    public NetworkScene scene;
 
     private float lastTriggered;
-    
-    public bool owner;
-    public bool triggered;
+    private bool triggered;
     // Start is called before the first frame update
     void Start()
     {
-
-        scene = NetworkScene.FindNetworkScene(this);
         context = scene.RegisterComponent(this);
         anim = GetComponent<Animator>();
 
@@ -44,12 +41,11 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     }
     private void Awake()
     {
-        owner = false;
         triggered = false;
     }
     void Update(){
 
-        if(owner && triggered){
+        if(triggered){
             
             trigger1.isTriggered = !(trigger1.isTriggered);
             trigger2.isTriggered = !(trigger2.isTriggered);
@@ -60,48 +56,42 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
             else{
                 anim.Play("Off Lever");
             } 
-            triggered = !(triggered);
             lastTriggered = Time.time;
-            context.SendJson(new Message(triggered, owner));
+            triggered = false;
         }
+
         
     }
     void OnTriggerEnter(Collider other){
-        owner = true;
-        print("Enter");
     }
     void OnTriggerStay(Collider other){
-        if (other.tag == "Player" && Input.GetKeyDown("f") && ( (lastTriggered+cooldown) < Time.time) ) {
+        if (other.tag == "Player" && Input.GetKeyDown("f") && ((lastTriggered+cooldown) < Time.time) ) {
+            Debug.Log("Use the Lever");
             triggered = true;
+            context.SendJson(new Message(triggered));
         }
 
     }
     void OnTriggerExit(Collider other){
-        owner = false;
     }
 
     // Network Unit
-    public NetworkId Id { get; set; }
-    
+
+    // public NetworkId Id { get; set; } = NetworkId.Unique();
+    public NetworkId Id { get; set; } = new NetworkId("a234-5925-5620-a196");
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();
-  
         // The Message constructor will take the *local* properties of the passed transform.
         this.triggered = msg.triggered;
-        this.owner = msg.owner;
-        trigger1.isTriggered = msg.triggered;
-        trigger2.isTriggered = msg.triggered;
 
     }
     public struct Message
     {
         public bool triggered;
-        public bool owner;
-        public Message( bool triggered, bool owner)
+        public Message( bool triggered)
         {
             this.triggered = triggered;
-            this.owner = owner;
         }
     }
     public void OnSpawned(bool local)
