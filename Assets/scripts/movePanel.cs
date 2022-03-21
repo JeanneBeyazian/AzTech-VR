@@ -21,6 +21,7 @@ public class movePanel : Triggerable, INetworkObject, INetworkComponent, ISpawna
 
     void Start()
     {
+        context = NetworkScene.Register(this);
         gameObject.transform.position = startPoint.position;
     }
 
