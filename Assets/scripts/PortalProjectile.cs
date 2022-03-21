@@ -75,6 +75,8 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
 
             Destroy(this.gameObject, LIFETIME);
         }
+
+        
     }
     // Network Unit
     public NetworkId Id { get; set; }

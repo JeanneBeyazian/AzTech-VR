@@ -100,16 +100,10 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
         {
                 transform.position = grasped.transform.position;
                 transform.rotation = grasped.transform.rotation;
-
-                body.isKinematic = true;
-
         }
-        else
-        {
-            body.isKinematic = true;
-        }
-        if(owner){
+        body.isKinematic = true;
         
+        if(owner){
             context.SendJson(new Message(transform));
         }
     }
