@@ -24,7 +24,9 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     // Start is called before the first frame update
     void Start()
     {
-        context = NetworkScene.Register(this);
+
+        scene = NetworkScene.FindNetworkScene(this);
+        context = scene.RegisterComponent(this);
         anim = GetComponent<Animator>();
 
         if (cooldown == 0) {
