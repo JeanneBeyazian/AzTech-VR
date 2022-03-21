@@ -27,7 +27,7 @@ public class movePanel : Triggerable, INetworkObject, INetworkComponent, ISpawna
 
     private async void Move(Transform awayFrom, Transform towards) {   
         transform.position = Vector3.MoveTowards(transform.position, towards.position, speed*Time.smoothDeltaTime);    
-        context.SendJson(new Message(transform));
+        // context.SendJson(new Message(transform));
     }   
 
     void Update()

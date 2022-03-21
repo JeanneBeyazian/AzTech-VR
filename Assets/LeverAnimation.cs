@@ -46,11 +46,7 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
         triggered = false;
     }
     void Update(){
-        
-        if (owner){
-            context.SendJson(new Message(transform, triggered, owner));
-        }
-        
+
         if(owner && triggered){
             
             trigger1.isTriggered = !(trigger1.isTriggered);
@@ -64,6 +60,7 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
             } 
             triggered = !(triggered);
             lastTriggered = Time.time;
+            context.SendJson(new Message(triggered, owner));
         }
         
     }
@@ -88,20 +85,19 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     {
         var msg = message.FromJson<Message>();
   
-        transform.position = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
+        // The Message constructor will take the *local* properties of the passed transform.
         this.triggered = msg.triggered;
         this.owner = msg.owner;
-        // transform.rotation = msg.transform.rotation;
-       
+        trigger1.isTriggered = msg.triggered;
+        trigger2.isTriggered = msg.triggered;
+
     }
     public struct Message
     {
-        public TransformMessage transform;
         public bool triggered;
         public bool owner;
-        public Message(Transform transform, bool triggered, bool owner)
+        public Message( bool triggered, bool owner)
         {
-            this.transform = new TransformMessage(transform);
             this.triggered = triggered;
             this.owner = owner;
         }
