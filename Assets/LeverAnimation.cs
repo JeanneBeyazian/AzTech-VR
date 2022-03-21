@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LeverAnimation : MonoBehaviour
-
 {
-
     public Animator anim;
     public float cooldown;
-    public Triggerable trigger;
+    public Triggerable trigger1;
+    public Triggerable trigger2;
+
     private float lastTriggered;
 
     // Start is called before the first frame update
@@ -28,23 +28,24 @@ public class LeverAnimation : MonoBehaviour
         }
 
         lastTriggered = Time.time - cooldown;
-        anim.Play("Off Lever");       
+        anim.Play("Off Lever");
     }
 
      void OnTriggerStay(Collider other){
 
          if (other.tag == "Player" && Input.GetKeyDown("f") && ( (lastTriggered+cooldown) < Time.time) ) {
-            
-            trigger.isTriggered = !(trigger.isTriggered);
 
-            if(trigger.isTriggered) anim.Play("On Lever"); 
+            trigger1.isTriggered = !(trigger1.isTriggered);
+            trigger2.isTriggered = !(trigger2.isTriggered);
+
+            if(trigger1.isTriggered) anim.Play("On Lever"); 
             else anim.Play("Off Lever");
 
             lastTriggered = Time.time;
-        
+
         }
 
-     
+
     }
 
 }

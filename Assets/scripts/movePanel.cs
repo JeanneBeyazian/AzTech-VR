@@ -1,44 +1,35 @@
-
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
+
 public class movePanel : Triggerable
-
 {
+    [SerializeField]
     // Transforms to act as start and end markers for the journey.
-    public Transform startPoint;
-    public Transform endPoint;
+    public Transform startPoint, endPoint;
 
-    // Percent of the journey covered at each frame
-    public float percentPerFrame = 2F;
-
-    // Total distance between the markers.
-    private float journeyLength;
-
+    [SerializeField]
+    // Movement speed in units per second.
+    public float speed = 2F;
+    
     void Start()
     {
         gameObject.transform.position = startPoint.position;
-        percentPerFrame /= 100;
-        // Calculate the journey length.
-        journeyLength = Vector3.Distance(startPoint.position, endPoint.position);
     }
 
-    /*
-    *   Move the platform using linear interpolation
-    */
-    private void Move(Transform awayFrom, Transform towards) 
-    {
-
-        float distCovered = Vector3.Distance(gameObject.transform.position, awayFrom.position);
-        float progress = distCovered / journeyLength;
-        transform.position = Vector3.Lerp(awayFrom.position, towards.position, progress+percentPerFrame);
+    private async void Move(Transform awayFrom, Transform towards) {   
+        transform.position = Vector3.MoveTowards(transform.position, towards.position, speed*Time.smoothDeltaTime);    
     }
 
     void Update()
     {
 
-        if (isTriggered) Move(startPoint, endPoint);
-        else Move(endPoint, startPoint);
+        if (isTriggered) {
+            Move(startPoint, endPoint);
+        }
+        else {
+            Move(endPoint, startPoint);
+        }
 
     }
 
@@ -46,16 +37,17 @@ public class movePanel : Triggerable
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
+        {
             other.transform.parent = transform;
-        
+        }
     }
-
 
     void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Player")
+        {
             other.transform.parent = null;
-        
+        }
     }
 
 }
