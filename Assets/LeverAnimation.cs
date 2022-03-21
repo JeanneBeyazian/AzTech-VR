@@ -1,9 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Ubiq.XR;
+using Ubiq.Samples;
+using System.Linq;
+using Ubiq.Messaging;
 using UnityEngine;
 
+
 public class LeverAnimation : MonoBehaviour
-{
+{   
+
     public Animator anim;
     public float cooldown;
     public Triggerable trigger1;
@@ -28,10 +34,13 @@ public class LeverAnimation : MonoBehaviour
         }
 
         lastTriggered = Time.time - cooldown;
-        anim.Play("Off Lever");
-    }
 
-     void OnTriggerStay(Collider other){
+    }
+    void Update(){
+
+        
+    }
+    void OnTriggerStay(Collider other){
 
          if (other.tag == "Player" && Input.GetKeyDown("f") && ( (lastTriggered+cooldown) < Time.time) ) {
 
@@ -47,5 +56,6 @@ public class LeverAnimation : MonoBehaviour
 
 
     }
+
 
 }

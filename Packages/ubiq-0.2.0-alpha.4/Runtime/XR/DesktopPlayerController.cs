@@ -18,6 +18,8 @@ namespace Ubiq.XR
         public Transform cameraContainer;
         public AnimationCurve cameraRubberBand;
 
+        private bool isSprinting = false;
+        private float sprintingMultiplier = 1.5f;
 
         private float startTime;
         private float journeyLength;
@@ -96,7 +98,19 @@ namespace Ubiq.XR
             {
                 movement += new Vector3(0f, 0f, -1f);
             }
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                isSprinting = true;
+            }else{
+                isSprinting = false;
+            }
             movement = movement.normalized * (movementSpeed) * Time.deltaTime;
+            if(isSprinting){
+                
+                movement *= sprintingMultiplier;
+            }
+            
             movement = headCamera.transform.TransformDirection(movement);
             movement.y = 0f;
 
