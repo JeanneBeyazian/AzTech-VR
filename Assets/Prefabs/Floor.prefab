@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2121360815301216382}
   - component: {fileID: 3113881572888503}
-  - component: {fileID: 4351053999115814789}
-  - component: {fileID: 8612185515258557352}
   m_Layer: 8
   m_Name: Floor
   m_TagString: Untagged
@@ -27,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1601951885437571780}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.73, y: -0.027015, z: 7.39}
-  m_LocalScale: {x: 0.00780885, y: 0.004056765, z: -0.021307493}
+  m_LocalPosition: {x: 1.72, y: -0.29838, z: 2.5755}
+  m_LocalScale: {x: 0.0074306848, y: 0.0011414249, z: 0.009392592}
   m_Children:
   - {fileID: 8962579767048685665}
   m_Father: {fileID: 0}
@@ -50,33 +48,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!65 &4351053999115814789
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1601951885437571780}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5, y: 5, z: 5}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!64 &8612185515258557352
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1601951885437571780}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -4023333077416406836, guid: 8ce51906a407af84bb63a2ec5a129c2e, type: 3}
 --- !u!1 &2856423598710107252
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,6 +59,7 @@ GameObject:
   - component: {fileID: 8962579767048685665}
   - component: {fileID: 2135195683173816797}
   - component: {fileID: 5982195439521488297}
+  - component: {fileID: 2962063720215798056}
   m_Layer: 8
   m_Name: StoneAll_LPTris:StoneTop4_StoneAll_LPTris:StoneTopLP_StoneAll_LPTris_NSclash3:polySurface2_StoneAll_LPTris:StoneAllTris
   m_TagString: Untagged
@@ -103,7 +75,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2856423598710107252}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2121360815301216382}
@@ -156,3 +128,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &2962063720215798056
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2856423598710107252}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4023333077416406836, guid: 8ce51906a407af84bb63a2ec5a129c2e, type: 3}

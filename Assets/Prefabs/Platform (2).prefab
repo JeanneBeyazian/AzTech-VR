@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5320367019759494812}
   - component: {fileID: 5320367019759494813}
   - component: {fileID: 5320367019759494810}
-  - component: {fileID: 5320367019759494811}
   m_Layer: 0
   m_Name: Platform (2)
   m_TagString: Platform
@@ -28,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5320367019759494808}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.141, y: 2.817, z: 5.51}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5582, y: 0.065784, z: 1.8502}
   m_Children: []
   m_Father: {fileID: 0}
@@ -92,21 +91,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 4.260873, z: 1}
-  m_Center: {x: 0, y: 1.6304367, z: 0}
---- !u!114 &5320367019759494811
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5320367019759494808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9411c57e23ded7748a3d7792603fe9de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isTriggered: 0
-  startPoint: {fileID: 0}
-  endPoint: {fileID: 0}
-  speed: 1
+  m_Size: {x: 1, y: 0.902706, z: 1}
+  m_Center: {x: 0, y: -0.04864657, z: 0}
