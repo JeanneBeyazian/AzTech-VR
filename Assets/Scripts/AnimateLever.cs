@@ -7,11 +7,12 @@ using Ubiq.Messaging;
 using UnityEngine;
 
 
-public class AnimateLever : MonoBehaviour, INetworkObject, INetworkComponent, ISpawnable
+public class AnimateLever : MonoBehaviour, INetworkObject, INetworkComponent, ISpawnable, IUseable
 {  
 
     public Animator anim;
     public float cooldown;
+    public bool grabbed;
     public Triggerable trigger;
 
     private NetworkContext context;
@@ -22,6 +23,7 @@ public class AnimateLever : MonoBehaviour, INetworkObject, INetworkComponent, IS
     // Start is called before the first frame update
     void Start()
     {
+        grabbed = false;
         context = scene.RegisterComponent(this);
         anim = GetComponent<Animator>();
 
@@ -42,6 +44,14 @@ public class AnimateLever : MonoBehaviour, INetworkObject, INetworkComponent, IS
     {
         triggered = false;
     }
+
+    public void UnUse(Hand controller) {}
+
+    public void Use(Hand controller)
+    {
+        grabbed = true;
+    }
+
     void Update(){
 
         if(triggered){
@@ -66,6 +76,7 @@ public class AnimateLever : MonoBehaviour, INetworkObject, INetworkComponent, IS
         if (other.tag == "Player" && Input.GetKeyDown("f") && ((lastTriggered+cooldown) < Time.time) ) {
             Debug.Log("Use the Lever");
             triggered = true;
+            grabbed = false;
             context.SendJson(new Message(triggered));
         }
 
@@ -76,7 +87,7 @@ public class AnimateLever : MonoBehaviour, INetworkObject, INetworkComponent, IS
     // Network Unit
 
     // public NetworkId Id { get; set; } = NetworkId.Unique();
-    public NetworkId Id { get; set; } = new NetworkId("a234-5925-5620-a196");
+    public NetworkId Id { get; set; } = new NetworkId("a236-5925-5620-a196");
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();

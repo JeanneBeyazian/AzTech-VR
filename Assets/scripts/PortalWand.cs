@@ -48,6 +48,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
 
     private void Start()
     {
+        body = GetComponent<Rigidbody>();
         context = NetworkScene.Register(this);
         lastPortalSpawn = Time.time - COOLDOWN;
         portal_gun = gameObject;
@@ -60,10 +61,12 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
         
         grasped = controller;
         owner = true;
+        body.isKinematic = false;
     }
 
     public void Release(Hand controller)
     {
+        body.isKinematic = true;
         grasped = null;
     }
 

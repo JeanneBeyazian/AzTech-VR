@@ -7,11 +7,12 @@ using Ubiq.Messaging;
 using UnityEngine;
 
 
-public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, ISpawnable
+public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, ISpawnable, IUseable
 {  
 
     public Animator anim;
     public float cooldown;
+    private bool grabbed;
     public Triggerable trigger1;
     public Triggerable trigger2;
 
@@ -23,6 +24,7 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     // Start is called before the first frame update
     void Start()
     {
+        grabbed = false;
         context = scene.RegisterComponent(this);
         anim = GetComponent<Animator>();
 
@@ -43,6 +45,16 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     {
         triggered = false;
     }
+
+    public void UnUse(Hand controller){}
+
+
+    public void Use(Hand controller)
+    {
+        grabbed = true;
+    }
+
+
     void Update(){
 
         if(triggered){
@@ -65,9 +77,11 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     void OnTriggerEnter(Collider other){
     }
     void OnTriggerStay(Collider other){
-        if (other.tag == "Player" && Input.GetKeyDown("f") && ((lastTriggered+cooldown) < Time.time) ) {
+        ///&& Input.GetKeyDown("f")
+        if (other.tag == "Player" && grabbed && ((lastTriggered+cooldown) < Time.time) ) {
             Debug.Log("Use the Lever");
             triggered = true;
+            grabbed = false;
             context.SendJson(new Message(triggered));
         }
 
