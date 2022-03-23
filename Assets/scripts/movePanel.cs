@@ -19,6 +19,8 @@ public class movePanel : Triggerable, INetworkObject, INetworkComponent, ISpawna
     
     private NetworkContext context;
 
+
+
     void Start()
     {
         context = NetworkScene.Register(this);
@@ -29,6 +31,7 @@ public class movePanel : Triggerable, INetworkObject, INetworkComponent, ISpawna
         transform.position = Vector3.MoveTowards(transform.position, towards.position, speed*Time.smoothDeltaTime);    
         // context.SendJson(new Message(transform));
     }   
+
 
     void Update()
     {

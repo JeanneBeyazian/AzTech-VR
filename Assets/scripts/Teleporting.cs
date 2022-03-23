@@ -12,6 +12,12 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
     private Rigidbody body;
     private static int COOLDOWN = 1;  
 
+    public GameObject plane;
+    public Camera camera;
+    public RenderTexture texture;
+    public Material material;
+
+    public GameObject portalMesh;
     public struct Message
     {
        public Vector3 position;
@@ -44,14 +50,26 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
                     
                     otherPortal = PortalWand.portals[i].gameObject;
 
-                }else if (tag == "2" && PortalWand.portals[i].tag == "1"){
+                } else if (tag == "2" && PortalWand.portals[i].tag == "1"){
                     
                     otherPortal = PortalWand.portals[i].gameObject;
                 
                 }    
             }
-            if(otherPortal){
+            if(otherPortal) {
+
                 Vector3 targetPos = otherPortal.transform.position;
+                Camera otherPortalCam = otherPortal.gameObject.GetComponent<Camera>();
+
+                if (otherPortalCam) {
+
+                     material.mainTexture = otherPortalCam.targetTexture;
+                    this.plane.GetComponent<MeshRenderer>().materials = new Material[] {material};
+                    portalMesh.GetComponent<MeshRenderer>().materials = new Material[] {material};
+                }
+
+                Debug.Log("Teleport attempt");
+                
                 targetPos.y -=1f;
                 // targetPos.z +=1.5f;
                 GameObject righthand = other.gameObject.transform.parent.gameObject;

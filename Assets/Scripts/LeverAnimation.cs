@@ -13,9 +13,7 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     public Animator anim;
     public float cooldown;
     private bool grabbed;
-    public Triggerable trigger1;
-    public Triggerable trigger2;
-
+    public Triggerable[] triggerables;
     private NetworkContext context;
     public NetworkScene scene;
 
@@ -55,14 +53,15 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     }
 
 
-    void Update(){
+    async void Update(){
 
         if(triggered){
+
+            for (int i=0; i<triggerables.Length; ++i) {
+                triggerables[i].beTriggered(this);
+            }
             
-            trigger1.isTriggered = !(trigger1.isTriggered);
-            trigger2.isTriggered = !(trigger2.isTriggered);
-            
-            if(trigger1.isTriggered){
+            if(triggerables[0].isTriggered){
                 anim.Play("On Lever"); 
             } 
             else{
@@ -74,8 +73,8 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
 
         
     }
-    void OnTriggerEnter(Collider other){
-    }
+    void OnTriggerEnter(Collider other){}
+    
     void OnTriggerStay(Collider other){
         ///&& Input.GetKeyDown("f")
         if (other.tag == "Player" && grabbed && ((lastTriggered+cooldown) < Time.time) ) {

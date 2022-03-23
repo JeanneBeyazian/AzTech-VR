@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class Triggerable : MonoBehaviour
 {
- 
     public bool isTriggered;
+
+    public virtual void beTriggered(MonoBehaviour trigger){
+        isTriggered = !isTriggered;
+    }
+
+
+
+
 
 
 

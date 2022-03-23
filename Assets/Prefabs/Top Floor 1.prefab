@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 7944294283426469301}
   - component: {fileID: 1690911300111910235}
   m_Layer: 8
-  m_Name: Top Floor
-  m_TagString: Untagged
+  m_Name: Top Floor 1
+  m_TagString: Teleport
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

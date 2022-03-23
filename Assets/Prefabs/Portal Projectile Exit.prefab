@@ -123,4 +123,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 817538d8100cdb1478248ce2b55e5dea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portal: {fileID: 3376925332165530711, guid: 098a7f8e93cd6fb449a87895ec19e1b6, type: 3}
+  portal: {fileID: 272411867289118693, guid: 59646d2840bae7f4199050bbf994bcca, type: 3}
+  owner: 0

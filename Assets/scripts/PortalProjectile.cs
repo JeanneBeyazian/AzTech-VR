@@ -53,12 +53,24 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
         grasped = hand;
     }
 
-    void OnTriggerEnter(Collider other)
+    async void OnCollisionEnter(Collision other)
     {
 
         if (other.gameObject.tag == "Wall")
         {
-            GameObject portalObject = Instantiate(PortalWand.portal_static, this.gameObject.transform.position, Quaternion.Euler(0, 0, 0));
+            Quaternion normalRotation = Quaternion.Euler(0,0,0);
+            Debug.Log("HIT");
+            for (int j = 0; j<other.contacts.Length; ++j) {
+                // Iterate through the points of contact
+                if (other.contacts[j].thisCollider == this.gameObject.GetComponent<Collider>()) {
+                    normalRotation = Quaternion.LookRotation(other.contacts[j].normal);
+                    break;
+                } 
+
+            }
+
+            GameObject portalObject = Instantiate(PortalWand.portal_static, this.gameObject.transform.position, normalRotation);
+            portalObject.transform.parent = other.gameObject.transform;
             Destroy(this.gameObject);
             if (PortalWand.one)
             {

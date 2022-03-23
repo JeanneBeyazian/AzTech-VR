@@ -12,7 +12,7 @@ public class PressurePlate : MonoBehaviour, INetworkObject, INetworkComponent, I
 
     public NetworkId Id { get; set; } = new NetworkId("a534-5925-5620-a196");
 
-    public Triggerable trigger;
+    public Triggerable[] triggerables;
 
     private NetworkContext context;
     public NetworkScene scene;
@@ -23,22 +23,22 @@ public class PressurePlate : MonoBehaviour, INetworkObject, INetworkComponent, I
     {
         context = scene.RegisterComponent(this);        
     }
+
     private void Awake()
     {
         triggered = false;
     }
-    void Update(){
 
-        // if(triggered) {
-        //     trigger.isTriggered = !(trigger.isTriggered);            
-        //     triggered = false;
-        // }
 
-        
+    void OnTriggerEnter(Collider other) {
+
+        for (int i=0; i<triggerables.Length; ++i) {
+                triggerables[i].beTriggered(this);
+            }
     }
-    void OnTriggerEnter(Collider other){}
     
-    void OnTriggerStay(Collider other){
+    void OnTriggerStay(Collider other) {
+
         if (other.tag == "Player") {
             Debug.Log("Use Pressure Plate");
             triggered = true;
@@ -47,6 +47,11 @@ public class PressurePlate : MonoBehaviour, INetworkObject, INetworkComponent, I
 
     }
     void OnTriggerExit(Collider other){
+        
+        for (int i=0; i<triggerables.Length; ++i) {
+                triggerables[i].beTriggered(this);
+            }
+
         triggered = false;
     }
 

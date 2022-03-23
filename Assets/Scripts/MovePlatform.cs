@@ -19,6 +19,8 @@ public class MovePlatform : Triggerable, INetworkObject, INetworkComponent, ISpa
     
     private NetworkContext context;
 
+
+
     void Start()
     {
         context = NetworkScene.Register(this);
@@ -29,6 +31,7 @@ public class MovePlatform : Triggerable, INetworkObject, INetworkComponent, ISpa
         transform.position = Vector3.MoveTowards(transform.position, towards.position, speed*Time.smoothDeltaTime);    
         // context.SendJson(new Message(transform));
     }   
+
 
     void Update()
     {
@@ -46,8 +49,10 @@ public class MovePlatform : Triggerable, INetworkObject, INetworkComponent, ISpa
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player") other.transform.parent = transform;
-        
+        if (other.gameObject.tag == "Player")
+        {
+            other.transform.parent = transform;
+        }
     }
 
     void OnTriggerExit(Collider other)
