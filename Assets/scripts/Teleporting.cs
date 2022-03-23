@@ -16,8 +16,9 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
     public Camera camera;
     public RenderTexture texture;
     public Material material;
-
+    public Material material2;
     public GameObject portalMesh;
+
     public struct Message
     {
        public Vector3 position;
@@ -39,7 +40,6 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
 
     void OnTriggerEnter(Collider other)
     {   
-       
        
         if(other.name == "Manipulator" && PortalWand.can_teleport){
             GameObject otherPortal = null;
@@ -63,9 +63,11 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
 
                 if (otherPortalCam) {
 
-                     material.mainTexture = otherPortalCam.targetTexture;
+                    material2.mainTexture = this.camera.targetTexture;
+                    material.mainTexture = otherPortalCam.targetTexture;
                     this.plane.GetComponent<MeshRenderer>().materials = new Material[] {material};
-                    portalMesh.GetComponent<MeshRenderer>().materials = new Material[] {material};
+                    otherPortal.GetComponent<MeshRenderer>().materials = new Material[] {material2};
+ 
                 }
 
                 Debug.Log("Teleport attempt");

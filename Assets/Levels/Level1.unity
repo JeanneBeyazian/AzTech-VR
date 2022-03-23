@@ -397,8 +397,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 70768768}
   cooldown: 0
-  trigger1: {fileID: 330403992}
-  trigger2: {fileID: 796501251}
+  triggerables: []
   scene: {fileID: 294334791}
 --- !u!65 &70768770
 BoxCollider:
@@ -1187,12 +1186,12 @@ PrefabInstance:
     - target: {fileID: 3449514041485813838, guid: fac3d04cd8bd2694fbb529d5b2080e5a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.19
+      value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: 3449514041485813838, guid: fac3d04cd8bd2694fbb529d5b2080e5a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 80.5
+      value: 13.4
       objectReference: {fileID: 0}
     - target: {fileID: 3449514041485813838, guid: fac3d04cd8bd2694fbb529d5b2080e5a,
         type: 3}
@@ -2228,6 +2227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
   cooldown: 0
+  grabbed: 0
   trigger: {fileID: 140601968}
   scene: {fileID: 294334791}
 --- !u!4 &683370307 stripped
@@ -3405,6 +3405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
   cooldown: 0
+  grabbed: 0
   trigger: {fileID: 881363176}
   scene: {fileID: 294334791}
 --- !u!1 &833505096
@@ -4601,6 +4602,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
   cooldown: 0
+  grabbed: 0
   trigger: {fileID: 1367497343}
   scene: {fileID: 294334791}
 --- !u!1001 &1074618124
@@ -4815,7 +4817,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entryProjectile: {fileID: 250782869342765297, guid: 6a305055f5af10147915d7406221f250,
     type: 3}
-  portal: {fileID: 3376925332165530711, guid: 098a7f8e93cd6fb449a87895ec19e1b6, type: 3}
+  portal: {fileID: 272411867289118693, guid: 59646d2840bae7f4199050bbf994bcca, type: 3}
   owner: 0
 --- !u!1 &1207935615 stripped
 GameObject:
@@ -4837,6 +4839,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
   cooldown: 0
+  grabbed: 0
   trigger: {fileID: 209855476}
   scene: {fileID: 294334791}
 --- !u!1001 &1227362427
@@ -6684,6 +6687,99 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 835732434}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1631095712
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1631095716}
+  - component: {fileID: 1631095715}
+  - component: {fileID: 1631095714}
+  - component: {fileID: 1631095713}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Wall
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1631095713
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631095712}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1631095714
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631095712}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: cd00f07b74eec65418a4c67df0ac3e1f, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &1631095715
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631095712}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1631095716
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631095712}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -17.63, y: 3.65, z: 16.22}
+  m_LocalScale: {x: 2.1454303, y: 3.316504, z: 6.5554023}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 58
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1655092888
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7632,7 +7728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b1ba5b93b8de2c4981ff57a19dd9faa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trigger: {fileID: 209855476}
+  triggerables: []
   scene: {fileID: 294334791}
 --- !u!136 &1884299101
 CapsuleCollider:
