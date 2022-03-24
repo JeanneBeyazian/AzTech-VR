@@ -92,7 +92,8 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
             // Otherwise, couple them using: So creating a portal changes the type.
             entryProjectile.GetComponent<PortalProjectile>().wandReference = this;
             
-            var portalProjectileClone = NetworkSpawner.SpawnPersistent(this, entryProjectile).GetComponents<MonoBehaviour>().Where(mb => mb is IPortalProjectile).FirstOrDefault() as IPortalProjectile;
+            var portalProjectileClone = NetworkSpawner.SpawnPersistent(this, entryProjectile).GetComponents<MonoBehaviour>()
+                    .Where(mb => mb is IPortalProjectile).FirstOrDefault() as IPortalProjectile;
             if (portalProjectileClone != null)
             {
                 portalProjectileClone.Attach(grasped);
@@ -118,8 +119,9 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
         }
     }
     // Network Unit
-    public NetworkId Id { get; set; }
-    
+    // public NetworkId Id { get; set; }
+    public NetworkId Id { get; set; } = new NetworkId("a258-5925-5620-a196");
+
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();

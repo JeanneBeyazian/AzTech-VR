@@ -76,7 +76,7 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     void OnTriggerEnter(Collider other){}
     
     void OnTriggerStay(Collider other){
-        ///&& Input.GetKeyDown("f")
+        ///&& Input.GetKeyDown("f") 
         if (other.tag == "Player" && grabbed && ((lastTriggered+cooldown) < Time.time) ) {
             Debug.Log("Use the Lever");
             triggered = true;
@@ -89,9 +89,9 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     }
 
     // Network Unit
-
     // public NetworkId Id { get; set; } = NetworkId.Unique();
-    public NetworkId Id { get; set; } = new NetworkId("a234-5925-5620-a196");
+    
+    public NetworkId Id { get; set; } = new NetworkId("a236-5925-5620-a196");
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();

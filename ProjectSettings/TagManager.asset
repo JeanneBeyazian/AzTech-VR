@@ -12,6 +12,8 @@ TagManager:
   - 2
   - ENTRY
   - EXIT
+  - DESTROY
+  - OffMap
   layers:
   - Default
   - TransparentFX

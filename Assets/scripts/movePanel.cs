@@ -64,7 +64,9 @@ public class movePanel : Triggerable, INetworkObject, INetworkComponent, ISpawna
     }
 
         // Network Unit
-    public NetworkId Id { get; set; }
+    // public NetworkId Id { get; set; }
+    public NetworkId Id { get; set; } = new NetworkId("95dd645c-20789b8e");
+
     
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
