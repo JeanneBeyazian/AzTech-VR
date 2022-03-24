@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -2916988148410496803}
   m_Layer: 0
   m_Name: Portal Projectile Exit
-  m_TagString: ExitProjectile
+  m_TagString: EXIT
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,4 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portal: {fileID: 272411867289118693, guid: 59646d2840bae7f4199050bbf994bcca, type: 3}
+  wandReference: {fileID: 0}
+  LIFETIME: 45
+  SPEED: 8
   owner: 0
