@@ -77,7 +77,7 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     
     void OnTriggerStay(Collider other){
         ///&& Input.GetKeyDown("f") 
-        if (other.tag == "Player" && grabbed && ((lastTriggered+cooldown) < Time.time) ) {
+        if (other.tag == "Player" && Input.GetKeyDown("f") && ((lastTriggered+cooldown) < Time.time) ) {
             Debug.Log("Use the Lever");
             triggered = true;
             grabbed = false;
