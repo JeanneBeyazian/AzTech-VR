@@ -47,18 +47,37 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
     public Material material; 
     // Material to hold RenderTexture
 
-    // private RenderTexture myTexture;
-    // private Material myMaterial;
     public GameObject TextName;
+    // Contains the text on the portal
+    
+    private TextMesh textNameMesh;
+    // Controls the text on the portal
 
-    private string type;
+    public void UpdateText() {
+
+        if (textNameMesh) {
+            textNameMesh.color = (linkedPortal) ? Color.green : Color.red;
+            textNameMesh.text = this.tag;
+        }
+        else {
+
+            textNameMesh = TextName.GetComponent<TextMesh> ();
+            
+            if (textNameMesh) {
+                textNameMesh.color = (linkedPortal) ? Color.green : Color.red;
+                textNameMesh.text = this.tag;
+            }
+        }
+
+        
+    }
     
     public void OnStart(){
-        // myMaterial.mainTexture = camera.targetTexture;
-        // this.GetComponent<MeshRenderer>().materials = new Material[] {myMaterial};
+        textNameMesh = TextName.GetComponent<TextMesh> ();
+        UpdateText();
     }
     public static void addPortal(GameObject portal)
-	//public static void addPortal(GameObject portal, String tag) { portal.tag = tag ...
+	//public static void addPortal(Teleporting portal) { 
 	{
         if (portal.tag == "EXIT") {
             ProcessNewPortal(portal, inactiveExitPortals, inactiveEntryPortals);
@@ -73,6 +92,8 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
                                          List<GameObject> otherInactive) {
                                              
         Debug.Log("Creating portal with tag " + portal.tag);
+        
+        
 
         if (addToInactive.Count >= MAXIMUM_INACTIVE_PORTALS_OF_ONE_TYPE) {
 
@@ -97,10 +118,12 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
             Teleporting entryComponent = inactiveEntryPortals[idx].GetComponent<Teleporting>();
                 // We can link the two.
             Teleporting exitComponent = inactiveExitPortals[idx].GetComponent<Teleporting>();
-            exitComponent.LinkToExitPortal(inactiveEntryPortals[idx]);
-
+            
+            exitComponent.LinkCameraPortal(inactiveEntryPortals[idx]);
             entryComponent.linkedPortal = inactiveExitPortals[idx];
-
+            
+            entryComponent.UpdateText();
+            exitComponent.UpdateText();
                 
             activeExitPortals.Add(inactiveExitPortals[idx]);
             activeEntryPortals.Add(inactiveEntryPortals[idx]);
@@ -110,19 +133,10 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
             inactiveExitPortals.RemoveAt(idx);
             // And removed from their original list
         } 
+        else portal.GetComponent<Teleporting>().UpdateText();
         // else Destroy(portal, INACTIVE_LIFETIME);
     }
     
-    // private static void DestroyOldestPortalPairSingle(string portalTag) {
-    //     if (activeEntryPortals.Count >= MAXIMUM_ACTIVE_PORTAL_PAIRS && portalTag == "EXIT") {
-    //         Destroy(activeEntryPortals[0]);
-    //     }
-    //     else if (activeExitPortals.Count >= MAXIMUM_ACTIVE_PORTAL_PAIRS && portalTag == "ENTRY") {
-    //         Destroy(activeExitPortals[0]);
-    //     }
-    // }
-    
-
     private static void CheckDestroyOldestPortalPair() {
 
         if (activeEntryPortals.Count == 0) return;
@@ -147,6 +161,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
             Teleporting TPLinkedPortal = linkedPortal.GetComponent<Teleporting>();
             
             TPLinkedPortal.linkedPortal = null;
+            TPLinkedPortal.UpdateText();
             // This might happen implicitly but just in case.
             
             if (this.tag == "ENTRY") {
@@ -187,29 +202,31 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         body = GetComponent<Rigidbody>();
     }
     
-    private void LinkToExitPortal(GameObject exitPortal) {
+    private void LinkCameraPortal(GameObject otherPortal) {
 
-        Camera otherPortalCam = exitPortal.gameObject.GetComponent<Camera>();
+        Camera otherPortalCam = otherPortal.gameObject.GetComponent<Camera>();
         // Get the camera of the exit portal
         if (otherPortalCam) {
             material.mainTexture = otherPortalCam.targetTexture;
             this.GetComponent<MeshRenderer>().materials = new Material[] {material};
             // Create a texture using what the other portal sees and apply it to self
         }
-        this.linkedPortal = exitPortal;
+        this.linkedPortal = otherPortal;
         // Commit link
     }
 
     private void Start()
     {
         // context = NetworkScene.Register(this);
+        // addPortal(this) ...
     }
 
     void OnTriggerEnter(Collider other)
     {   
 
         Debug.Log("Something got hit you know what i mean" + this.tag + other.tag);
-
+        
+        UpdateText();
         
         if (other.tag == "DESTROY") {
             Destroy(this.gameObject);
@@ -225,17 +242,10 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
           
         Vector3 targetPos = linkedPortal.transform.position;
         targetPos.y -=1f;
-            // targetPos.z +=1.5f;
-            
-            // GameObject righthand = other.gameObject.transform.parent.gameObject;
-            // GameObject righthandParent = righthand.transform.parent.gameObject;
-            // GameObject player = righthandParent.transform.parent.gameObject;
-            // player.transform.position = targetPos; 
             
         Debug.Log("Attempted to teleport");
         other.gameObject.transform.position = targetPos;
         other.gameObject.transform.rotation = linkedPortal.transform.rotation;
-        // MIGHT NOT WORK ?
     }
     
     IEnumerator BeginPlayerTeleportCooldown(collideScript player){
@@ -254,15 +264,6 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         // transform.localRotation = msg.transform.rotation;
        
     }
-
-
-    void Update() {
-        TextName.transform.LookAt( Camera.main.transform.position );
-        TextName.GetComponent<TextMesh> ().color = Color.red;
-        if (linkedPortal) TextName.GetComponent<TextMesh> ().text = " " + this.tag + linkedPortal.name;
-
-        else TextName.GetComponent<TextMesh> ().text = " " + this.tag + " unlinked";
-}
 
 }
 
