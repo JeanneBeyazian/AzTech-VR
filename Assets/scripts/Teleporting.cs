@@ -8,32 +8,16 @@ using UnityEngine;
 public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
 {   
 
-    private NetworkContext context;
+    public NetworkContext context;
     private Rigidbody body;
     private static int COOLDOWN = 1;
     
-    public static float ACTIVE_LIFETIME = 70f; 
-    // If we use the INACTIVE_LIFETIME, not sure if ACTIVE_LIFETIME will come into effect
-    // Because active and inactive portals now appear to share the same prefab.
+    public float portalID;
     
-    public static float INACTIVE_LIFETIME = 70f; 
-	
-	public static int MAXIMUM_ACTIVE_PORTAL_PAIRS = 1;
-	// Integer for the maximum number of portals we can have active at once.
-	
-	public static int MAXIMUM_INACTIVE_PORTALS_OF_ONE_TYPE = 1;
-	
-	public static List<GameObject> inactiveEntryPortals	= new List<GameObject>();
-	// List holding all the inactive entry portals
-	
-	public static List<GameObject> inactiveExitPortals = new List<GameObject>();
-	// List holding all the inactive exit portals
-	
-	public static List<GameObject> activeEntryPortals = new List<GameObject>();
-	// List holding all the active entry portals
-	
-	public static List<GameObject> activeExitPortals = new List<GameObject>();
-	// List holding all the active exit portals
+    public static int IDINCREMENT = 0;
+    
+    
+    public GameObject portalManager;
     
     public GameObject linkedPortal; 
     // The portal this is linked to
@@ -50,6 +34,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
     public GameObject TextName;
     // Contains the text on the portal
     
+    public bool isShooter;
     private TextMesh textNameMesh;
     // Controls the text on the portal
 
@@ -71,138 +56,87 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
 
         
     }
+
+    
+    public void Start() {
+        IDINCREMENT += 1;
+        this.portalID = IDINCREMENT;
+        body = GetComponent<Rigidbody>();
+
+    }
     
     public void OnStart(){
+
+        // inactiveEntryPortals = PortalWand.inactiveEntryPortals;        
+        // inactiveExitPortals = PortalWand.inactiveExitPortals;
+        // activeEntryPortals = PortalWand.activeEntryPortals;
+	    // activeExitPortals = PortalWand.activeExitPortals;
+
         textNameMesh = TextName.GetComponent<TextMesh> ();
+
         UpdateText();
     }
-    public static void addPortal(GameObject portal)
-	//public static void addPortal(Teleporting portal) { 
-	{
-        if (portal.tag == "EXIT") {
-            ProcessNewPortal(portal, inactiveExitPortals, inactiveEntryPortals);
-        }
-        else if (portal.tag == "ENTRY") {
-            ProcessNewPortal(portal, inactiveEntryPortals, inactiveExitPortals);
-        }
-    }
     
-    private static void ProcessNewPortal(GameObject portal,
-                                         List<GameObject> addToInactive,
-                                         List<GameObject> otherInactive) {
-                                             
-        Debug.Log("Creating portal with tag " + portal.tag);
-        
-        
-
-        if (addToInactive.Count >= MAXIMUM_INACTIVE_PORTALS_OF_ONE_TYPE) {
-
-            Debug.Log("Deleting");
-            if (addToInactive.Count != 0) {
-
-                Destroy(addToInactive[0]);
-            }
-            // Delete the oldest one
-        }
-        
-        addToInactive.Add(portal);
     
-        if (addToInactive.Count <= otherInactive.Count) {
-            // If there are more or equal inactive portals (of the other kind),
-            
-            Debug.Log("Attempt linking");
-            CheckDestroyOldestPortalPair();
-            
-            int idx = addToInactive.Count - 1;
-            
-            Teleporting entryComponent = inactiveEntryPortals[idx].GetComponent<Teleporting>();
-                // We can link the two.
-            Teleporting exitComponent = inactiveExitPortals[idx].GetComponent<Teleporting>();
-            
-            exitComponent.LinkCameraPortal(inactiveEntryPortals[idx]);
-            entryComponent.linkedPortal = inactiveExitPortals[idx];
-            
-            entryComponent.UpdateText();
-            exitComponent.UpdateText();
-                
-            activeExitPortals.Add(inactiveExitPortals[idx]);
-            activeEntryPortals.Add(inactiveEntryPortals[idx]);
-            // As they are linked an active, they need to be added to the active portals list
-                
-            inactiveEntryPortals.RemoveAt(idx);
-            inactiveExitPortals.RemoveAt(idx);
-            // And removed from their original list
-        } 
-        else portal.GetComponent<Teleporting>().UpdateText();
-        // else Destroy(portal, INACTIVE_LIFETIME);
-    }
-    
-    private static void CheckDestroyOldestPortalPair() {
-
-        if (activeEntryPortals.Count == 0) return;
-
-        if (activeEntryPortals.Count >= MAXIMUM_ACTIVE_PORTAL_PAIRS) {
-
-            GameObject oldLink = activeExitPortals[0];
-            Destroy(activeEntryPortals[0]); 
-            // Destroy ENTRY first as it renders other's graphics.
-            Destroy(oldLink);
-        }
-    }
     
     void OnDestroy() { // Linked Portals are unlinked if this one is destroyed.
+
+        PortalManager m = portalManager.GetComponent<PortalManager>();
+
         if (linkedPortal) {
+            
+            Teleporting TPLinkedPortal = linkedPortal.GetComponent<Teleporting>();
+
             // If the destroyed portal had a linked portal,
-            activeEntryPortals.Remove(this.gameObject);
-            activeExitPortals.Remove(linkedPortal);
+            // if (isShooter) {
+                PortalManager.activeEntryPortals.Remove(portalID);
+                PortalManager.activeExitPortals.Remove(TPLinkedPortal.portalID);
+  //          }
             // We remove them from being active.
             // Slower than keeping track of indices, but future proof if we want portals to be destructible. 
 
-            Teleporting TPLinkedPortal = linkedPortal.GetComponent<Teleporting>();
+            
             
             TPLinkedPortal.linkedPortal = null;
             TPLinkedPortal.UpdateText();
             // This might happen implicitly but just in case.
             
             if (this.tag == "ENTRY") {
-                if (inactiveExitPortals.Count < MAXIMUM_INACTIVE_PORTALS_OF_ONE_TYPE) {
-                    addPortal(linkedPortal);
+                if (PortalManager.inactiveExitPortals.Count < PortalManager.MAXIMUM_INACTIVE_PORTALS_OF_ONE_TYPE) {
+                    if (!PortalManager.inactiveExitPortals.Contains(TPLinkedPortal.portalID ))
+                        m.addPortal(linkedPortal, true);
                     // If it was an entry portal, its exit portal is thrown back into the inactive pool.
                 } else {
-                    Destroy(linkedPortal);
+                    if (linkedPortal) Destroy(linkedPortal);
                     // If there's no space, the linkedPortal is given an index for destruction.
                 }
                
             }
             else if (this.tag == "EXIT") {
-                if (inactiveEntryPortals.Count < MAXIMUM_INACTIVE_PORTALS_OF_ONE_TYPE) {
+                if (PortalManager.inactiveEntryPortals.Count < PortalManager.MAXIMUM_INACTIVE_PORTALS_OF_ONE_TYPE) {
                     TPLinkedPortal.material.mainTexture = TPLinkedPortal.camera.targetTexture;
                     // linkedPortal.GetComponent<MeshRenderer>().materials = new Material[] {material};
                     // If it was an exit portal, then its entry portal's graphics are updated
-                    addPortal(linkedPortal);
+                    if (!PortalManager.inactiveEntryPortals.Contains(TPLinkedPortal.portalID ))
+                        m.addPortal(linkedPortal, true);
                     // And if there's space for it, it is returned to the pool
                 } else {
-                    Destroy(linkedPortal);
+                    if (linkedPortal) Destroy(linkedPortal);
                     // Otherwise it would delete other set ups and so it is destroyed instead
                 }
             }
         } else {
-            if (this.tag == "ENTRY") inactiveEntryPortals.Remove(this.gameObject);
-            else if (this.tag == "EXIT") inactiveExitPortals.Remove(this.gameObject);
+            if (this.tag == "ENTRY" ) PortalManager.inactiveEntryPortals.Remove(portalID);
+            else if (this.tag == "EXIT" ) PortalManager.inactiveExitPortals.Remove(portalID);
             // Unlinked portals are processed just by removing their null index from the list.
         }
+
+        m.SendContext();
     }
 
-    public struct Message
-    {
-       public Vector3 position;
-    }
-    private void Awake()
-    {
-        body = GetComponent<Rigidbody>();
-    }
+
     
-    private void LinkCameraPortal(GameObject otherPortal) {
+    public void LinkCameraPortal(GameObject otherPortal) {
 
         Camera otherPortalCam = otherPortal.gameObject.GetComponent<Camera>();
         // Get the camera of the exit portal
@@ -215,12 +149,6 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         // Commit link
     }
 
-    private void Start()
-    {
-        // context = NetworkScene.Register(this);
-        // addPortal(this) ...
-    }
-
     void OnTriggerEnter(Collider other)
     {   
 
@@ -229,8 +157,8 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         UpdateText();
         
         if (other.tag == "DESTROY") {
-            Destroy(this.gameObject);
-            Destroy(other.gameObject);
+            Destroy(this.gameObject, 0.3f);
+            Destroy(other.gameObject, 0.3f);
         }
         if (!linkedPortal || this.tag != "ENTRY") return;
         if (other.tag == "Player"){ 
@@ -254,12 +182,61 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
     }
     
     public NetworkId Id { get; set; }
-    
+    public void SendContext()
+    {
+        if (linkedPortal) context.SendJson(new Message(this.gameObject.transform.position, this.linkedPortal.GetComponent<Teleporting>().portalID)); //this.material, this.textNameMesh));
+        else context.SendJson(new Message(this.gameObject.transform.position, -1)); //this.material, this.textNameMesh));
+
+    }
+    public struct Message
+    {
+      public Vector3 position;
+      public float linkedPortalID;
+    //   public Material material;
+    //   public TextMesh textNameMesh;
+      public Message(Vector3 position, float linkedPortalID)// Material material, TextMesh textNameMesh)
+      {
+          this.position = position;
+          this.linkedPortalID = linkedPortalID;
+          //this.material = material;
+          //this.textNameMesh = textNameMesh;
+
+      }
+    }
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();
       
         transform.localPosition = msg.position; 
+        
+        if (msg.linkedPortalID != -1 && this.linkedPortal == null) {
+        
+            GameObject[] possibilities = GameObject.FindGameObjectsWithTag(this.tag == "ENTRY" ? "EXIT" : "ENTRY");
+            if (possibilities.Length > 0) {
+                
+                for (int i = 0; i < possibilities.Length; ++i) {
+                    Teleporting tp = possibilities[i].GetComponent<Teleporting>();
+                    if (tp) {
+                        if (tp.portalID == msg.linkedPortalID) {
+                            this.linkedPortal = tp.gameObject;
+                        }
+                    }
+                }
+                if (linkedPortal) {
+                    Teleporting tp = this.linkedPortal.GetComponent<Teleporting>(); ;
+                    if (this.tag == "EXIT") {
+                        this.LinkCameraPortal(linkedPortal);
+                    } else if (this.tag == "ENTRY") {
+                        tp.LinkCameraPortal(this.gameObject);
+                    }
+                    tp.linkedPortal = this.gameObject;
+                }
+            }
+        } else linkedPortal = null;
+        
+        //this.material = msg.material;
+        //this.textNameMesh = msg.textNameMesh;
+        UpdateText();
         // The Message constructor will take the *local* properties of the passed transform.
         // transform.localRotation = msg.transform.rotation;
        
@@ -361,6 +338,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
 //             PortalWand.portal_count-= 1;
 //         }
 //     }
+
 
 //     public NetworkId Id { get; set; }
     

@@ -1,17 +1,25 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class collideScript : MonoBehaviour
 {   
 
     public bool canTeleport = true;
     public GameObject spawn;
 
+    public int uniqueID;
+
     private void Awake()
     {
-    //    body = GetComponent<Rigidbody>();
     }
+
+    private void Start(){
+
+        var rand = new System.Random();
+        uniqueID = rand.Next(999999); 
+    }
+
 
 
     void Update(){

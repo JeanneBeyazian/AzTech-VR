@@ -4,10 +4,11 @@ using Ubiq.Messaging;
 using Ubiq.XR;
 using Ubiq.Samples;
 using UnityEngine;
+using System.Linq;
 
 public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent, IPortalProjectile, ISpawnable
 {
-
+    public int shooterID;
     private Rigidbody body;
     private Hand grasped;
     
@@ -34,7 +35,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
         
     }
 
-    void Update()
+    void FixedUpdate()
     {
         
         if (owner)
@@ -49,7 +50,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
                 body.velocity = grasped.transform.forward.normalized * SPEED;
                 grasped = null;
             }
-            context.SendJson(new Message(transform));
+            context.SendJson(new Message(transform, this.tag));
         }
     }
 
@@ -72,6 +73,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     async void OnCollisionEnter(Collision other)
     {
         Debug.Log("Collision " + this.tag + " - " + other.gameObject.tag);
+        context.SendJson(new Message(transform, this.tag));
 
         if (this.tag == "DESTROY") return ;
 
@@ -79,6 +81,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
         if (other.gameObject.tag == "Wall")
         // If we hit a wall
         {
+
             Quaternion normalRotation = Quaternion.Euler(0,0,0);
             // Initialise an empty normal rotation for the instantiated object to face
             
@@ -92,39 +95,62 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
                 } 
             }
             
-            GameObject portalObject = Instantiate(portal, this.gameObject.transform.position, normalRotation);
-            // Spawn a portal with that direction
-            portalObject.transform.parent = other.gameObject.transform;
-            // Attach the portal to what the projectile collided with so they move together
-            portalObject.tag = this.tag;
-            
-            Teleporting.addPortal(portalObject);
-            // Let the Portal class know one has been instantiated
-            
-            wandReference.alternatorNextType = !wandReference.alternatorNextType;
+            PortalWand.portal_static.GetComponent<Teleporting>().portalManager = wandReference.portalManager;
+            // var portalObject = NetworkSpawner.SpawnPersistent(this.wandReference, PortalWand.portal_static).GetComponents<MonoBehaviour>().Where(mb => mb is Teleporting).FirstOrDefault() as Teleporting;
+            // portalObject.gameObject.transform.position = this.gameObject.transform.position;
+            // portalObject.gameObject.transform.rotation = normalRotation;
+
+
+            // if (portalObject != null) {
+                GameObject portalObject = Instantiate(PortalWand.portal_static, this.gameObject.transform.position, normalRotation);
+                // portalObject = NetworkSpawner.Spawn(portalObject);
+                // .GetComponents<MonoBehaviour>().Where(mb => mb is IPortalProjectile).FirstOrDefault() as IPortalProjectile;
+
+                Teleporting tpo = portalObject.GetComponent<Teleporting>();
+
+                tpo.portalManager = wandReference.portalManager;
+                // Spawn a portal with that direction
+                portalObject.transform.parent = other.gameObject.transform;
+                // Attach the portal to what the projectile collided with so they move together
+                portalObject.tag = this.tag;
+
+                bool isShooter = (shooterID == Camera.main.gameObject.transform.parent.transform.parent.GetComponent<collideScript>().uniqueID);
+                tpo.isShooter = isShooter;
+
+                wandReference.portalManager.GetComponent<PortalManager>().addPortal(portalObject.gameObject, isShooter);
+                // Teleporting.addPortal(portalObject);
+                // Let the Portal class know one has been instantiated
+                
+                wandReference.alternatorNextType = !wandReference.alternatorNextType;
+            // }
             // Increases coupling but allows wand to be updated on hit
             
-            Destroy(this.gameObject);
+            Destroy(this.gameObject, 1f);
         }
     }
     
     // Network Unit
-    public NetworkId Id { get; set; }
+    public NetworkId Id { get; set; } = NetworkId.Unique();
+
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();
 
         transform.position = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
         transform.rotation = msg.transform.rotation;
+        this.tag = msg.tag;
 
 
     }
     public struct Message
     {
         public TransformMessage transform;
-        public Message(Transform transform)
+        public string tag;
+        public Message(Transform transform, string tag)
         {
+
             this.transform = new TransformMessage(transform);
+            this.tag = tag;
         }
     }
     public void OnSpawned(bool local)
