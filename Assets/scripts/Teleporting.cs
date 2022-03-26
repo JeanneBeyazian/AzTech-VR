@@ -85,8 +85,8 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         }
     }
 
-    void Update() {
-        float timePulse = Mathf.Abs(0.1f * Mathf.Sin(Time.time)) + 0.9f;
+void Update() {
+        float timePulse = Mathf.Abs(0.05f * Mathf.Sin(Time.time)) + 0.9f;
         // Values from PortalWand.portal_static
         float xmul = PortalWand.portal_static.transform.localScale.x;
         float ymul = PortalWand.portal_static.transform.localScale.y;
