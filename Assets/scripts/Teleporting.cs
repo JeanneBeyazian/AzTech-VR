@@ -219,7 +219,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         }
         if (!linkedPortal || this.tag != "ENTRY") return;
         if (other.tag == "Player"){ 
-            collideScript cs = other.gameObject.GetComponent<collideScript>();
+            CollideScript cs = other.gameObject.GetComponent<CollideScript>();
             if (!cs.canTeleport) return;
             cs.canTeleport = false;
             StartCoroutine(BeginPlayerTeleportCooldown(cs));
@@ -243,7 +243,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
 
     }
     
-    IEnumerator BeginPlayerTeleportCooldown(collideScript player){
+    IEnumerator BeginPlayerTeleportCooldown(CollideScript player){
         yield return new WaitForSeconds(COOLDOWN);
         player.canTeleport = true;
     }

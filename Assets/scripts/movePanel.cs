@@ -7,7 +7,7 @@ using Ubiq.Messaging;
 using UnityEngine;
 
 
-public class movePanel : Triggerable, INetworkObject, INetworkComponent, ISpawnable
+public class MovePanel : Triggerable, INetworkObject, INetworkComponent, ISpawnable
 {
     [SerializeField]
     // Transforms to act as start and end markers for the journey.

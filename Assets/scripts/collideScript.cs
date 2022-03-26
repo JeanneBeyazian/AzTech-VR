@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-public class collideScript : MonoBehaviour
+public class CollideScript : MonoBehaviour
 {   
 
     public bool canTeleport = true;

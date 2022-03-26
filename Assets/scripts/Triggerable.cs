@@ -11,9 +11,4 @@ public class Triggerable : MonoBehaviour
     }
 
 
-
-
-
-
-
 }
