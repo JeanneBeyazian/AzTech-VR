@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
 {   
+    private Material privateMaterial;
 
     private NetworkContext context;
     private Rigidbody body;
@@ -63,17 +64,38 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
             {(linkedPortal) ? activeMaterial : inactiveMaterial};
     }
 
+
+    // private void Awake()
+    // {
+    //     body = GetComponent<Rigidbody>();
+    // }
+    
+    // public void Start(){
+    //     context = NetworkScene.Register(this);
+    //     textNameMesh = TextName.GetComponent<TextMesh> ();
+    //     UpdateText();
+    //     context.SendJson(new Message(this.gameObject.transform.position));
+
+    //     Material material = new Material(Shader.Find("Specular"));
+    //     portalCamera.targetTexture = new RenderTexture(256, 256, 16, RenderTextureFormat.ARGB32);
+    //     material.mainTexture = portalCamera.targetTexture;
+    //     transform.GetChild(1).GetComponent<MeshRenderer>().materials = new Material [] {material};
+    // }
+
+    public void Awake() {
+            body = GetComponent<Rigidbody>();
+            privateMaterial = new Material(Shader.Find("Specular"));
+            portalCamera.targetTexture = new RenderTexture(256, 256, 16, RenderTextureFormat.ARGB32);
+            privateMaterial.mainTexture = portalCamera.targetTexture;
+            transform.GetChild(1).GetComponent<MeshRenderer>().materials = new Material [] {privateMaterial};
+            }
+
     
     public void Start(){
         context = NetworkScene.Register(this);
         textNameMesh = TextName.GetComponent<TextMesh> ();
         UpdateText();
         context.SendJson(new Message(this.gameObject.transform.position));
-
-        Material material = new Material(Shader.Find("Specular"));
-        portalCamera.targetTexture = new RenderTexture(256, 256, 16, RenderTextureFormat.ARGB32);
-        material.mainTexture = portalCamera.targetTexture;
-        transform.GetChild(1).GetComponent<MeshRenderer>().materials = new Material [] {material};
     }
     public static void addPortal(GameObject portal)
 	{
@@ -178,14 +200,15 @@ void Update() {
             }
             else if (this.tag == "EXIT") {
                 if (inactiveEntryPortals.Count < MAXIMUM_INACTIVE_PORTALS_OF_ONE_TYPE) {
-                    Material material = new Material(Shader.Find("Specular"));
+
+                    TPLinkedPortal.privateMaterial = new Material(Shader.Find("Specular"));
 
                     TPLinkedPortal.portalCamera.targetTexture = new RenderTexture(256, 256, 16, RenderTextureFormat.ARGB32);
 
-                    material.mainTexture = TPLinkedPortal.portalCamera.targetTexture;
+                    TPLinkedPortal.privateMaterial.mainTexture = TPLinkedPortal.portalCamera.targetTexture;
 
                     MeshRenderer r = linkedPortal.transform.GetChild(1).GetComponent<MeshRenderer>();
-                    if (r) r.materials = new Material[] {material};
+                    if (r) r.materials = new Material[] {TPLinkedPortal.privateMaterial};
 
                     // If it was an exit portal, then its entry portal's graphics are updated
                     addPortal(linkedPortal);
@@ -203,14 +226,13 @@ void Update() {
     }
 
  
-    private void Awake()
-    {
-        body = GetComponent<Rigidbody>();
-    }
+
     
     private void LinkCameraPortal(GameObject otherPortal) {
+
         this.linkedPortal = otherPortal;
-    }
+        this.transform.GetChild(1).GetComponent<MeshRenderer>().materials = new Material[] {linkedPortal.GetComponent<Teleporting>().privateMaterial};
+}
 
 
 
@@ -226,13 +248,16 @@ void Update() {
             Destroy(other.gameObject, 0.1f);
             return;
         }
-        if (!linkedPortal || this.tag != "ENTRY") return;
-        if (other.tag == "Player"){ 
-            CollideScript cs = other.gameObject.GetComponent<CollideScript>();
-            if (!cs.canTeleport) return;
-            cs.canTeleport = false;
-            StartCoroutine(BeginPlayerTeleportCooldown(cs));
 
+        if (!linkedPortal || this.tag == "EXIT") {
+            other.gameObject.transform.position = transform.position;
+            if (other.tag == "Player") {
+                Quaternion exitPortalRotation = Quaternion.Euler(0, this.transform.eulerAngles.y , 0);
+                other.gameObject.transform.rotation = exitPortalRotation;
+            } else {
+                 other.gameObject.transform.rotation = this.transform.rotation;
+            }
+            return;
         }
           
         Vector3 targetPos = linkedPortal.transform.position;
