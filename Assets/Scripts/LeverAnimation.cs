@@ -15,7 +15,6 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     private bool grabbed;
     public Triggerable[] triggerables;
     private NetworkContext context;
-    public NetworkScene scene;
 
     private float lastTriggered;
     private bool triggered;
@@ -24,7 +23,7 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     void Start()
     {
         grabbed = false;
-        context = scene.RegisterComponent(this);
+        context = NetworkScene.Register(this);
         anim = GetComponent<Animator>();
 
         if (cooldown == 0) {
