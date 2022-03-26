@@ -182,7 +182,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
             else if (this.tag == "EXIT") {
                 if (inactiveEntryPortals.Count < MAXIMUM_INACTIVE_PORTALS_OF_ONE_TYPE) {
                     //TPLinkedPortal.
-                     Material material = new Material(Shader.Find("Specular"));
+                    Material material = new Material(Shader.Find("Specular"));
 
                     TPLinkedPortal.camera.targetTexture = new RenderTexture(256, 256, 16, RenderTextureFormat.ARGB32);
 
@@ -273,7 +273,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         other.gameObject.transform.position = targetPos;
         if (other.tag == "Player"){
             Quaternion newQuaternion = new Quaternion();
-            newQuaternion.Set(0, Quaternion.LookRotation(linkedPortal.transform.forward).y, 0, 1);
+            newQuaternion.Set(0, -(Quaternion.LookRotation(linkedPortal.transform.forward).y), 0, 1);
             other.gameObject.transform.rotation = newQuaternion;
         } else {
             other.gameObject.transform.rotation = linkedPortal.transform.rotation;
