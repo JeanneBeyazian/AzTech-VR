@@ -28,7 +28,9 @@ public class MovePanel : Triggerable, INetworkObject, INetworkComponent, ISpawna
     }
 
     private async void Move(Transform awayFrom, Transform towards) {   
-        transform.position = Vector3.MoveTowards(transform.position, towards.position, speed*Time.smoothDeltaTime);    
+        transform.position = Vector3.MoveTowards(transform.position, towards.position, speed*Time.smoothDeltaTime);  
+        //context.SendJson(new Message(transform));
+  
     }   
 
 
@@ -63,7 +65,8 @@ public class MovePanel : Triggerable, INetworkObject, INetworkComponent, ISpawna
     }
 
     // Network Unit
-    public NetworkId Id { get; set; } = new NetworkId("95dd645c-20789b8e");
+    // public NetworkId Id { get; set; } = new NetworkId("95dd645c-20789b8e");
+    public NetworkId Id { get; set; }
 
     
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)

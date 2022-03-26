@@ -23,6 +23,9 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     // How fast portal projectiles will travel
     
     public bool owner;
+
+    public int creationAmount = 1;
+    // How many times this projectile will "activate"
     
     // Start is called before the first frame update
     void Start()
@@ -36,6 +39,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
         if (this.GetComponent<Rigidbody>().velocity == Vector3.zero) {
 
             this.transform.Translate(this.transform.forward * SPEED * Time.smoothDeltaTime);
+            // Don't tell server about these: client side protection motion
         }
 
         if (owner)
@@ -77,10 +81,10 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
         if (this.tag == "DESTROY") return ;
 
         
-        if (other.gameObject.tag == "Wall")
+        if (other.gameObject.tag == "Wall" && creationAmount > 0)
         // If we hit a wall
         {
-
+            creationAmount -= 1;
             Quaternion normalRotation = Quaternion.Euler(0,0,0);
             // Initialise an empty normal rotation for the instantiated object to face
             

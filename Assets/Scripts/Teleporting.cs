@@ -11,7 +11,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
 
     private NetworkContext context;
     private Rigidbody body;
-    private static int COOLDOWN = 1;
+    private static float COOLDOWN = 1f;
     
     public static float ACTIVE_LIFETIME = 70f; 
     
@@ -64,23 +64,6 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
             {(linkedPortal) ? activeMaterial : inactiveMaterial};
     }
 
-
-    // private void Awake()
-    // {
-    //     body = GetComponent<Rigidbody>();
-    // }
-    
-    // public void Start(){
-    //     context = NetworkScene.Register(this);
-    //     textNameMesh = TextName.GetComponent<TextMesh> ();
-    //     UpdateText();
-    //     context.SendJson(new Message(this.gameObject.transform.position));
-
-    //     Material material = new Material(Shader.Find("Specular"));
-    //     portalCamera.targetTexture = new RenderTexture(256, 256, 16, RenderTextureFormat.ARGB32);
-    //     material.mainTexture = portalCamera.targetTexture;
-    //     transform.GetChild(1).GetComponent<MeshRenderer>().materials = new Material [] {material};
-    // }
 
     public void Awake() {
             body = GetComponent<Rigidbody>();
@@ -225,15 +208,10 @@ void Update() {
         }
     }
 
- 
-
-    
     private void LinkCameraPortal(GameObject otherPortal) {
-
         this.linkedPortal = otherPortal;
         this.transform.GetChild(1).GetComponent<MeshRenderer>().materials = new Material[] {linkedPortal.GetComponent<Teleporting>().privateMaterial};
     }
-
 
     void OnTriggerEnter(Collider other)
     {   
@@ -249,35 +227,50 @@ void Update() {
         }
 
         if (!linkedPortal || this.tag == "EXIT") {
-            other.gameObject.transform.position = transform.position;
-            if (other.tag == "Player") {
-                Quaternion exitPortalRotation = Quaternion.Euler(0, this.transform.eulerAngles.y , 0);
-                other.gameObject.transform.rotation = exitPortalRotation;
-            } else {
-                 other.gameObject.transform.rotation = this.transform.rotation;
-            }
+            TeleportColliderToPortal(other, this);
             return;
         }
-          
-        Vector3 targetPos = linkedPortal.transform.position;
-        targetPos.y -=1f;
-            
-        Debug.Log("Attempted to teleport");
-        other.gameObject.transform.position = targetPos;
-        if (other.tag == "Player"){
-            //Quaternion newQuaternion = new Quaternion();
-            other.gameObject.transform.rotation = Quaternion.Euler(0, linkedPortal.transform.eulerAngles.y , 0);
-        } else {
-            other.gameObject.transform.rotation = linkedPortal.transform.rotation;
-        }
-        
 
+        TeleportColliderToPortal(other, linkedPortal.GetComponent<Teleporting>());
 
     }
+
+    private void TeleportColliderToPortal(Collider other, Teleporting destination) {
+        CollideScript cooldownScript = other.gameObject.GetComponent<CollideScript>();
+
+        if (cooldownScript) {
+            if (!cooldownScript.canTeleport) return;
+            if (other.tag == "Player") {
+                other.gameObject.transform.rotation = Quaternion.Euler(0, destination.transform.eulerAngles.y , 0);
+            } else {
+                other.gameObject.transform.rotation = Quaternion.Euler(destination.transform.eulerAngles.x,
+                                                                       destination.transform.eulerAngles.y,
+                                                                       destination.transform.eulerAngles.z);
+            }
+            other.gameObject.transform.position = destination.transform.position + other.gameObject.transform.forward * 2;
+            // Slight offset in teleport destination
+            cooldownScript.canTeleport = false;
+            StartCoroutine(BeginColliderTeleportCooldown(cooldownScript));
+        } else {
+            other.gameObject.transform.rotation = Quaternion.Euler(destination.transform.eulerAngles.x,
+                                                                   destination.transform.eulerAngles.y,
+                                                                   destination.transform.eulerAngles.z);
+            other.gameObject.transform.position = destination.transform.position + other.gameObject.transform.forward * 2;
+            // Slight offset in teleport destination
+
+            Rigidbody possibleVelocity = other.gameObject.GetComponent<Rigidbody>();
+            if (possibleVelocity) {
+                float speed = possibleVelocity.velocity.magnitude;
+                if (speed > 0) {
+                    possibleVelocity.velocity = possibleVelocity.transform.forward.normalized * speed;
+                }
+            } // May require a context update though (?)
+        }
+    }
     
-    IEnumerator BeginPlayerTeleportCooldown(CollideScript player){
+    IEnumerator BeginColliderTeleportCooldown(CollideScript coll){
         yield return new WaitForSeconds(COOLDOWN);
-        player.canTeleport = true;
+        coll.canTeleport = true;
     }
     
     public NetworkId Id { get; set; }

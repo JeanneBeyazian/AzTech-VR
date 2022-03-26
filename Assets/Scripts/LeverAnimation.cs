@@ -92,7 +92,7 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     // Network Unit
     // public NetworkId Id { get; set; } = NetworkId.Unique();
     
-    public NetworkId Id { get; set; } = new NetworkId("a236-5925-5620-a196");
+    public NetworkId Id { get; set; }
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();

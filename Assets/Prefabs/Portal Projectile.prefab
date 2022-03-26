@@ -128,3 +128,4 @@ MonoBehaviour:
   LIFETIME: 45
   SPEED: 8
   owner: 0
+  creationAmount: 1
