@@ -232,10 +232,8 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         Debug.Log("Attempted to teleport");
         other.gameObject.transform.position = targetPos;
         if (other.tag == "Player"){
-            Quaternion newQuaternion = new Quaternion();
-            newQuaternion.Set(0, Quaternion.LookRotation(linkedPortal.transform.forward).y, 0, 1);
-            other.gameObject.transform.rotation = newQuaternion;
-
+            //Quaternion newQuaternion = new Quaternion();
+            other.gameObject.transform.rotation = Quaternion.Euler(0, linkedPortal.transform.eulerAngles.y , 0);
         } else {
             other.gameObject.transform.rotation = linkedPortal.transform.rotation;
         }
