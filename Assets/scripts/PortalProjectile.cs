@@ -34,7 +34,12 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
 
     void FixedUpdate()
     {
-        
+        if (this.GetComponent<Rigidbody>().velocity == Vector3.zero) {
+
+            this.transform.Translate(this.transform.forward * SPEED * Time.smoothDeltaTime);
+            // this.transform.MoveTowards(transform.position, transform.forward * SPEED;
+        }
+
         if (owner)
         {
             if (grasped)
@@ -120,7 +125,10 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
                 // Teleporting.addPortal(portalObject);
                 // Let the Portal class know one has been instantiated
                 
-                wandReference.alternatorNextType = !wandReference.alternatorNextType;
+
+                if (wandReference && wandReference.wandType == "ALTERNATOR") {
+                    wandReference.alternatorNextType = !wandReference.alternatorNextType;
+                }
             // }
             // Increases coupling but allows wand to be updated on hit
 
