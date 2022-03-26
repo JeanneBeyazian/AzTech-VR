@@ -237,6 +237,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         } else {
             other.gameObject.transform.rotation = linkedPortal.transform.rotation;
         }
+        
 
 
     }
