@@ -27,10 +27,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
 
     public GameObject portal_gun;
 
-    public GameObject portalManager;
-
-    static public GameObject staticPortalManager;
-    public float COOLDOWN = 2f; 
+    public float COOLDOWN = 2f;
     private float lastPortalSpawn;
     
     public string wandType;
@@ -66,7 +63,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
         portal_gun = gameObject;
         portal_static = portal;
 
-        staticPortalManager = portalManager;
+        //staticPortalManager = portalManager;
 
         // if (Teleporting.inactiveEntryPortals == null) {
         //     Teleporting.inactiveEntryPortals = new List<GameObject>();
@@ -130,11 +127,12 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
             PortalProjectile pp = entryProjectile.GetComponent<PortalProjectile>(); 
             pp.wandReference = this;
 
-            pp.shooterID = controller.gameObject.transform.parent.GetComponent<collideScript>().uniqueID;
-            Debug.Log(pp.shooterID + " SHOT! " + entryProjectile.tag);
+//            pp.shooterID = controller.gameObject.transform.parent.GetComponent<collideScript>().uniqueID;
+//            Debug.Log(pp.shooterID + " SHOT! " + entryProjectile.tag);
             
             
-            var portalProjectileClone = NetworkSpawner.SpawnPersistent(this, entryProjectile).GetComponents<MonoBehaviour>().Where(mb => mb is IPortalProjectile).FirstOrDefault() as IPortalProjectile;
+            var portalProjectileClone = NetworkSpawner.SpawnPersistent(this, entryProjectile).GetComponents<MonoBehaviour>()
+                .Where(mb => mb is IPortalProjectile).FirstOrDefault() as IPortalProjectile;
             if (portalProjectileClone != null)
             {
                 portalProjectileClone.Attach(grasped);

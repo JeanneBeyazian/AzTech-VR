@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -2916988148410496803}
   m_Layer: 0
   m_Name: Portal Projectile
-  m_TagString: EXIT
+  m_TagString: DESTROY
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -123,8 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 817538d8100cdb1478248ce2b55e5dea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shooterID: 562561
-  portal: {fileID: 272411867289118693, guid: 59646d2840bae7f4199050bbf994bcca, type: 3}
+  shooterID: 134782
   wandReference: {fileID: 0}
   LIFETIME: 45
   SPEED: 8

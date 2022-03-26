@@ -14,9 +14,6 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     
     private NetworkContext context;
     
-    public GameObject portal;
-    // The GameObject which will be instantiated on contact
-    
     public PortalWand wandReference;
     // Sad coupling but will allow the wand to flip on impact if that is preferred.
 
@@ -66,13 +63,13 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     }
 
     void OnDestroy(){
-
+        context.SendJson(new Message(transform, this.tag));
     }
         
 
     async void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Collision " + this.tag + " - " + other.gameObject.tag);
+        // Debug.Log("Collision " + this.tag + " - " + other.gameObject.tag);
         context.SendJson(new Message(transform, this.tag));
 
         if (this.tag == "DESTROY") return ;
@@ -95,11 +92,13 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
                 } 
             }
             
-            PortalWand.portal_static.GetComponent<Teleporting>().portalManager = wandReference.portalManager;
+            //PortalWand.portal_static.GetComponent<Teleporting>().portalManager = wandReference.portalManager;
             // var portalObject = NetworkSpawner.SpawnPersistent(this.wandReference, PortalWand.portal_static).GetComponents<MonoBehaviour>().Where(mb => mb is Teleporting).FirstOrDefault() as Teleporting;
             // portalObject.gameObject.transform.position = this.gameObject.transform.position;
             // portalObject.gameObject.transform.rotation = normalRotation;
 
+            context.SendJson(new Message(transform, this.tag));
+            Destroy(this.gameObject, 0.2f); // Destroy first or it can block itself
 
             // if (portalObject != null) {
                 GameObject portalObject = Instantiate(PortalWand.portal_static, this.gameObject.transform.position, normalRotation);
@@ -108,24 +107,23 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
 
                 Teleporting tpo = portalObject.GetComponent<Teleporting>();
 
-                tpo.portalManager = wandReference.portalManager;
+                //tpo.portalManager = wandReference.portalManager;
                 // Spawn a portal with that direction
                 portalObject.transform.parent = other.gameObject.transform;
                 // Attach the portal to what the projectile collided with so they move together
                 portalObject.tag = this.tag;
 
-                bool isShooter = (shooterID == Camera.main.gameObject.transform.parent.transform.parent.GetComponent<collideScript>().uniqueID);
-                tpo.isShooter = isShooter;
+                //bool isShooter = (shooterID == Camera.main.gameObject.transform.parent.transform.parent.GetComponent<collideScript>().uniqueID);
+                //tpo.isShooter = isShooter;
 
-                wandReference.portalManager.GetComponent<PortalManager>().addPortal(portalObject.gameObject, isShooter);
+                Teleporting.addPortal(portalObject.gameObject);
                 // Teleporting.addPortal(portalObject);
                 // Let the Portal class know one has been instantiated
                 
                 wandReference.alternatorNextType = !wandReference.alternatorNextType;
             // }
             // Increases coupling but allows wand to be updated on hit
-            
-            Destroy(this.gameObject, 1f);
+
         }
     }
     

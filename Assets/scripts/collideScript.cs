@@ -8,7 +8,7 @@ public class collideScript : MonoBehaviour
     public bool canTeleport = true;
     public GameObject spawn;
 
-    public int uniqueID;
+    // public int uniqueID;
 
     private void Awake()
     {
@@ -16,8 +16,8 @@ public class collideScript : MonoBehaviour
 
     private void Start(){
 
-        var rand = new System.Random();
-        uniqueID = rand.Next(999999); 
+//        var rand = new System.Random();
+//        uniqueID = rand.Next(999999);
     }
 
 
