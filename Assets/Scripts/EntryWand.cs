@@ -5,7 +5,7 @@ using UnityEngine;
 public class EntryWand : PortalWand 
 {   
 
-    private void Start(){        
+    public override void Start(){        
         this.wandType = "ENTRY";
         base.Start();
     }

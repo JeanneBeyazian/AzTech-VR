@@ -5,7 +5,7 @@ using UnityEngine;
 public class DestroyWand : PortalWand 
 {   
 
-    private void Start(){
+    public override void Start(){
         this.wandType = "DESTROY";
         base.Start();
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class AlternatorWand : PortalWand 
 {   
 
-    private void Start(){
+    public override void Start(){
         this.wandType = "ALTERNATOR";
         base.Start();
     }

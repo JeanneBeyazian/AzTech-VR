@@ -5,10 +5,9 @@ using UnityEngine;
 public class ExitWand : PortalWand 
 {   
 
-    private void Start(){
+    public override void Start(){
         this.wandType = "EXIT";
         base.Start();
     }
-
 
 }

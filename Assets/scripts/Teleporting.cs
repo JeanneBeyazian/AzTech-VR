@@ -38,7 +38,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
 	
 	public Plane plane; 
 	// The plane on show
-    public Camera camera; 
+    public Camera portalCamera; 
     public Material activeMaterial;
     public Material inactiveMaterial;
 // Material to hold RenderTexture
@@ -71,8 +71,8 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         context.SendJson(new Message(this.gameObject.transform.position));
 
         Material material = new Material(Shader.Find("Specular"));
-        camera.targetTexture = new RenderTexture(256, 256, 16, RenderTextureFormat.ARGB32);
-        material.mainTexture = camera.targetTexture;
+        portalCamera.targetTexture = new RenderTexture(256, 256, 16, RenderTextureFormat.ARGB32);
+        material.mainTexture = portalCamera.targetTexture;
         transform.GetChild(1).GetComponent<MeshRenderer>().materials = new Material [] {material};
     }
     public static void addPortal(GameObject portal)
@@ -83,6 +83,15 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         else if (portal.tag == "ENTRY") {
             ProcessNewPortal(portal, inactiveEntryPortals, inactiveExitPortals);
         }
+    }
+
+    void Update() {
+        float timePulse = Mathf.Abs(0.1f * Mathf.Sin(Time.time)) + 0.9f;
+        // Values from PortalWand.portal_static
+        float xmul = PortalWand.portal_static.transform.localScale.x;
+        float ymul = PortalWand.portal_static.transform.localScale.y;
+        Vector3 vec = new Vector3(xmul * timePulse, ymul * timePulse, 0.008f);
+        transform.localScale = vec;
     }
     
     private static void ProcessNewPortal(GameObject portal,
@@ -171,9 +180,9 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
                 if (inactiveEntryPortals.Count < MAXIMUM_INACTIVE_PORTALS_OF_ONE_TYPE) {
                     Material material = new Material(Shader.Find("Specular"));
 
-                    TPLinkedPortal.camera.targetTexture = new RenderTexture(256, 256, 16, RenderTextureFormat.ARGB32);
+                    TPLinkedPortal.portalCamera.targetTexture = new RenderTexture(256, 256, 16, RenderTextureFormat.ARGB32);
 
-                    material.mainTexture = TPLinkedPortal.camera.targetTexture;
+                    material.mainTexture = TPLinkedPortal.portalCamera.targetTexture;
 
                     MeshRenderer r = linkedPortal.transform.GetChild(1).GetComponent<MeshRenderer>();
                     if (r) r.materials = new Material[] {material};

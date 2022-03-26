@@ -43,7 +43,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     }
 
 
-    public void Start()
+    public virtual void Start()
     {
         context = NetworkScene.Register(this);
         lastPortalSpawn = Time.time - COOLDOWN;

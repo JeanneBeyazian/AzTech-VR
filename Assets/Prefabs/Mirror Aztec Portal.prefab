@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedPortal: {fileID: 0}
-  camera: {fileID: 1519949463932844947}
+  portalCamera: {fileID: 1519949463932844947}
   activeMaterial: {fileID: 2100000, guid: 6e4564b57b3461f44bfbec69fd808f1e, type: 2}
   inactiveMaterial: {fileID: 2100000, guid: 6c037f19f8e74224ba46380b7ea8d569, type: 2}
   TextName: {fileID: 763139963901549308}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 6784656200672937884}
   - component: {fileID: 7858935216691459167}
   m_Layer: 0
-  m_Name: New Text
+  m_Name: Portal Role
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
