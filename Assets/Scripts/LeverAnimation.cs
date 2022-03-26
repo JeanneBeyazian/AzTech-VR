@@ -19,6 +19,7 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
 
     private float lastTriggered;
     private bool triggered;
+    
     // Start is called before the first frame update
     void Start()
     {

@@ -29,7 +29,6 @@ public class movePanel : Triggerable, INetworkObject, INetworkComponent, ISpawna
 
     private async void Move(Transform awayFrom, Transform towards) {   
         transform.position = Vector3.MoveTowards(transform.position, towards.position, speed*Time.smoothDeltaTime);    
-        //context.SendJson(new Message(transform));
     }   
 
 
@@ -63,8 +62,7 @@ public class movePanel : Triggerable, INetworkObject, INetworkComponent, ISpawna
         }
     }
 
-        // Network Unit
-    // public NetworkId Id { get; set; }
+    // Network Unit
     public NetworkId Id { get; set; } = new NetworkId("95dd645c-20789b8e");
 
     
@@ -73,7 +71,6 @@ public class movePanel : Triggerable, INetworkObject, INetworkComponent, ISpawna
         var msg = message.FromJson<Message>();
   
         transform.position = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
-        // transform.rotation = msg.transform.rotation;
        
     }
     public struct Message

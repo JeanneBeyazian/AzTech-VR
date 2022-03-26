@@ -63,7 +63,7 @@ public class MovePlatform : Triggerable, INetworkObject, INetworkComponent, ISpa
         }
     }
 
-        // Network Unit
+    // Network Unit
     public NetworkId Id { get; set; }
     
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
@@ -71,7 +71,6 @@ public class MovePlatform : Triggerable, INetworkObject, INetworkComponent, ISpa
         var msg = message.FromJson<Message>();
   
         transform.position = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
-        // transform.rotation = msg.transform.rotation;
        
     }
     public struct Message

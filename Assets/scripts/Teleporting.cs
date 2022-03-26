@@ -13,8 +13,6 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
     private static int COOLDOWN = 1;
     
     public static float ACTIVE_LIFETIME = 70f; 
-    // If we use the INACTIVE_LIFETIME, not sure if ACTIVE_LIFETIME will come into effect
-    // Because active and inactive portals now appear to share the same prefab.
     
     public static float INACTIVE_LIFETIME = 70f; 
 	
@@ -41,13 +39,9 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
 	public Plane plane; 
 	// The plane on show
     public Camera camera; 
-    // Camera so this portal can see
-//    public RenderTexture texture;
-//    // What this portal sees
     public Material activeMaterial;
     public Material inactiveMaterial;
-
-//    // Material to hold RenderTexture
+// Material to hold RenderTexture
 
     public GameObject TextName;
     // Contains the text on the portal
@@ -79,11 +73,9 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         Material material = new Material(Shader.Find("Specular"));
         camera.targetTexture = new RenderTexture(256, 256, 16, RenderTextureFormat.ARGB32);
         material.mainTexture = camera.targetTexture;
-        //this.transform.GetComponentsInChildren<MeshRenderer>()[0].materials = new Material[] {material};
         transform.GetChild(1).GetComponent<MeshRenderer>().materials = new Material [] {material};
     }
     public static void addPortal(GameObject portal)
-	//public static void addPortal(Teleporting portal) { 
 	{
         if (portal.tag == "EXIT") {
             ProcessNewPortal(portal, inactiveExitPortals, inactiveEntryPortals);
@@ -113,15 +105,14 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         addToInactive.Add(portal);
     
         if (addToInactive.Count <= otherInactive.Count) {
-            // If there are more or equal inactive portals (of the other kind),
+            // If there are more or equal inactive portals (of the other kind)
             
-            Debug.Log("Attempt linking");
             CheckDestroyOldestPortalPair();
-            
+        
             int idx = addToInactive.Count - 1;
             
             Teleporting entryComponent = inactiveEntryPortals[idx].GetComponent<Teleporting>();
-                // We can link the two.
+            // We can link the two.
             Teleporting exitComponent = inactiveExitPortals[idx].GetComponent<Teleporting>();
             
             entryComponent.LinkCameraPortal(inactiveExitPortals[idx]);
@@ -139,7 +130,6 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
             // And removed from their original list
         } 
         else portal.GetComponent<Teleporting>().UpdateText();
-        // else Destroy(portal, INACTIVE_LIFETIME);
     }
     
     private static void CheckDestroyOldestPortalPair() {
@@ -161,13 +151,11 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
             activeEntryPortals.Remove(this.gameObject);
             activeExitPortals.Remove(linkedPortal);
             // We remove them from being active.
-            // Slower than keeping track of indices, but future proof if we want portals to be destructible. 
 
             Teleporting TPLinkedPortal = linkedPortal.GetComponent<Teleporting>();
             
             TPLinkedPortal.linkedPortal = null;
             TPLinkedPortal.UpdateText();
-            // This might happen implicitly but just in case.
             
             if (this.tag == "ENTRY") {
                 if (inactiveExitPortals.Count < MAXIMUM_INACTIVE_PORTALS_OF_ONE_TYPE) {
@@ -181,12 +169,10 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
             }
             else if (this.tag == "EXIT") {
                 if (inactiveEntryPortals.Count < MAXIMUM_INACTIVE_PORTALS_OF_ONE_TYPE) {
-                    //TPLinkedPortal.
                     Material material = new Material(Shader.Find("Specular"));
 
                     TPLinkedPortal.camera.targetTexture = new RenderTexture(256, 256, 16, RenderTextureFormat.ARGB32);
 
-                    //TPLinkedPortal.
                     material.mainTexture = TPLinkedPortal.camera.targetTexture;
 
                     MeshRenderer r = linkedPortal.transform.GetChild(1).GetComponent<MeshRenderer>();
@@ -214,33 +200,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
     }
     
     private void LinkCameraPortal(GameObject otherPortal) {
-
-        //Camera otherPortalCam = otherPortal.transform.GetChild(0).GetComponent<Camera>();
-        // Get the camera of the exit portal
-        //if (otherPortalCam) {
-         //   Material material = new Material(Shader.Find("Specular"));
-          //  material.mainTexture = otherPortalCam.targetTexture;
-           // this.GetComponent<MeshRenderer>().materials = new Material[] {material};
-            // Create a texture using what the other portal sees and apply it to self
-        //}
-
-        // Can always revert this.
-
-         //Camera otherPortalCam = otherPortal.transform.GetChild(0).GetComponent<Camera>();
-
-                //Material material = new Material(Shader.Find("Specular"));
-                //otherPortalCam.targetTexture = new RenderTexture(64, 64, 16, RenderTextureFormat.ARGB32);
-                //material.mainTexture = otherPortalCam.targetTexture;
-
-                //this.transform.GetChild(1).GetComponent<MeshRenderer>().materials = new Material[] {material};
-
-                // this.transform.GetChild(1).GetComponent<MeshRenderer>().materials =
-                  //      otherPortal.transform.GetChild(1).GetComponent<MeshRenderer>().materials;
-                     //   otherPortal.transform.GetChild(1).GetComponent<MeshRenderer>().materials;
-                    // Tried a lot couldnt get it to work - black camera textures
-                //}
         this.linkedPortal = otherPortal;
-        // Commit link
     }
 
 
@@ -273,11 +233,13 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         other.gameObject.transform.position = targetPos;
         if (other.tag == "Player"){
             Quaternion newQuaternion = new Quaternion();
-            newQuaternion.Set(0, -(Quaternion.LookRotation(linkedPortal.transform.forward).y), 0, 1);
+            newQuaternion.Set(0, Quaternion.LookRotation(linkedPortal.transform.forward).y, 0, 1);
             other.gameObject.transform.rotation = newQuaternion;
+
         } else {
             other.gameObject.transform.rotation = linkedPortal.transform.rotation;
         }
+
 
     }
     
@@ -299,11 +261,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();
-      
-        // transform.localPosition = msg.position;
-        // The Message constructor will take the *local* properties of the passed transform.
-        // transform.localRotation = msg.transform.rotation;
-       
+     
     }
 
 }
