@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 817538d8100cdb1478248ce2b55e5dea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shooterID: 134782
+  hasDestroyed: 0
   wandReference: {fileID: 0}
   LIFETIME: 45
   SPEED: 8
