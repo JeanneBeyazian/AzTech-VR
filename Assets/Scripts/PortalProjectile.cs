@@ -8,9 +8,10 @@ using System.Linq;
 
 public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent, IPortalProjectile, ISpawnable
 {
-    public int shooterID;
+    public bool hasDestroyed = false;
     private Rigidbody body;
     private Hand grasped;
+    
     
     private NetworkContext context;
     

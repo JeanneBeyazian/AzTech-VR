@@ -180,7 +180,9 @@ void Update() {
         if (linkedPortal) {
             // If the destroyed portal had a linked portal,
             activeEntryPortals.Remove(this.gameObject);
+            activeExitPortals.Remove(this.gameObject);
             activeExitPortals.Remove(linkedPortal);
+            activeEntryPortals.Remove(linkedPortal);
             // We remove them from being active.
 
             Teleporting TPLinkedPortal = linkedPortal.GetComponent<Teleporting>();
@@ -240,8 +242,11 @@ void Update() {
         if (other.tag == "DESTROY") {
             PortalProjectile possible = other.gameObject.GetComponent<PortalProjectile>();
             if (possible) {
-                if (possible.wandReference)
-                    possible.wandReference.DestroyPortal(this);
+                if (possible.hasDestroyed) return;
+                if (possible.wandReference) {
+                    possible.hasDestroyed = true;
+                    possible.wandReference.DestroyPortal(this); 
+                    }
                 else {
                     Debug.Log("Tried to destroy but it had no wand");
                 }
