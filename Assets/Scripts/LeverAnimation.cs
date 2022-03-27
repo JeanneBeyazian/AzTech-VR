@@ -18,7 +18,8 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
 
     private float lastTriggered;
     private bool triggered;
-    
+    public bool owner;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,65 +47,76 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
 
     public void UnUse(Hand controller){}
 
-
     public void Use(Hand controller)
     {
         grabbed = true;
     }
 
-
-    async void Update(){
+    void Update(){
 
         if(triggered){
 
-            for (int i=0; i<triggerables.Length; ++i) {
-                triggerables[i].beTriggered(this);
-            }
-            
-            if(triggerables[0].isTriggered){
-                anim.Play("On Lever"); 
-            } 
-            else{
-                anim.Play("Off Lever");
-            } 
-            lastTriggered = Time.time;
+            TriggerAll();
+
             triggered = false;
         }
 
-        
     }
-    void OnTriggerEnter(Collider other){}
+
+    public void TriggerAll() {
+    if ((lastTriggered+cooldown) < Time.time) {
+     for (int i=0; i<triggerables.Length; ++i) {
+                    triggerables[i].beTriggered(this);
+                }
+
+                if(triggerables[0].isTriggered){
+                    anim.Play("On Lever");
+                }
+                else{
+                    anim.Play("Off Lever");
+                }
+    }
+    }
     
     void OnTriggerStay(Collider other){
         ///&& Input.GetKeyDown("f") 
-        if (other.tag == "Player" && Input.GetKeyDown("f") && ((lastTriggered+cooldown) < Time.time) ) {
+        if (other.tag == "Player" && Input.GetKeyDown("f") && ((lastTriggered+cooldown) < Time.time)) {
             Debug.Log("Use the Lever");
-            triggered = true;
             grabbed = false;
-            context.SendJson(new Message(triggered));
+
+            context.SendJson(new Message(this.gameObject.transform.position));
+            // Maybe copy paste trigger here
+            TriggerAll();
+            lastTriggered = Time.time; // Make TriggerAll also check CD
+
         }
 
     }
-    void OnTriggerExit(Collider other){
-    }
+    // public NetworkId Id { get; set; }
 
-    // Network Unit
-    // public NetworkId Id { get; set; } = NetworkId.Unique();
-    
-    public NetworkId Id { get; set; }
+    public NetworkId Id { get; set; } = new NetworkId("13dd645c-20789b8e");
+    // public NetworkComponentId componentId {get; set;}
+
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();
-        // The Message constructor will take the *local* properties of the passed transform.
-        this.triggered = msg.triggered;
+
+        Debug.Log("Received" + msg.position + " VS receiver this.game.obj.position " + this.gameObject.transform.position + "/  transform.position" + transform.position);
+
+        if (this.gameObject.transform.position == msg.position) {
+            this.triggered = true;
+        }
 
     }
-    public struct Message
+
+
+
+public struct Message
     {
-        public bool triggered;
-        public Message( bool triggered)
+    public Vector3 position;
+        public Message(Vector3 position)
         {
-            this.triggered = triggered;
+            this.position = position;
         }
     }
     public void OnSpawned(bool local)

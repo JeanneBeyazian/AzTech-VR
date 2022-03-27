@@ -66,7 +66,9 @@ public class MovePanel : Triggerable, INetworkObject, INetworkComponent, ISpawna
 
     // Network Unit
     // public NetworkId Id { get; set; } = new NetworkId("95dd645c-20789b8e");
-    public NetworkId Id { get; set; }
+    // public NetworkId Id { get; set; }
+    public NetworkId Id { get; set; } = NetworkId.Unique();
+
 
     
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
@@ -76,6 +78,7 @@ public class MovePanel : Triggerable, INetworkObject, INetworkComponent, ISpawna
         transform.position = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
        
     }
+    
     public struct Message
     {
         public TransformMessage transform;

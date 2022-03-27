@@ -64,7 +64,7 @@ public class MovePlatform : Triggerable, INetworkObject, INetworkComponent, ISpa
     }
 
     // Network Unit
-    public NetworkId Id { get; set; }
+    public NetworkId Id { get; set; } = NetworkId.Unique();
     
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {

@@ -73,12 +73,11 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
             transform.GetChild(1).GetComponent<MeshRenderer>().materials = new Material [] {privateMaterial};
             }
 
-    
     public void Start(){
-        context = NetworkScene.Register(this);
+        // context = NetworkScene.Register(this);
         textNameMesh = TextName.GetComponent<TextMesh> ();
         UpdateText();
-        context.SendJson(new Message(this.gameObject.transform.position));
+        // context.SendJson(new Message(this.gameObject.transform.position));
     }
     public static void addPortal(GameObject portal)
 	{
@@ -243,28 +242,28 @@ void Update() {
             if (other.tag == "Player") {
                 other.gameObject.transform.rotation = Quaternion.Euler(0, destination.transform.eulerAngles.y , 0);
             } else {
-                other.gameObject.transform.rotation = Quaternion.Euler(destination.transform.eulerAngles.x,
-                                                                       destination.transform.eulerAngles.y,
-                                                                       destination.transform.eulerAngles.z);
+                // other.gameObject.transform.rotation = Quaternion.Euler(destination.transform.eulerAngles.x,
+                                                                    //    destination.transform.eulerAngles.y,
+                                                                    //    destination.transform.eulerAngles.z);
             }
             other.gameObject.transform.position = destination.transform.position + other.gameObject.transform.forward * 2;
             // Slight offset in teleport destination
             cooldownScript.canTeleport = false;
             StartCoroutine(BeginColliderTeleportCooldown(cooldownScript));
         } else {
-            other.gameObject.transform.rotation = Quaternion.Euler(destination.transform.eulerAngles.x,
-                                                                   destination.transform.eulerAngles.y,
-                                                                   destination.transform.eulerAngles.z);
-            other.gameObject.transform.position = destination.transform.position + other.gameObject.transform.forward * 2;
+            // other.gameObject.transform.rotation = Quaternion.Euler(destination.transform.eulerAngles.x,
+            //                                                        destination.transform.eulerAngles.y,
+            //                                                        destination.transform.eulerAngles.z);
+            // other.gameObject.transform.position = destination.transform.position + other.gameObject.transform.forward * 2;
             // Slight offset in teleport destination
 
-            Rigidbody possibleVelocity = other.gameObject.GetComponent<Rigidbody>();
-            if (possibleVelocity) {
-                float speed = possibleVelocity.velocity.magnitude;
-                if (speed > 0) {
-                    possibleVelocity.velocity = possibleVelocity.transform.forward.normalized * speed;
-                }
-            } // May require a context update though (?)
+            // Rigidbody possibleVelocity = other.gameObject.GetComponent<Rigidbody>();
+            // if (possibleVelocity) {
+            //     float speed = possibleVelocity.velocity.magnitude;
+            //     if (speed > 0) {
+            //         possibleVelocity.velocity = possibleVelocity.transform.forward.normalized * speed;
+            //     }
+            // } // May require a context update though (?)
         }
     }
     
