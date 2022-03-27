@@ -72,7 +72,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
             if (possibleFinds.Length > 0) {
                 for (int j = 0; j < possibleFinds.Length; ++j) {
                     Teleporting tp = possibleFinds[j].GetComponent<Teleporting>();
-                    if (tp.portalId == portalId) {
+                    if (tp && tp.portalId == portalId) {
                         return tp;
                     }
                 }
