@@ -1721,7 +1721,8 @@ MonoBehaviour:
   triggerables:
   - {fileID: 1111323079}
   - {fileID: 207927877}
-  scene: {fileID: 294334791}
+  triggeredOnce: 0
+  triggered: 0
 --- !u!1001 &424359749
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10035,7 +10036,7 @@ PrefabInstance:
     - target: {fileID: 9051238300485817969, guid: 2f6c4572e07a60b43b00e1c4f489a806,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -287.61053
+      value: 3675
       objectReference: {fileID: 0}
     - target: {fileID: 9051238300485817969, guid: 2f6c4572e07a60b43b00e1c4f489a806,
         type: 3}
@@ -10045,7 +10046,7 @@ PrefabInstance:
     - target: {fileID: 9051238300485817969, guid: 2f6c4572e07a60b43b00e1c4f489a806,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 57.878998
+      value: 63.2
       objectReference: {fileID: 0}
     - target: {fileID: 9051238300485817969, guid: 2f6c4572e07a60b43b00e1c4f489a806,
         type: 3}
@@ -10178,7 +10179,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1855788373}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.2, y: 0.01, z: -4.7}
+  m_LocalPosition: {x: 44.8, y: 0.01, z: -32.7}
   m_LocalScale: {x: 0.043724, y: 1, z: 0.09085}
   m_Children: []
   m_Father: {fileID: 1741865429}

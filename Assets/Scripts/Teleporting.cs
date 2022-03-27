@@ -50,6 +50,9 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
     private TextMesh textNameMesh;
     // Controls the text on the portal
 
+    public int portalId;
+    private static int ID_INCREMENT = 0;
+
     public void UpdateText() {
         textNameMesh = TextName.GetComponent<TextMesh> ();
         if (textNameMesh) {
@@ -64,6 +67,18 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
             {(linkedPortal) ? activeMaterial : inactiveMaterial};
     }
 
+    public static Teleporting PortalSearch(int portalId, string portalTag) {
+            GameObject[] possibleFinds = GameObject.FindGameObjectsWithTag(portalTag);
+            if (possibleFinds.Length > 0) {
+                for (int j = 0; j < possibleFinds.Length; ++j) {
+                    Teleporting tp = possibleFinds[j].GetComponent<Teleporting>();
+                    if (tp.portalId == portalId) {
+                        return tp;
+                    }
+                }
+            }
+            return null;
+        }
 
     public void Awake() {
             body = GetComponent<Rigidbody>();
@@ -71,6 +86,8 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
             portalCamera.targetTexture = new RenderTexture(256, 256, 16, RenderTextureFormat.ARGB32);
             privateMaterial.mainTexture = portalCamera.targetTexture;
             transform.GetChild(1).GetComponent<MeshRenderer>().materials = new Material [] {privateMaterial};
+             portalId = ID_INCREMENT;
+                    ID_INCREMENT = ID_INCREMENT + 1;
             }
 
     public void Start(){
@@ -78,6 +95,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
         textNameMesh = TextName.GetComponent<TextMesh> ();
         UpdateText();
         // context.SendJson(new Message(this.gameObject.transform.position));
+
     }
     public static void addPortal(GameObject portal)
 	{
@@ -97,14 +115,14 @@ void Update() {
         Vector3 vec = new Vector3(xmul * timePulse, ymul * timePulse, 0.008f);
         transform.localScale = vec;
     }
-    
+
     private static void ProcessNewPortal(GameObject portal,
                                          List<GameObject> addToInactive,
                                          List<GameObject> otherInactive) {
-                                             
+
         Debug.Log("Creating portal with tag " + portal.tag);
-        
-        
+
+
 
         if (addToInactive.Count >= MAXIMUM_INACTIVE_PORTALS_OF_ONE_TYPE) {
 
@@ -114,37 +132,37 @@ void Update() {
             }
             // Delete the oldest one
         }
-        
+
         addToInactive.Add(portal);
-    
+
         if (addToInactive.Count <= otherInactive.Count) {
             // If there are more or equal inactive portals (of the other kind)
-            
+
             CheckDestroyOldestPortalPair();
-        
+
             int idx = addToInactive.Count - 1;
-            
+
             Teleporting entryComponent = inactiveEntryPortals[idx].GetComponent<Teleporting>();
             // We can link the two.
             Teleporting exitComponent = inactiveExitPortals[idx].GetComponent<Teleporting>();
-            
+
             entryComponent.LinkCameraPortal(inactiveExitPortals[idx]);
             exitComponent.linkedPortal = inactiveEntryPortals[idx];
-            
+
             entryComponent.UpdateText();
             exitComponent.UpdateText();
-                
+
             activeExitPortals.Add(inactiveExitPortals[idx]);
             activeEntryPortals.Add(inactiveEntryPortals[idx]);
             // As they are linked an active, they need to be added to the active portals list
-                
+
             inactiveEntryPortals.RemoveAt(idx);
             inactiveExitPortals.RemoveAt(idx);
             // And removed from their original list
-        } 
+        }
         else portal.GetComponent<Teleporting>().UpdateText();
     }
-    
+
     private static void CheckDestroyOldestPortalPair() {
 
         if (activeEntryPortals.Count == 0) return;
@@ -152,12 +170,12 @@ void Update() {
         if (activeEntryPortals.Count >= MAXIMUM_ACTIVE_PORTAL_PAIRS) {
 
             GameObject oldLink = activeExitPortals[0];
-            Destroy(activeEntryPortals[0]); 
+            Destroy(activeEntryPortals[0]);
             // Destroy ENTRY first as it renders other's graphics.
             Destroy(oldLink);
         }
     }
-    
+
     void OnDestroy() { // Linked Portals are unlinked if this one is destroyed.
         if (linkedPortal) {
             // If the destroyed portal had a linked portal,
@@ -166,10 +184,10 @@ void Update() {
             // We remove them from being active.
 
             Teleporting TPLinkedPortal = linkedPortal.GetComponent<Teleporting>();
-            
+
             TPLinkedPortal.linkedPortal = null;
             TPLinkedPortal.UpdateText();
-            
+
             if (this.tag == "ENTRY") {
                 if (inactiveExitPortals.Count < MAXIMUM_INACTIVE_PORTALS_OF_ONE_TYPE) {
                         addPortal(linkedPortal);
@@ -178,7 +196,7 @@ void Update() {
                     if (linkedPortal) Destroy(linkedPortal);
                     // If there's no space, the linkedPortal is given an index for destruction.
                 }
-               
+
             }
             else if (this.tag == "EXIT") {
                 if (inactiveEntryPortals.Count < MAXIMUM_INACTIVE_PORTALS_OF_ONE_TYPE) {
@@ -213,15 +231,27 @@ void Update() {
     }
 
     void OnTriggerEnter(Collider other)
-    {   
+    {
 
         Debug.Log("Enter Portal" + this.tag + other.tag);
-        
+
         UpdateText();
-        
+
         if (other.tag == "DESTROY") {
-            Destroy(this.gameObject, 0.1f);
-            Destroy(other.gameObject, 0.1f);
+            PortalProjectile possible = other.gameObject.GetComponent<PortalProjectile>();
+            if (possible) {
+                if (possible.wandReference)
+                    possible.wandReference.DestroyPortal(this);
+                else {
+                    Debug.Log("Tried to destroy but it had no wand");
+                }
+                Destroy(other.gameObject, 0.1f);
+            } else {
+//                PortalWand triggerWand = other.gameObject.GetComponent<PortalWand>();
+//                if (triggerWand) triggerWand.DestroyPortal(this);
+//                else
+                Destroy(this.gameObject, 0.1f);
+            }
             return;
         }
 

@@ -81,7 +81,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     {
 
         if (Time.time > lastPortalSpawn + COOLDOWN) {
-            
+            // if (grapsed)
             Vector3 pos = grasped.transform.position;
             pos.y += 0.75f;
             entryProjectile.tag = GetCreatedPortalProjectileTag();
@@ -99,6 +99,12 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
        
     }
 
+    public void DestroyPortal(Teleporting portal) {
+        context.SendJson(new Message(transform, portal.portalId, portal.gameObject.tag));
+
+        Destroy(portal.gameObject);
+    }
+
     private void Update()
     {   
         
@@ -110,7 +116,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
         body.isKinematic = true;
         
         if(owner){
-            context.SendJson(new Message(transform));
+            context.SendJson(new Message(transform, -1, ""));
         }
     }
 
@@ -120,19 +126,28 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();
-  
-        transform.localPosition = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
-        transform.localRotation = msg.transform.rotation;
-       
+
+        if (msg.portalIdToDestroy != -1 && msg.portalTagToDestroy != "") {
+            Teleporting foundPortal = Teleporting.PortalSearch(msg.portalIdToDestroy, msg.portalTagToDestroy);
+            if (foundPortal) Destroy(foundPortal.gameObject);
+        } else {
+            transform.localPosition = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
+            transform.localRotation = msg.transform.rotation;
+        }
+
     }
     public struct Message
         {
             public TransformMessage transform;
 
-            public Message(Transform transform)
+            public int portalIdToDestroy;
+            public string portalTagToDestroy;
+
+            public Message(Transform transform, int portalIdToDestroy, string portalTagToDestroy)
             {
                 this.transform = new TransformMessage(transform);
-    
+                this.portalIdToDestroy = portalIdToDestroy;
+                this.portalTagToDestroy = portalTagToDestroy;
             }
         }
     public void OnSpawned(bool local)
@@ -141,4 +156,3 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     }
 
 }
-
