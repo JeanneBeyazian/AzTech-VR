@@ -229,6 +229,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 317734772638172811}
     m_Modifications:
+    - target: {fileID: 2140117417070995300, guid: dc7ec36bb2774d546982b49969521ac0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2140117417070995302, guid: dc7ec36bb2774d546982b49969521ac0,
         type: 3}
       propertyPath: m_Name
@@ -339,6 +344,11 @@ PrefabInstance:
       propertyPath: isTriggered
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5320367019759494813, guid: 2338eb30c13bac5409b6fc5a33bf3b76,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 718ec3d3e24d0a948a6ee5c052c56ade, type: 2}
     - target: {fileID: 5320367019759494815, guid: 2338eb30c13bac5409b6fc5a33bf3b76,
         type: 3}
       propertyPath: m_RootOrder
@@ -429,6 +439,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AnchorStart
+      objectReference: {fileID: 0}
+    - target: {fileID: 8171504611691579014, guid: 1ec471443fb7ffb47b92cf306b13b512,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8171504611691579032, guid: 1ec471443fb7ffb47b92cf306b13b512,
         type: 3}
