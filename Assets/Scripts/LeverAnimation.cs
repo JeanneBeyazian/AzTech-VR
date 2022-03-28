@@ -45,11 +45,14 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
         triggered = false;
     }
 
-    public void UnUse(Hand controller){}
+    public void UnUse(Hand controller){
+    }
 
     public void Use(Hand controller)
     {
+        Debug.Log("Use the Lever");
         grabbed = true;
+        
     }
 
     void Update(){
@@ -80,8 +83,9 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     
     void OnTriggerStay(Collider other){
     
-        if (other.tag == "Player" && ( grabbed ||Input.GetKeyDown("f")) && ((lastTriggered+cooldown) < Time.time)) {
-            Debug.Log("Use the Lever");
+        if (other.tag == "Player" && ( grabbed) && ((lastTriggered+cooldown) < Time.time)) {
+            Debug.Log("OnTriggerStay");
+            
             grabbed = false;
 
             context.SendJson(new Message(this.gameObject.transform.position));
