@@ -1,0 +1,4 @@
+All audio files used in this project follow the Zapsplat Standard License.
+https://www.zapsplat.com/license-type/standard-license/
+
+They can be found on https://www.zapsplat.com/license-type/standard-license/.
