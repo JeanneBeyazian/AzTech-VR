@@ -21,7 +21,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: Scene
   m_RootView: {fileID: 3}
-  m_MinSize: {x: 875, y: 350}
+  m_MinSize: {x: 875, y: 542}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 1
 --- !u!114 &2
@@ -39,10 +39,10 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1022
+    x: 1260
     y: 0
-    width: 514
-    height: 602
+    width: 276
+    height: 451
   m_MinSize: {x: 275, y: 100}
   m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 12}
@@ -137,8 +137,8 @@ MonoBehaviour:
     y: 30
     width: 1536
     height: 723
-  m_MinSize: {x: 577, y: 300}
-  m_MaxSize: {x: 12002, y: 8021}
+  m_MinSize: {x: 579, y: 492}
+  m_MaxSize: {x: 12004, y: 14042}
   vertical: 0
   controlID: 83
 --- !u!114 &7
@@ -162,8 +162,8 @@ MonoBehaviour:
     y: 0
     width: 1536
     height: 723
-  m_MinSize: {x: 577, y: 300}
-  m_MaxSize: {x: 12002, y: 8021}
+  m_MinSize: {x: 579, y: 492}
+  m_MaxSize: {x: 12004, y: 14042}
   vertical: 1
   controlID: 84
 --- !u!114 &8
@@ -187,9 +187,9 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1536
-    height: 602
-  m_MinSize: {x: 577, y: 200}
-  m_MaxSize: {x: 12002, y: 4021}
+    height: 451
+  m_MinSize: {x: 579, y: 221}
+  m_MaxSize: {x: 12004, y: 4021}
   vertical: 0
   controlID: 85
 --- !u!114 &9
@@ -210,7 +210,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 350
-    height: 602
+    height: 451
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
@@ -235,10 +235,10 @@ MonoBehaviour:
     serializedVersion: 2
     x: 350
     y: 0
-    width: 672
-    height: 602
-  m_MinSize: {x: 102, y: 121}
-  m_MaxSize: {x: 4002, y: 4021}
+    width: 910
+    height: 451
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -256,24 +256,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 602
+    y: 451
     width: 1536
-    height: 121
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 17}
+    height: 272
+  m_MinSize: {x: 230, y: 271}
+  m_MaxSize: {x: 10000, y: 10021}
+  m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 17}
   - {fileID: 18}
   - {fileID: 19}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -295,10 +295,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1022.4
+    x: 1260
     y: 73.6
-    width: 513
-    height: 581
+    width: 275
+    height: 430
   m_ViewDataDictionary: {fileID: 0}
   m_OpenAddComponentMenu: 0
   m_ObjectsLockedBeforeSerialization: []
@@ -428,28 +428,28 @@ MonoBehaviour:
     x: 0
     y: 73.6
     width: 349
-    height: 581
+    height: 430
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 1408}
-      m_SelectedIDs: eefaffff
-      m_LastClickedID: -1298
-      m_ExpandedIDs: ceddffff66fbffff923c0000c03c0000e03c00002e3d0000683d0000f43d0000423e0000d03e0000
+      scrollPos: {x: 0, y: 464}
+      m_SelectedIDs: 68faffff
+      m_LastClickedID: -1432
+      m_ExpandedIDs: fe44feff3c97feff429bfefff8cefeff3acffeff62cffeff4cd8feff1ad9feff88e0feffc21affff0450ffffecdcffffb4deffff6ce1ffff98e2ffff66fbffffe03c00002e3d0000683d0000f43d0000d03e0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: Vine Bunch Large (1)
+        m_OriginalName: Vine Bunch Large (1)
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: -95784
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 4
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 9}
       m_SearchString: 
@@ -482,12 +482,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 350.4
     y: 73.6
-    width: 670
-    height: 581
+    width: 908
+    height: 430
   m_ViewDataDictionary: {fileID: 0}
   m_ShowContextualTools: 0
   m_WindowGUID: 2bfd05ebfb94a1045879aed72d94dc21
-  m_Gizmos: 1
+  m_Gizmos: 0
   m_SceneIsLit: 1
   m_SceneLighting: 1
   m_2DMode: 0
@@ -495,9 +495,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -16.576765, y: 6.1207886, z: 15.573482}
+    m_Target: {x: -11.786373, y: 14.819024, z: 73.74625}
     speed: 2
-    m_Value: {x: -16.576765, y: 6.1207886, z: 15.573482}
+    m_Value: {x: -11.786373, y: 14.819024, z: 73.74625}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -543,13 +543,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.06467319, y: 0.1431853, z: 0.009403202, w: 0.98766065}
+    m_Target: {x: 0.0073078317, y: -0.86661345, z: -0.011028582, w: -0.4995443}
     speed: 2
-    m_Value: {x: -0.069108434, y: 0.14312388, z: 0.010046511, w: 0.98723793}
+    m_Value: {x: 0.006556917, y: -0.8663093, z: -0.009724583, w: -0.4993704}
   m_Size:
-    m_Target: 10
+    m_Target: 1.1808748
     speed: 2
-    m_Value: 10
+    m_Value: 4.2562046
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -703,9 +703,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 520
+    y: 524
     width: 1536
-    height: 255
+    height: 251
   m_ViewDataDictionary: {fileID: 0}
   m_SearchFilter:
     m_NameFilter: 
@@ -720,20 +720,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Imported Assets/figura-de-camelido-inca-del-cerro-el-plomo
   m_ViewMode: 1
   m_StartGridSize: 46
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Imported Assets/figura-de-camelido-inca-del-cerro-el-plomo
   m_LastFoldersGridSize: 46
   m_LastProjectPath: "F:\\\u6218\u5F08\u8BDA\u8D44\u6599\\Computer_Science\\UCL\\\u4E0B\\VE\\VE-Coursework2"
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 201}
-    m_SelectedIDs: 1eae0000
-    m_LastClickedID: 44574
-    m_ExpandedIDs: 00000000e4610000e6610000
+    scrollPos: {x: 0, y: 143}
+    m_SelectedIDs: 48620000
+    m_LastClickedID: 25160
+    m_ExpandedIDs: 00000000e4610000e66100004862000050620000786200006489000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -786,10 +786,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: aa420000
-    m_LastClickedInstanceID: 17066
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: c623000052550000bc3e0000923900004c430000a83b00008a3b0000c85f00000a81000000000000de430000
+    m_ExpandedInstanceIDs: c623000052550000bc3e0000923900004c430000a83b00008a3b0000c85f00000a81000000000000de43000060590000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -845,4 +845,4 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 15882
+  m_LastSelectedObjectID: -77982

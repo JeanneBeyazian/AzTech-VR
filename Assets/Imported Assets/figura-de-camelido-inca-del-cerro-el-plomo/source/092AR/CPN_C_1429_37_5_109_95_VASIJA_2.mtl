@@ -1,0 +1,35 @@
+newmtl Solid
+Ka  1.0 1.0 1.0
+Kd  1.0 1.0 1.0
+Ks  0.0 0.0 0.0
+d  1.0
+Ns  0.0
+illum 0
+
+newmtl CPN_C_1429_37_5_109_95_VASIJA_2
+Ka  1.0 1.0 1.0
+Kd  1.0 1.0 1.0
+Ks  0.0 0.0 0.0
+d  1.0
+Ns  0.0
+illum 0
+map_Kd CPN_C_1429_37_5_109_95_VASIJA_2.jpg
+
+newmtl CPN_C_1429_37_5_109_95_VASIJA_21
+Ka  1.0 1.0 1.0
+Kd  1.0 1.0 1.0
+Ks  0.0 0.0 0.0
+d  1.0
+Ns  0.0
+illum 0
+map_Kd CPN_C_1429_37_5_109_95_VASIJA_21.jpg
+
+newmtl CPN_C_1429_37_5_109_95_VASIJA_22
+Ka  1.0 1.0 1.0
+Kd  1.0 1.0 1.0
+Ks  0.0 0.0 0.0
+d  1.0
+Ns  0.0
+illum 0
+map_Kd CPN_C_1429_37_5_109_95_VASIJA_22.jpg
+
