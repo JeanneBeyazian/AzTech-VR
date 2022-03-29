@@ -46,7 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
   cooldown: 0
-  trigger: {fileID: 0}
+  triggerables: []
+  owner: 0
 --- !u!1001 &4473303919385890341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82,17 +83,17 @@ PrefabInstance:
     - target: {fileID: 1201842029608977049, guid: b7cc64a5bd1367048beaa2075d6b7694,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.1726139
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1201842029608977049, guid: b7cc64a5bd1367048beaa2075d6b7694,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.55
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1201842029608977049, guid: b7cc64a5bd1367048beaa2075d6b7694,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.2768748
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1201842029608977049, guid: b7cc64a5bd1367048beaa2075d6b7694,
         type: 3}
@@ -132,7 +133,7 @@ PrefabInstance:
     - target: {fileID: 2010325455605471267, guid: b7cc64a5bd1367048beaa2075d6b7694,
         type: 3}
       propertyPath: m_Name
-      value: Lever
+      value: Lever Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7413555946028041299, guid: b7cc64a5bd1367048beaa2075d6b7694,
         type: 3}
