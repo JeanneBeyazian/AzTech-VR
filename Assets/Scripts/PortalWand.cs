@@ -55,12 +55,12 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     {
         grasped = controller;
         owner = true;
-        body.isKinematic = false;
+        // body.isKinematic = false;
     }
 
     public void Release(Hand controller)
     {
-        body.isKinematic = true;
+        // body.isKinematic = true;
         grasped = null;
     }
 
@@ -114,7 +114,7 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
                 transform.position = grasped.transform.position;
                 transform.rotation = grasped.transform.rotation;
         }
-        //body.isKinematic = true;
+        body.isKinematic = true;
         
         if(owner){
             context.SendJson(new Message(transform, -1, ""));
