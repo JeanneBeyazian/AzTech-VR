@@ -245,7 +245,8 @@ void Update() {
                 if (possible.hasDestroyed) return;
                 if (possible.wandReference) {
                     possible.hasDestroyed = true;
-                    possible.wandReference.DestroyPortal(this); 
+                    possible.wandReference.DestroyPortal(this);
+                    possible.context.SendJson(new PortalProjectile.Message(transform, this.tag, Vector3.zero, Quaternion.Euler(0,0,0), true));
                     }
                 else {
                     Debug.Log("Tried to destroy but it had no wand");

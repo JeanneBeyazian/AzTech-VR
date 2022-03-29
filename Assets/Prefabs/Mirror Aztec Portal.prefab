@@ -76,6 +76,7 @@ MonoBehaviour:
   activeMaterial: {fileID: 2100000, guid: 6e4564b57b3461f44bfbec69fd808f1e, type: 2}
   inactiveMaterial: {fileID: 2100000, guid: 6c037f19f8e74224ba46380b7ea8d569, type: 2}
   TextName: {fileID: 763139963901549308}
+  portalId: 0
 --- !u!1 &763139963901549308
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,7 +233,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 311
+    m_Bits: 1335
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 6213f066d2aa7674baf227ad03f058f2, type: 2}
   m_TargetDisplay: 0
