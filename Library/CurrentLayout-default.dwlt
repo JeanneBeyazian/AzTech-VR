@@ -140,7 +140,7 @@ MonoBehaviour:
   m_MinSize: {x: 579, y: 492}
   m_MaxSize: {x: 12004, y: 14042}
   vertical: 0
-  controlID: 91
+  controlID: 34
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_MinSize: {x: 579, y: 492}
   m_MaxSize: {x: 12004, y: 14042}
   vertical: 1
-  controlID: 92
+  controlID: 35
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_MinSize: {x: 579, y: 221}
   m_MaxSize: {x: 12004, y: 4021}
   vertical: 0
-  controlID: 93
+  controlID: 36
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -363,8 +363,8 @@ MonoBehaviour:
     vZoomLockedByDefault: 0
     m_HBaseRangeMin: -568
     m_HBaseRangeMax: 568
-    m_VBaseRangeMin: -282.5
-    m_VBaseRangeMax: 282.5
+    m_VBaseRangeMin: -272
+    m_VBaseRangeMax: 272
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -381,11 +381,11 @@ MonoBehaviour:
     m_DrawArea:
       serializedVersion: 2
       x: 0
-      y: 0
+      y: 21
       width: 1136
-      height: 565
+      height: 544
     m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 568, y: 282.5}
+    m_Translation: {x: 568, y: 272}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
@@ -393,9 +393,9 @@ MonoBehaviour:
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
       x: -568
-      y: -282.5
+      y: -272
       width: 1136
-      height: 565
+      height: 544
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_LastWindowPixelSize: {x: 1136, y: 565}
@@ -432,10 +432,10 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: be590000
-      m_LastClickedID: 0
-      m_ExpandedIDs: d0daffff74fbffff
+      scrollPos: {x: 0, y: 1584}
+      m_SelectedIDs: 3cf2ffff
+      m_LastClickedID: -3524
+      m_ExpandedIDs: f4c8ffff3cf3ffff02f4ffffb45300002a560000185800000a5a0000225e0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -495,9 +495,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -20.597662, y: 2.027537, z: 67.684906}
+    m_Target: {x: -22.932507, y: 5.1546645, z: 97.07332}
     speed: 2
-    m_Value: {x: -20.597662, y: 2.027537, z: 67.684906}
+    m_Value: {x: -22.932507, y: 5.1546645, z: 97.07332}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -543,13 +543,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.08770991, y: 0.8895046, z: -0.19267179, w: -0.4049356}
+    m_Target: {x: -0.1265646, y: -0.06931584, z: 0.00873388, w: -0.98956126}
     speed: 2
-    m_Value: {x: -0.08831691, y: 0.88921165, z: -0.19400519, w: -0.40480223}
+    m_Value: {x: -0.12654307, y: -0.07079548, z: 0.008923133, w: -0.98939145}
   m_Size:
-    m_Target: 18.376177
+    m_Target: 1.503636
     speed: 2
-    m_Value: 18.376177
+    m_Value: 1.503636
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -720,20 +720,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Levels
+    - Assets/Imported Assets/Aztec-Temple
   m_ViewMode: 1
   m_StartGridSize: 46
   m_LastFolders:
-  - Assets/Levels
+  - Assets/Imported Assets/Aztec-Temple
   m_LastFoldersGridSize: 46
   m_LastProjectPath: "F:\\\u6218\u5F08\u8BDA\u8D44\u6599\\Computer_Science\\UCL\\\u4E0B\\VE\\VE-Coursework2"
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: b0590000
-    m_LastClickedID: 22960
-    m_ExpandedIDs: 00000000a259000000ca9a3b
+    m_SelectedIDs: bc860000
+    m_LastClickedID: 34492
+    m_ExpandedIDs: 00000000da520000e2520000e652000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -761,7 +761,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000a2590000
+    m_ExpandedIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
