@@ -7,6 +7,7 @@ public class CollideScript : MonoBehaviour
 
     public bool canTeleport = true;
     public GameObject spawn;
+    public GameObject testingSpawn;
 
     public int Id;
 
@@ -18,7 +19,7 @@ public class CollideScript : MonoBehaviour
 
         if (Input.GetKeyDown("l"))
         {
-            this.gameObject.transform.position = spawn.transform.position; 
+            this.gameObject.transform.position = testingSpawn.transform.position; 
         }
     }
 

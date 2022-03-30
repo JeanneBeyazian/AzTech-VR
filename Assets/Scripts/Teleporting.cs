@@ -13,11 +13,10 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
     private Rigidbody body;
     private static float COOLDOWN = 1f;
     
-    public static float ACTIVE_LIFETIME = 70f; 
+    public static float LIFETIME = 70f; 
     
-    public static float INACTIVE_LIFETIME = 70f; 
 	
-	public static int MAXIMUM_ACTIVE_PORTAL_PAIRS = 1;
+	public static int MAXIMUM_ACTIVE_PORTAL_PAIRS = 2;
 	// Integer for the maximum number of portals we can have active at once.
 	
 	public static int MAXIMUM_INACTIVE_PORTALS_OF_ONE_TYPE = 1;
@@ -67,6 +66,7 @@ public class Teleporting : MonoBehaviour, INetworkObject, INetworkComponent
             {(linkedPortal) ? activeMaterial : inactiveMaterial};
     }
 
+    // Find portal to delete based on ID and tag 
     public static Teleporting PortalSearch(int portalId, string portalTag) {
             GameObject[] possibleFinds = GameObject.FindGameObjectsWithTag(portalTag);
             if (possibleFinds.Length > 0) {

@@ -109,7 +109,6 @@
      <Compile Include="Assets\Scripts\ExitWand.cs" />
      <Compile Include="Assets\Scripts\LeverAnimation.cs" />
      <Compile Include="Assets\Scripts\MovePanel.cs" />
-     <Compile Include="Assets\Scripts\MovePlatform.cs" />
      <Compile Include="Assets\Scripts\PortalProjectile.cs" />
      <Compile Include="Assets\Scripts\PortalWand.cs" />
      <Compile Include="Assets\Scripts\PressurePlate.cs" />
