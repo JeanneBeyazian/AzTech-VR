@@ -1,0 +1,97 @@
+﻿//❤️
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PortalManager : MonoBehaviour
+{
+
+    private List<GameObject> inactiveEntryPortals = new List<GameObject>();
+
+    private List<GameObject> inactiveExitPortals = new List<GameObject>();
+    
+    public static float PORTAL_LIFETIME = 50f;
+
+
+    public GameObject entryPortal;
+    public GameObject exitPortal;
+    // Prefabs for portal creation
+
+    private static PortalManager instance;
+    public static PortalManager Instance {
+        get{
+            return instance;
+        }
+    } // Singleton pattern
+
+    public void addPortal(GameObject portal, string tag) {
+
+
+        if (tag == "ExitProjectile") {
+
+            inactiveExitPortals.Add(portal);
+            processNewPortal(portal, inactiveExitPortals, inactiveEntryPortals);
+ 
+        }
+
+        else if (tag == "EntryProjectile"){
+
+            inactiveEntryPortals.Add(portal);
+            processNewPortal(portal, inactiveEntryPortals, inactiveExitPortals);            
+
+        }
+        
+    }
+    
+    private void processNewPortal(GameObject portal, List<GameObject> addTo, List<GameObject> other) {
+
+        addTo.Add(portal);
+
+        if (addTo.Count <= other.Count) {
+            int idx = addTo.Count-1;
+            createLinkedPortals(idx);
+            removeInactivePortalPair(idx);
+        }
+
+
+    }
+    
+    private void createLinkedPortals(int idx) {
+        GameObject exitPortalObject = Instantiate(exitPortal,  inactiveExitPortals[idx].transform.position, Quaternion.Euler(0, 0, 0));
+
+        // entryPortal.GetComponent<Teleporting>().player = GameObject.FindWithTag("Player").transform;
+
+        GameObject entryPortalObject = Instantiate(entryPortal,  inactiveEntryPortals[idx].transform.position, Quaternion.Euler(0, 0, 0));
+
+
+        entryPortalObject.GetComponent<Teleporting>().teleportTarget = exitPortalObject.transform;
+        exitPortalObject.GetComponent<Teleporting>().teleportTarget = entryPortalObject.transform;
+        
+        Destroy(exitPortalObject, PORTAL_LIFETIME);
+        Destroy(entryPortalObject, PORTAL_LIFETIME);
+    }
+    
+    private void removeInactivePortalPair(int idx) {
+        // Delete inactive entry portal
+        Destroy(inactiveEntryPortals[idx]);
+        // Delete inactive exit portal
+        Destroy(inactiveExitPortals[idx]);
+        
+        // Clear index by nullifying it and then removing index
+        // Because Unity may not garbage collect otherwise.
+        inactiveExitPortals[idx] = null;
+        inactiveExitPortals.RemoveAt(idx);
+        inactiveEntryPortals[idx] = null ;
+        inactiveEntryPortals.RemoveAt(idx);
+    }
+
+    private void Awake(){
+        if (instance != null && instance != this) {
+            Destroy(this.gameObject);
+        }
+        else {
+            instance = this;
+        }
+    }
+
+}

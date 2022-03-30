@@ -26,6 +26,8 @@ namespace Ubiq.XR
         public Transform cameraContainer;
         public AnimationCurve cameraRubberBand;
 
+
+
         private void Awake()
         {
             if(dontDestroyOnLoad)
@@ -67,6 +69,8 @@ namespace Ubiq.XR
             var height = Mathf.Clamp(transform.InverseTransformPoint(headCamera.transform.position).y, 0.1f, float.PositiveInfinity);
             var origin = transform.position + userLocalPosition + Vector3.up * height;
             var direction = Vector3.down;
+
+            
 
             RaycastHit hitInfo;
             if(Physics.Raycast(new Ray(origin, direction), out hitInfo))

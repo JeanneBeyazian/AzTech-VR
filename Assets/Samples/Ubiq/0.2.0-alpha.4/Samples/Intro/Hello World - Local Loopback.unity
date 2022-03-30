@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.4408395, g: 0.48953742, b: 0.5696471, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -898,8 +898,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connection:
-    listen_on_ip: localhost
-    listen_on_port: 8002
+    listen_on_ip: nexus.cs.ucl.ac.uk
+    listen_on_port: 8005
     send_to_ip: 
     send_to_port: 
     type: 1

@@ -67,7 +67,8 @@ namespace Ubiq.Samples
                 transform.rotation = attached.transform.rotation;
             }
             if(owner)
-            {
+            {   
+             
                 context.SendJson(new Message(transform, fired));
             }
             if(owner && fired)
@@ -93,6 +94,7 @@ namespace Ubiq.Samples
         public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
         {
             var msg = message.FromJson<Message>();
+         
             transform.localPosition = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
             transform.localRotation = msg.transform.rotation;
             fired = msg.fired;

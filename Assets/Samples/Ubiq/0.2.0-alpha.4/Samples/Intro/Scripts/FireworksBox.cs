@@ -45,7 +45,7 @@ namespace Ubiq.Samples
         }
 
         public void Use(Hand controller)
-        {
+        {   
             var firework = NetworkSpawner.SpawnPersistent(this, FireworkPrefab).GetComponents<MonoBehaviour>().Where(mb => mb is IFirework).FirstOrDefault() as IFirework;
             if (firework != null)
             {
@@ -54,17 +54,20 @@ namespace Ubiq.Samples
         }
 
         private void Update()
-        {
+        {   
+            
             if (follow != null)
             {
                 transform.position = follow.transform.position;
                 transform.rotation = follow.transform.rotation;
                 body.isKinematic = true;
+                
             }
             else
             {
                 body.isKinematic = false;
             }
+
         }
     }
 }
