@@ -1,0 +1,29 @@
+Models that do not appear in the following list are public domain.
+
+
+"Quetzalcoatl - Tula Hidalgo" (https://skfb.ly/6UynA) by Jorge Cu is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+The colour map of this model was altered (gold).
+
+"Floor material" (https://skfb.ly/oqwOp) by DJMaesen is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+The colour map of this model was altered (gold).
+
+"Daga Inca Low Poly" (https://skfb.ly/6XP8y) by Clases3d is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+The colour map of this model was altered into 4 versions (blue, red and green).
+
+"Porra estilo Cultural Inca" (https://skfb.ly/o6SOp) by Ministerio de Cultura Perú is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+"Canasta hecha de textiles incas" (https://skfb.ly/6Xp9s) by Ministerio de Cultura Perú is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+"Aztec Temple" (https://skfb.ly/onNCT) by cjmitchell is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+The texture of this model was altered (more metallic).
+The Aztec God object was removed from the mesh and used separately.
+
+"Stone foundation" (https://skfb.ly/6WRRw) by RoDenis is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+The top sub-mesh of this model was used separately as a floor model.
+
+"Ivy Set" (https://skfb.ly/67BTR) by 3dynamite is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+The mesh was separated into different elements.
+
+"Aztec Sun Stone Calendar in Aquarium, Mexico." (https://skfb.ly/6sEJu) by GSXNet is licensed under Creative Commons Attribution-NonCommercial (http://creativecommons.org/licenses/by-nc/4.0/).
+
+Unity assests Low Poly Dungeons Lite (https://assetstore.unity.com/packages/3d/environments/dungeons/low-poly-dungeons-lite-177937) is licensed under the Standard Unity Asset Store EULA, Extension Asset.

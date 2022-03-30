@@ -50,7 +50,6 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
 
     public void Use(Hand controller)
     {
-        Debug.Log("Use the Lever");
         grabbed = true;
         
     }
@@ -84,7 +83,7 @@ public class LeverAnimation : MonoBehaviour, INetworkObject, INetworkComponent, 
     void OnTriggerStay(Collider other){
     
         if (other.tag == "Player" && ( grabbed) && ((lastTriggered+cooldown) < Time.time)) {
-            Debug.Log("OnTriggerStay");
+            Debug.Log("Use lever");
             
             grabbed = false;
 
