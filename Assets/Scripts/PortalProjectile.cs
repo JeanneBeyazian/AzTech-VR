@@ -16,8 +16,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     public NetworkContext context;
     
     public PortalWand wandReference;
-    
-    private Vector3 previousVelocity;
+
     public float LIFETIME = 45f;
     // How long portal projectiles which miss the map will last
     
@@ -35,62 +34,61 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(this.gameObject, LIFETIME);
         context = NetworkScene.Register(this);
     }
 
-    private void CreatePortal() {
-
-        context.SendJson(new Message(transform, this.tag, portalPosition, normalRotation, false));
-                            
-        GameObject portalObject = Instantiate(PortalWand.portal_static, portalPosition, normalRotation);
-        
-                        Teleporting tpo = portalObject.GetComponent<Teleporting>();
-        
-                                    // Spawn a portal with that direction
-                        // portalObject.transform.parent = other.gameObject.transform;
-                                    // Attach the portal to what the projectile collided with so they move together
-                        portalObject.tag = this.tag;
-        
-                        Teleporting.addPortal(portalObject.gameObject);
-                                    // Teleporting.addPortal(portalObject);
-                                    // Let the Portal class know one has been instantiated
-        
-                        if (wandReference && wandReference.wandType == "ALTERNATOR") {
-                            wandReference.alternatorNextType = !wandReference.alternatorNextType;
-                        }
-    }
-
     void Update() {
-        previousVelocity = body.velocity;
             if (createdPortal) {
-                // portalPosition = this.gameObject.transform.position;
-                CreatePortal();
+                portalPosition = this.gameObject.transform.position;
+                            context.SendJson(new Message(transform, this.tag, portalPosition, normalRotation));
+                            
+                            GameObject portalObject = Instantiate(PortalWand.portal_static, portalPosition, normalRotation);
+                            
+                                            Teleporting tpo = portalObject.GetComponent<Teleporting>();
+                            
+                                                        // Spawn a portal with that direction
+                                            // portalObject.transform.parent = other.gameObject.transform;
+                                                        // Attach the portal to what the projectile collided with so they move together
+                                            portalObject.tag = this.tag;
+                            
+                                            Teleporting.addPortal(portalObject.gameObject);
+                                                        // Teleporting.addPortal(portalObject);
+                                                        // Let the Portal class know one has been instantiated
+                            
+                                            if (wandReference && wandReference.wandType == "ALTERNATOR") {
+                                                wandReference.alternatorNextType = !wandReference.alternatorNextType;
+                                            }
+                                            
+
                 createdPortal = false;
                 Destroy(this.gameObject, 0f);
             }
     }
 
-
     void FixedUpdate()
     {
+
+
+        if (this.GetComponent<Rigidbody>().velocity == Vector3.zero) {
+            this.transform.Translate(this.transform.forward * SPEED * Time.smoothDeltaTime);
+            // Don't tell server about these: client side protection motion
+        }
 
         if (owner)
         {
             if (grasped)
             {
                 Vector3 pos = grasped.transform.position;
-                pos += grasped.transform.up.normalized * 0.5f;
+                pos.y += 1f;
                 transform.position = pos;
                 transform.rotation = grasped.transform.rotation;
                 body.isKinematic = false;
                 body.velocity = grasped.transform.forward.normalized * SPEED;
                 grasped = null;
             }
-            context.SendJson(new Message(transform, this.tag, Vector3.zero, Quaternion.Euler(0,0,0), false));
+            context.SendJson(new Message(transform, this.tag, Vector3.zero, Quaternion.Euler(0,0,0)));
         }
     }
-
 
     private void Awake()
     {
@@ -105,11 +103,6 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
 
     async void OnCollisionEnter(Collision other)
     {
-        
-        var direction = Vector3.Reflect(previousVelocity.normalized, other.contacts[0].normal);
-        this.transform.rotation = Quaternion.Euler(direction);
-        body.velocity = direction * SPEED;
-        
         if (this.tag == "DESTROY") return ;
 
         if (other.gameObject.tag == "Wall" && !createdPortal)
@@ -128,7 +121,24 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
             }
 
             portalPosition = this.gameObject.transform.position;
-            CreatePortal();
+            context.SendJson(new Message(transform, this.tag, portalPosition, normalRotation));
+            
+            GameObject portalObject = Instantiate(PortalWand.portal_static, portalPosition, normalRotation);
+            
+                            Teleporting tpo = portalObject.GetComponent<Teleporting>();
+            
+                                        // Spawn a portal with that direction
+                            // portalObject.transform.parent = other.gameObject.transform;
+                                        // Attach the portal to what the projectile collided with so they move together
+                            portalObject.tag = this.tag;
+            
+                            Teleporting.addPortal(portalObject.gameObject);
+                                        // Teleporting.addPortal(portalObject);
+                                        // Let the Portal class know one has been instantiated
+            
+                            if (wandReference && wandReference.wandType == "ALTERNATOR") {
+                                wandReference.alternatorNextType = !wandReference.alternatorNextType;
+                            }
             Destroy(this.gameObject);                
  
         }
@@ -142,10 +152,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
     public void ProcessMessage(ReferenceCountedSceneGraphMessage message)
     {
         var msg = message.FromJson<Message>();
-        if (msg.toBeDestroyed) {
-            Destroy(this.gameObject);
-            return;
-            }
+
         transform.position = msg.transform.position; // The Message constructor will take the *local* properties of the passed transform.
         transform.rotation = msg.transform.rotation;
         this.tag = msg.tag;
@@ -154,22 +161,19 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
         if (portalPosition != Vector3.zero) createdPortal = true;
     }
 
-
     public struct Message
     {
         public TransformMessage transform;
         public string tag;
         public Vector3 portalPosition;
         public Quaternion normalRotation;
-        public bool toBeDestroyed;
-        public Message(Transform transform, string tag, Vector3 portalPosition, Quaternion normalRotation, bool toBeDestroyed)
+        public Message(Transform transform, string tag, Vector3 portalPosition, Quaternion normalRotation)
         {
 
             this.transform = new TransformMessage(transform);
             this.tag = tag;
             this.portalPosition = portalPosition;
             this.normalRotation = normalRotation;
-            this.toBeDestroyed = toBeDestroyed;
         }
     }
     public void OnSpawned(bool local)

@@ -82,9 +82,9 @@ public class PortalWand : MonoBehaviour, IUseable, IGraspable, INetworkObject, I
     {
 
         if (Time.time > lastPortalSpawn + COOLDOWN) {
-            if (grasped == null) return;
-            // Vector3 pos = grasped.transform.position;
-            // pos.y += 0.75f;
+            // if (grapsed)
+            Vector3 pos = grasped.transform.position;
+            pos.y += 0.75f;
             entryProjectile.tag = GetCreatedPortalProjectileTag();
             PortalProjectile pp = entryProjectile.GetComponent<PortalProjectile>(); 
             pp.wandReference = this;
