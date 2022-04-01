@@ -36,13 +36,13 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Samples\Ubiq\0.2.0-alpha.4\Samples\Intro\Scripts\Editor\AvatarMenuControllerEditor.cs" />
-     <Compile Include="Assets\Samples\Ubiq\0.2.0-alpha.4\Samples\Intro\Scripts\Editor\PrefabCatalogueEditor.cs" />
-     <Compile Include="Assets\Samples\Ubiq\0.2.0-alpha.4\Samples\Intro\Scripts\Editor\RoomSceneManagerEditor.cs" />
-     <Compile Include="Assets\Samples\Ubiq\0.2.0-alpha.4\Samples\Intro\Scripts\Editor\SampleSimpleBasketballSpawnerEditor.cs" />
-     <Compile Include="Assets\Samples\Ubiq\0.2.0-alpha.4\Samples\Intro\Scripts\Editor\SceneInfoEditor.cs" />
-     <Compile Include="Assets\Samples\Ubiq\0.2.0-alpha.4\Samples\Intro\Scripts\Editor\TexturedAvatarEditor.cs" />
-     <Compile Include="Assets\Samples\Ubiq\0.2.0-alpha.4\Samples\Intro\Single\Rooms\Scripts\Editor\RoomClientJoinHelperEditor.cs" />
+     <Compile Include="Assets\Packages\ubiq-0.2.0-alpha.4\Intro\Scripts\Editor\AvatarMenuControllerEditor.cs" />
+     <Compile Include="Assets\Packages\ubiq-0.2.0-alpha.4\Intro\Scripts\Editor\PrefabCatalogueEditor.cs" />
+     <Compile Include="Assets\Packages\ubiq-0.2.0-alpha.4\Intro\Scripts\Editor\RoomSceneManagerEditor.cs" />
+     <Compile Include="Assets\Packages\ubiq-0.2.0-alpha.4\Intro\Scripts\Editor\SampleSimpleBasketballSpawnerEditor.cs" />
+     <Compile Include="Assets\Packages\ubiq-0.2.0-alpha.4\Intro\Scripts\Editor\SceneInfoEditor.cs" />
+     <Compile Include="Assets\Packages\ubiq-0.2.0-alpha.4\Intro\Scripts\Editor\TexturedAvatarEditor.cs" />
+     <None Include="Assets\Packages\ubiq-0.2.0-alpha.4\Editor\Avatars\Floating\LICENSE.txt" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity 2019.4.34f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
