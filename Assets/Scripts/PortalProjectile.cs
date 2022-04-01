@@ -80,7 +80,7 @@ public class PortalProjectile : MonoBehaviour, INetworkObject, INetworkComponent
             if (grasped)
             {
                 Vector3 pos = grasped.transform.position;
-                pos += grasped.transform.up.normalized * 0.5f;
+                pos.y += 1f;
                 transform.position = pos;
                 transform.rotation = grasped.transform.rotation;
                 body.isKinematic = false;
